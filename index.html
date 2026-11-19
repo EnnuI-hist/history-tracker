@@ -62,7 +62,7 @@
 
     /* 1. Чистая шапка в стиле Apple */
     .app-header {
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
 
     .header-top {
@@ -104,7 +104,189 @@
       transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* 2. Поиск и горизонтальные теги-фильтры */
+    /* 2. Визуализация активности (Heatmap) в стиле GitHub */
+    .heatmap-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-bottom: 26px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .heatmap-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .heatmap-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .heatmap-stats {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-feature-settings: "tnum";
+    }
+
+    .heatmap-scroll {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 4px 0 2px;
+      display: flex;
+    }
+
+    .heatmap-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .heatmap-grid-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      user-select: none;
+      min-width: max-content;
+    }
+
+    .heatmap-months-row {
+      display: flex;
+      height: 14px;
+      margin-left: 24px;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      position: relative;
+    }
+
+    .heatmap-month-label {
+      position: absolute;
+      white-space: nowrap;
+    }
+
+    .heatmap-body {
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .heatmap-days-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      width: 20px;
+      font-size: 0.64rem;
+      color: var(--text-muted);
+      line-height: 10px;
+      padding-top: 1px;
+    }
+
+    .heatmap-days-col span {
+      height: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .heatmap-columns {
+      display: flex;
+      gap: 3px;
+    }
+
+    .heatmap-week-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .heatmap-cell {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      transition: transform 0.1s ease, filter 0.1s ease;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .heatmap-cell:hover {
+      transform: scale(1.35);
+      z-index: 10;
+      filter: brightness(1.25);
+    }
+
+    .heatmap-cell.level-0 {
+      background-color: #212124;
+    }
+
+    .heatmap-cell.level-1 {
+      background-color: rgba(99, 102, 241, 0.32);
+    }
+
+    .heatmap-cell.level-2 {
+      background-color: rgba(99, 102, 241, 0.65);
+    }
+
+    .heatmap-cell.level-3 {
+      background-color: #6366f1;
+      box-shadow: 0 0 6px rgba(99, 102, 241, 0.45);
+    }
+
+    .heatmap-cell.future {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .heatmap-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      margin-top: 10px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .heatmap-legend {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .heatmap-legend .heatmap-cell {
+      cursor: default;
+    }
+
+    .heatmap-legend .heatmap-cell:hover {
+      transform: none;
+    }
+
+    /* Тултип активности */
+    .heatmap-tooltip {
+      position: fixed;
+      pointer-events: none;
+      background: #18181b;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f4f4f5;
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 5px 9px;
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+      white-space: nowrap;
+      z-index: 2000;
+      opacity: 0;
+      transform: translate(-50%, -100%) translateY(-6px);
+      transition: opacity 0.12s ease, transform 0.12s ease;
+    }
+
+    .heatmap-tooltip.visible {
+      opacity: 1;
+      transform: translate(-50%, -100%) translateY(-10px);
+    }
+
+    /* 3. Поиск и горизонтальные теги-фильтры */
     .search-container {
       position: relative;
       margin-bottom: 18px;
@@ -247,7 +429,7 @@
       padding-left: 2px;
     }
 
-    /* 3. Компактные карточки лекций в стиле Apple */
+    /* 4. Компактные карточки лекций в стиле Apple */
     .lecture-list {
       display: flex;
       flex-direction: column;
@@ -541,7 +723,7 @@
       color: var(--text-muted);
     }
 
-    /* 4. Плавающая кнопка добавления (FAB) */
+    /* 5. Плавающая кнопка добавления (FAB) */
     .fab-add {
       position: fixed;
       bottom: 32px;
@@ -571,7 +753,7 @@
       transform: scale(0.94);
     }
 
-    /* 5. Модальные окна с Apple-blur */
+    /* 6. Модальные окна с Apple-blur */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -765,7 +947,7 @@
       color: #ffffff;
     }
 
-    /* 6. Подвал */
+    /* 7. Подвал */
     .app-footer {
       margin-top: 56px;
       display: flex;
@@ -824,6 +1006,9 @@
       .form-grid {
         grid-template-columns: 1fr;
       }
+      .heatmap-card {
+        padding: 12px 14px;
+      }
     }
   </style>
 </head>
@@ -831,6 +1016,9 @@
 
   <!-- Общий список автодополнения для лекторов -->
   <datalist id="lecturersList"></datalist>
+
+  <!-- Всплывающий тултип для ячеек активности -->
+  <div id="heatmapTooltip" class="heatmap-tooltip"></div>
 
   <div class="container">
     <!-- 1. Минималистичная шапка "Мой прогресс" -->
@@ -847,7 +1035,34 @@
       <span id="totalLecturesBadge" style="display: none;">0 лекций</span>
     </header>
 
-    <!-- 2. Поиск и горизонтальные теги (Pills) -->
+    <!-- 2. Визуализация активности (Heatmap) в стиле GitHub -->
+    <section class="heatmap-card">
+      <div class="heatmap-header">
+        <span class="heatmap-title">Активность занятий</span>
+        <div class="heatmap-stats">
+          <span id="heatmapTotalYear">0</span> действий за год
+        </div>
+      </div>
+
+      <div class="heatmap-scroll" id="heatmapScroll">
+        <div class="heatmap-grid-inner" id="heatmapGrid">
+          <!-- Сетка активности сгенерируется через JS -->
+        </div>
+      </div>
+
+      <div class="heatmap-footer">
+        <span>Меньше</span>
+        <div class="heatmap-legend">
+          <span class="heatmap-cell level-0"></span>
+          <span class="heatmap-cell level-1"></span>
+          <span class="heatmap-cell level-2"></span>
+          <span class="heatmap-cell level-3"></span>
+        </div>
+        <span>Больше</span>
+      </div>
+    </section>
+
+    <!-- 3. Поиск и горизонтальные теги (Pills) -->
     <div class="search-container">
       <span class="search-icon">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -888,14 +1103,14 @@
     <!-- Индикатор совпадений -->
     <div class="matching-status" id="matchingCountText"></div>
 
-    <!-- 3. Список компактных карточек лекций -->
+    <!-- 4. Список компактных карточек лекций -->
     <main>
       <div class="lecture-list" id="lectureList">
         <!-- Карточки генерируются скриптом -->
       </div>
     </main>
 
-    <!-- 4. Подвал с резервным копированием -->
+    <!-- 5. Подвал с резервным копированием -->
     <footer class="app-footer">
       <div class="footer-links">
         <button type="button" class="footer-link-btn" id="exportBackupBtn">Скачать бэкап (JSON)</button>
@@ -1047,6 +1262,7 @@
     ];
 
     const STORAGE_KEY = "history_lecture_tracker_data_v1";
+    const STORAGE_ACTIVITY_KEY = "history_activity_log_v1";
 
     // Состояние открытых заметок
     const openNoteIds = new Set();
@@ -1058,6 +1274,77 @@
       format: "all",
       status: "all"
     };
+
+    // Вспомогательная функция получения даты в формате YYYY-MM-DD
+    function getLocalDateString(d = new Date()) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    // --- Логика учета активности (Activity Log) ---
+    function loadActivityLog() {
+      try {
+        const stored = localStorage.getItem(STORAGE_ACTIVITY_KEY) || localStorage.getItem("activityLog");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed && typeof parsed === "object") return parsed;
+        }
+      } catch (e) {
+        console.error("Ошибка при чтении activityLog", e);
+      }
+
+      // Стартовые данные для красивого отображения в первые дни
+      const seed = {};
+      const now = new Date();
+      const sampleDays = [
+        { offset: 0, count: 3 },   // сегодня
+        { offset: 1, count: 2 },   // вчера
+        { offset: 3, count: 5 },
+        { offset: 5, count: 1 },
+        { offset: 8, count: 4 },
+        { offset: 11, count: 2 },
+        { offset: 16, count: 3 }
+      ];
+      sampleDays.forEach(({ offset, count }) => {
+        const d = new Date(now);
+        d.setDate(now.getDate() - offset);
+        seed[getLocalDateString(d)] = count;
+      });
+      saveActivityLog(seed);
+      return seed;
+    }
+
+    function saveActivityLog(log = activityLog) {
+      try {
+        const str = JSON.stringify(log);
+        localStorage.setItem(STORAGE_ACTIVITY_KEY, str);
+        localStorage.setItem("activityLog", str);
+      } catch (e) {
+        console.error("Ошибка при записи activityLog", e);
+      }
+    }
+
+    let activityLog = loadActivityLog();
+
+    // Фиксация действия за сегодня
+    function logActivity(amount = 1) {
+      const today = getLocalDateString();
+      activityLog[today] = (activityLog[today] || 0) + amount;
+      saveActivityLog(activityLog);
+      renderHeatmap();
+    }
+
+    // Троттлинг активности для набора текста конспекта/таймкода
+    let lastTypingLogTime = 0;
+    function logTypingActivity() {
+      const now = Date.now();
+      if (now - lastTypingLogTime > 25000) { // не чаще одного действия в 25 секунд активного набора
+        lastTypingLogTime = now;
+        logActivity(1);
+      }
+    }
 
     // Безопасная нормализация
     function sanitizeLecture(item, index) {
@@ -1116,6 +1403,12 @@
     const lecturerFiltersEl = document.getElementById("lecturerFilters");
     const lecturersListDatalistEl = document.getElementById("lecturersList");
 
+    // Heatmap элементы
+    const heatmapGridEl = document.getElementById("heatmapGrid");
+    const heatmapScrollEl = document.getElementById("heatmapScroll");
+    const heatmapTotalYearEl = document.getElementById("heatmapTotalYear");
+    const heatmapTooltipEl = document.getElementById("heatmapTooltip");
+
     // Модалка добавления (FAB)
     const addModalEl = document.getElementById("addModal");
     const openAddModalBtnEl = document.getElementById("openAddModalBtn");
@@ -1161,7 +1454,7 @@
           .join("");
       }
 
-      // 2. Если текущий выбранный лектор больше не существует в базе (был удален), сбрасываем фильтр на 'all'
+      // 2. Если текущий выбранный лектор больше не существует в базе, сбрасываем фильтр на 'all'
       if (filterState.lecturer !== "all" && !uniqueLecturers.includes(filterState.lecturer)) {
         filterState.lecturer = "all";
       }
@@ -1194,6 +1487,159 @@
       if (totalLecturesBadgeEl) {
         totalLecturesBadgeEl.textContent = `${total} лекций`;
       }
+    }
+
+    // --- Рендер сетки активности (Heatmap) ---
+    const MONTH_NAMES = ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"];
+
+    function formatTooltipDate(dateStr) {
+      const [y, m, d] = dateStr.split("-").map(Number);
+      const date = new Date(y, m - 1, d);
+      return date.toLocaleDateString("ru-RU", { day: "numeric", month: "short", year: "numeric" });
+    }
+
+    function formatActionsCount(count) {
+      if (count === 0) return "нет активности";
+      const mod10 = count % 10;
+      const mod100 = count % 100;
+      let word = "действий";
+      if (mod10 === 1 && mod100 !== 11) {
+        word = "действие";
+      } else if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) {
+        word = "действия";
+      }
+      return `${count} ${word}`;
+    }
+
+    function renderHeatmap() {
+      if (!heatmapGridEl) return;
+
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const todayDayOfWeek = (today.getDay() + 6) % 7; // 0 = Пн, 6 = Вс
+
+      // Конец текущей недели (воскресенье)
+      const currentWeekEnd = new Date(today);
+      currentWeekEnd.setDate(today.getDate() + (6 - todayDayOfWeek));
+
+      // 52 недели назад (364 дня)
+      const startDate = new Date(currentWeekEnd);
+      startDate.setDate(currentWeekEnd.getDate() - (52 * 7 - 1));
+
+      let totalYearActions = 0;
+      const monthPositions = [];
+      let lastMonth = -1;
+
+      let columnsHtml = "";
+
+      for (let w = 0; w < 52; w++) {
+        let weekHtml = `<div class="heatmap-week-col">`;
+
+        // Проверяем смену месяца для подписи
+        const weekFirstDay = new Date(startDate);
+        weekFirstDay.setDate(startDate.getDate() + w * 7);
+        const m = weekFirstDay.getMonth();
+        if (m !== lastMonth && weekFirstDay.getDate() <= 14) {
+          monthPositions.push({ weekIndex: w, name: MONTH_NAMES[m] });
+          lastMonth = m;
+        }
+
+        for (let d = 0; d < 7; d++) {
+          const cellDate = new Date(startDate);
+          cellDate.setDate(startDate.getDate() + (w * 7 + d));
+
+          const isFuture = cellDate > today;
+          const dateStr = getLocalDateString(cellDate);
+          const count = isFuture ? 0 : (activityLog[dateStr] || 0);
+
+          if (!isFuture) {
+            totalYearActions += count;
+          }
+
+          let levelClass = "level-0";
+          if (count >= 4) {
+            levelClass = "level-3";
+          } else if (count >= 2) {
+            levelClass = "level-2";
+          } else if (count >= 1) {
+            levelClass = "level-1";
+          }
+
+          if (isFuture) {
+            weekHtml += `<span class="heatmap-cell future"></span>`;
+          } else {
+            weekHtml += `<span class="heatmap-cell ${levelClass}" data-date="${dateStr}" data-count="${count}"></span>`;
+          }
+        }
+
+        weekHtml += `</div>`;
+        columnsHtml += weekHtml;
+      }
+
+      // Генерация строки месяцев
+      let monthsRowHtml = `<div class="heatmap-months-row">`;
+      monthPositions.forEach(item => {
+        const leftPx = item.weekIndex * 13; // 10px ширина ячейки + 3px gap
+        monthsRowHtml += `<span class="heatmap-month-label" style="left: ${leftPx}px">${item.name}</span>`;
+      });
+      monthsRowHtml += `</div>`;
+
+      // Разметка всей сетки
+      heatmapGridEl.innerHTML = `
+        ${monthsRowHtml}
+        <div class="heatmap-body">
+          <div class="heatmap-days-col">
+            <span>Пн</span>
+            <span></span>
+            <span>Ср</span>
+            <span></span>
+            <span>Пт</span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="heatmap-columns">
+            ${columnsHtml}
+          </div>
+        </div>
+      `;
+
+      if (heatmapTotalYearEl) {
+        heatmapTotalYearEl.textContent = totalYearActions;
+      }
+
+      // Автоматический скролл к последним неделям (сегодня)
+      if (heatmapScrollEl) {
+        requestAnimationFrame(() => {
+          heatmapScrollEl.scrollLeft = heatmapScrollEl.scrollWidth;
+        });
+      }
+    }
+
+    // Обработчик тултипа активности при наведении
+    if (heatmapGridEl && heatmapTooltipEl) {
+      heatmapGridEl.addEventListener("mouseover", (e) => {
+        const cell = e.target.closest(".heatmap-cell[data-date]");
+        if (!cell) return;
+
+        const dateStr = cell.getAttribute("data-date");
+        const count = parseInt(cell.getAttribute("data-count") || "0", 10);
+        const formattedDate = formatTooltipDate(dateStr);
+        const formattedCount = formatActionsCount(count);
+
+        heatmapTooltipEl.textContent = `${formattedDate}: ${formattedCount}`;
+        heatmapTooltipEl.classList.add("visible");
+
+        const rect = cell.getBoundingClientRect();
+        heatmapTooltipEl.style.left = `${rect.left + rect.width / 2}px`;
+        heatmapTooltipEl.style.top = `${rect.top}px`;
+      });
+
+      heatmapGridEl.addEventListener("mouseout", (e) => {
+        const cell = e.target.closest(".heatmap-cell");
+        if (cell) {
+          heatmapTooltipEl.classList.remove("visible");
+        }
+      });
     }
 
     function escapeHtml(str) {
@@ -1268,6 +1714,9 @@
 
       // Обновляем общий прогресс
       updateOverallProgress();
+
+      // Отрисовываем сетку активности
+      renderHeatmap();
 
       if (lectures.length === 0) {
         matchingCountTextEl.textContent = "";
@@ -1457,6 +1906,7 @@
           if (container) {
             container.classList.toggle("has-value", Boolean(item.timecode));
           }
+          logTypingActivity();
         }
         return;
       }
@@ -1484,6 +1934,7 @@
               dot.remove();
             }
           }
+          logTypingActivity();
         }
         return;
       }
@@ -1542,12 +1993,13 @@
           lectures = lectures.filter(l => l.id !== lectureId);
           saveLectures(lectures);
           render();
+          logActivity(1);
         }
         return;
       }
     });
 
-    // Переключение чекбокса
+    // Переключение чекбокса "Просмотрено"
     listElement.addEventListener("change", (e) => {
       if (e.target.classList.contains("toggle-checkbox")) {
         const card = e.target.closest(".lecture-card");
@@ -1558,6 +2010,7 @@
           item.completed = e.target.checked;
           saveLectures(lectures);
           render();
+          logActivity(e.target.checked ? 3 : 1);
         }
       }
     });
@@ -1620,6 +2073,8 @@
       urlInput.value = "";
       lecturerInput.value = "";
       closeAddModal();
+
+      logActivity(3); // Добавление лекции — высокая активность
     });
 
     // --- Модальное окно редактирования ---
@@ -1672,6 +2127,8 @@
       saveLectures(lectures);
       render();
       closeEditModal();
+
+      logActivity(1);
     });
 
     // Закрытие модалок по Escape
@@ -1691,7 +2148,11 @@
 
       const dateStr = new Date().toISOString().slice(0, 10);
       const filename = `history-backup-${dateStr}.json`;
-      const dataStr = JSON.stringify(lectures, null, 2);
+      const exportData = {
+        lectures: lectures,
+        activityLog: activityLog
+      };
+      const dataStr = JSON.stringify(exportData, null, 2);
       const blob = new Blob([dataStr], { type: "application/json;charset=utf-8" });
 
       const link = document.createElement("a");
@@ -1712,12 +2173,22 @@
         try {
           const parsed = JSON.parse(event.target.result);
 
-          if (!Array.isArray(parsed)) {
-            throw new Error("Файл должен содержать массив лекций.");
+          let importedLectures = null;
+          let importedActivity = null;
+
+          if (Array.isArray(parsed)) {
+            importedLectures = parsed;
+          } else if (parsed && typeof parsed === "object" && Array.isArray(parsed.lectures)) {
+            importedLectures = parsed.lectures;
+            if (parsed.activityLog && typeof parsed.activityLog === "object") {
+              importedActivity = parsed.activityLog;
+            }
+          } else {
+            throw new Error("Неверная структура файла.");
           }
 
           const confirmed = confirm(
-            `Восстановить базу из файла «${file.name}»?\n\nВ файле найдено: ${parsed.length} лекций.\nВНИМАНИЕ: Текущие данные в трекере будут заменены.`
+            `Восстановить базу из файла «${file.name}»?\n\nВ файле найдено: ${importedLectures.length} лекций.\nВНИМАНИЕ: Текущие данные в трекере будут заменены.`
           );
 
           if (!confirmed) {
@@ -1725,7 +2196,11 @@
             return;
           }
 
-          lectures = parsed.map((item, idx) => sanitizeLecture(item, idx));
+          lectures = importedLectures.map((item, idx) => sanitizeLecture(item, idx));
+          if (importedActivity) {
+            activityLog = importedActivity;
+            saveActivityLog(activityLog);
+          }
           openNoteIds.clear();
           saveLectures(lectures);
           render();
