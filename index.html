@@ -444,7 +444,7 @@
     }
 
     .heatmap-cell.level-0 {
-      background-color: #212124;
+      background-color: rgba(255, 255, 255, 0.05);
     }
 
     .heatmap-cell.level-1 {
@@ -457,7 +457,13 @@
 
     .heatmap-cell.level-3 {
       background-color: #6366f1;
-      box-shadow: 0 0 6px rgba(99, 102, 241, 0.45);
+      box-shadow: 0 0 8px rgba(99, 102, 241, 0.55);
+    }
+
+    .heatmap-cell.level-4 {
+      background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #d97706 100%);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.8), 0 0 16px rgba(251, 191, 36, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.4);
     }
 
     .heatmap-cell.future {
@@ -1585,6 +1591,119 @@
       transform: scale(1.05);
     }
 
+    /* Секундомер в плеере (Cinema Stopwatch) */
+    .cinema-stopwatch-widget {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(24, 24, 28, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-pill);
+      padding: 5px 14px 5px 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      flex-shrink: 0;
+    }
+
+    .stopwatch-timer-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stopwatch-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #71717a;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .stopwatch-pulse-dot.running {
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981, 0 0 16px rgba(16, 185, 129, 0.6);
+      animation: stopwatchPulse 1.8s infinite ease-in-out;
+    }
+
+    .stopwatch-pulse-dot.paused {
+      background: #f59e0b;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+    }
+
+    @keyframes stopwatchPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.35);
+        opacity: 0.7;
+      }
+    }
+
+    .stopwatch-display {
+      font-family: "SF Mono", Monaco, "Cascadia Code", Consolas, monospace;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+      min-width: 78px;
+      font-feature-settings: "tnum";
+    }
+
+    .stopwatch-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-stopwatch-toggle {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-primary);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .btn-stopwatch-toggle:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+    }
+
+    .btn-stopwatch-finish {
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid rgba(99, 102, 241, 0.45);
+      color: #a5b4fc;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .btn-stopwatch-finish:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(var(--accent-rgb), 0.45);
+      transform: translateY(-1px);
+    }
+
     .cinema-workspace {
       display: grid;
       grid-template-columns: 1fr 340px;
@@ -1810,6 +1929,42 @@
       opacity: 0.6;
     }
 
+    /* Toast уведомления */
+    .app-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      background: rgba(24, 24, 28, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(99, 102, 241, 0.45);
+      color: #ffffff;
+      padding: 12px 22px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(99, 102, 241, 0.35);
+      font-size: 0.92rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .app-toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    .toast-icon {
+      color: #818cf8;
+      display: flex;
+    }
+
     @media (max-width: 920px) {
       .bento-dashboard-grid {
         grid-template-columns: 1fr;
@@ -1824,6 +1979,15 @@
       .cinema-backdrop {
         padding: 12px;
         overflow-y: auto;
+      }
+      .cinema-header {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .cinema-stopwatch-widget {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
       }
       .cinema-workspace {
         grid-template-columns: 1fr;
@@ -2004,7 +2168,7 @@
             <span class="heatmap-sub">Вклад за 365 дней</span>
           </div>
           <div class="heatmap-stats">
-            <span id="heatmapTotalYear">0</span> действий за год
+            <span id="heatmapTotalYear">0 мин</span> за год
           </div>
         </div>
 
@@ -2015,14 +2179,15 @@
         </div>
 
         <div class="heatmap-footer">
-          <span>Меньше</span>
+          <span>0ч</span>
           <div class="heatmap-legend">
-            <span class="heatmap-cell level-0"></span>
-            <span class="heatmap-cell level-1"></span>
-            <span class="heatmap-cell level-2"></span>
-            <span class="heatmap-cell level-3"></span>
+            <span class="heatmap-cell level-0" title="0 мин"></span>
+            <span class="heatmap-cell level-1" title="1–29 мин (разминка)"></span>
+            <span class="heatmap-cell level-2" title="30–119 мин (норма)"></span>
+            <span class="heatmap-cell level-3" title="120–239 мин (хорошая работа)"></span>
+            <span class="heatmap-cell level-4" title="240+ мин (режим берсерка)"></span>
           </div>
-          <span>Больше</span>
+          <span>4ч+</span>
         </div>
       </section>
     </div>
@@ -2144,6 +2309,27 @@
           <span class="cinema-badge" id="cinemaEra" style="display: none;">Эпоха</span>
         </div>
       </div>
+
+      <!-- Секундомер сессии обучения -->
+      <div class="cinema-stopwatch-widget" id="cinemaStopwatchWidget" title="Секундомер сессии: время автоматически заносится в календарь">
+        <div class="stopwatch-timer-wrap">
+          <span class="stopwatch-pulse-dot" id="stopwatchDot"></span>
+          <span class="stopwatch-display" id="stopwatchDisplay">00:00:00</span>
+        </div>
+        <div class="stopwatch-actions">
+          <button type="button" class="btn-stopwatch-toggle" id="stopwatchToggleBtn" title="Приостановить / возобновить секундомер">
+            <span id="stopwatchToggleIcon">❚❚</span>
+            <span id="stopwatchToggleText">Пауза</span>
+          </button>
+          <button type="button" class="btn-stopwatch-finish" id="stopwatchFinishBtn" title="Завершить сессию и записать время">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Завершить сессию</span>
+          </button>
+        </div>
+      </div>
+
       <div class="cinema-controls">
         <a href="#" target="_blank" rel="noopener noreferrer" class="btn-cinema-ext" id="cinemaExternalLink" title="Открыть видео во внешней вкладке">
           <span>Открыть оригинал</span>
@@ -2272,6 +2458,17 @@
         </div>
       </form>
     </div>
+  </div>
+
+  <!-- Всплывающее Toast-уведомление -->
+  <div id="appToast" class="app-toast" role="status" aria-live="polite">
+    <span class="toast-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+    </span>
+    <span id="toastMessage">Записано: +45 мин в календарь</span>
   </div>
 
   <script>
@@ -2486,6 +2683,53 @@
 
     let activityLog = loadActivityLog();
 
+    // --- Логика учета времени занятий (Study Time Log) ---
+    const STORAGE_STUDY_TIME_KEY = "studyTimeLog";
+
+    function loadStudyTimeLog() {
+      try {
+        const stored = localStorage.getItem(STORAGE_STUDY_TIME_KEY) || localStorage.getItem("history_study_time_v1");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed && typeof parsed === "object") return parsed;
+        }
+      } catch (e) {
+        console.error("Ошибка при чтении studyTimeLog", e);
+      }
+
+      // При первом запуске: создаем стартовую активность по минутам для наглядной демонстрации всех уровней интенсивности
+      const seed = {};
+      const now = new Date();
+      const sampleDays = [
+        { offset: 0, minutes: 45 },    // 45 мин (норма, уровень 2)
+        { offset: 1, minutes: 140 },   // 2 ч 20 мин (хорошая работа, уровень 3)
+        { offset: 3, minutes: 260 },   // 4 ч 20 мин (режим берсерка, уровень 4)
+        { offset: 5, minutes: 25 },    // 25 мин (разминка, уровень 1)
+        { offset: 8, minutes: 180 },   // 3 ч (хорошая работа, уровень 3)
+        { offset: 11, minutes: 75 },   // 1 ч 15 мин (норма, уровень 2)
+        { offset: 16, minutes: 90 }    // 1.5 ч (норма, уровень 2)
+      ];
+      sampleDays.forEach(({ offset, minutes }) => {
+        const d = new Date(now);
+        d.setDate(now.getDate() - offset);
+        seed[getLocalDateString(d)] = minutes;
+      });
+      saveStudyTimeLog(seed);
+      return seed;
+    }
+
+    function saveStudyTimeLog(log = studyTimeLog) {
+      try {
+        const str = JSON.stringify(log);
+        localStorage.setItem(STORAGE_STUDY_TIME_KEY, str);
+        localStorage.setItem("history_study_time_v1", str);
+      } catch (e) {
+        console.error("Ошибка при записи studyTimeLog", e);
+      }
+    }
+
+    let studyTimeLog = loadStudyTimeLog();
+
     function logActivity(amount = 1) {
       const today = getLocalDateString();
       activityLog[today] = (activityLog[today] || 0) + amount;
@@ -2595,6 +2839,16 @@
     const cinemaExternalLinkEl = document.getElementById("cinemaExternalLink");
     const cinemaCloseBtnEl = document.getElementById("cinemaCloseBtn");
     const cinemaNotesTextareaEl = document.getElementById("cinemaNotesTextarea");
+
+    // Элементы секундомера в плеере (Cinema Stopwatch)
+    const stopwatchDisplayEl = document.getElementById("stopwatchDisplay");
+    const stopwatchDotEl = document.getElementById("stopwatchDot");
+    const stopwatchToggleBtnEl = document.getElementById("stopwatchToggleBtn");
+    const stopwatchToggleIconEl = document.getElementById("stopwatchToggleIcon");
+    const stopwatchToggleTextEl = document.getElementById("stopwatchToggleText");
+    const stopwatchFinishBtnEl = document.getElementById("stopwatchFinishBtn");
+    const appToastEl = document.getElementById("appToast");
+    const toastMessageEl = document.getElementById("toastMessage");
 
     // Модалка добавления (FAB)
     const addModalEl = document.getElementById("addModal");
@@ -2729,6 +2983,144 @@
       });
     }
 
+    // --- Toast-уведомление ---
+    let toastTimer = null;
+    function showToast(message) {
+      if (!appToastEl || !toastMessageEl) return;
+      toastMessageEl.textContent = message;
+      appToastEl.classList.add("visible");
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        appToastEl.classList.remove("visible");
+      }, 3500);
+    }
+
+    // --- Логика секундомера в плеере (Cinema Stopwatch) ---
+    let stopwatchInterval = null;
+    let stopwatchElapsedSeconds = 0;
+    let stopwatchRunning = false;
+
+    function formatStopwatchTime(totalSeconds) {
+      const h = Math.floor(totalSeconds / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+      const hh = String(h).padStart(2, "0");
+      const mm = String(m).padStart(2, "0");
+      const ss = String(s).padStart(2, "0");
+      return `${hh}:${mm}:${ss}`;
+    }
+
+    function updateStopwatchUI() {
+      if (stopwatchDisplayEl) {
+        stopwatchDisplayEl.textContent = formatStopwatchTime(stopwatchElapsedSeconds);
+      }
+      if (stopwatchDotEl) {
+        stopwatchDotEl.classList.toggle("running", stopwatchRunning);
+        stopwatchDotEl.classList.toggle("paused", !stopwatchRunning && stopwatchElapsedSeconds > 0);
+      }
+      if (stopwatchToggleIconEl && stopwatchToggleTextEl) {
+        if (stopwatchRunning) {
+          stopwatchToggleIconEl.textContent = "❚❚";
+          stopwatchToggleTextEl.textContent = "Пауза";
+        } else {
+          stopwatchToggleIconEl.textContent = "▶";
+          stopwatchToggleTextEl.textContent = stopwatchElapsedSeconds > 0 ? "Продолжить" : "Старт";
+        }
+      }
+    }
+
+    function startStopwatch() {
+      if (stopwatchRunning) return;
+      stopwatchRunning = true;
+      updateStopwatchUI();
+      if (stopwatchInterval) clearInterval(stopwatchInterval);
+      stopwatchInterval = setInterval(() => {
+        stopwatchElapsedSeconds++;
+        if (stopwatchDisplayEl) {
+          stopwatchDisplayEl.textContent = formatStopwatchTime(stopwatchElapsedSeconds);
+        }
+      }, 1000);
+    }
+
+    function pauseStopwatch() {
+      if (!stopwatchRunning) return;
+      stopwatchRunning = false;
+      if (stopwatchInterval) {
+        clearInterval(stopwatchInterval);
+        stopwatchInterval = null;
+      }
+      updateStopwatchUI();
+    }
+
+    function resetStopwatch() {
+      pauseStopwatch();
+      stopwatchElapsedSeconds = 0;
+      updateStopwatchUI();
+    }
+
+    function commitStudySession(notify = true) {
+      if (stopwatchElapsedSeconds <= 0) return;
+
+      // 1. Берем прошедшее время в минутах (минимум 1 минута, если секундомер был запущен)
+      const minutes = stopwatchElapsedSeconds >= 60 
+        ? Math.round(stopwatchElapsedSeconds / 60) 
+        : 1;
+
+      // 2. Прибавляем эти минуты к сегодняшней дате в studyTimeLog
+      const today = getLocalDateString();
+      studyTimeLog[today] = (studyTimeLog[today] || 0) + minutes;
+      saveStudyTimeLog(studyTimeLog);
+
+      // 3. Начисляем XP за время: 1 минута работы таймера = 5 XP
+      const earnedXP = minutes * 5;
+      userXP += earnedXP;
+      saveUserXP(userXP);
+      updateRankUI();
+
+      // 4. Сбрасываем таймер
+      resetStopwatch();
+
+      // 5. Выводим маленькое уведомление (Toast)
+      if (notify) {
+        showToast(`Записано: +${minutes} мин в календарь`);
+        triggerConfetti();
+      }
+
+      // 6. Обновляем Heatmap
+      renderHeatmap();
+    }
+
+    if (stopwatchToggleBtnEl) {
+      stopwatchToggleBtnEl.addEventListener("click", () => {
+        if (stopwatchRunning) {
+          pauseStopwatch();
+        } else {
+          startStopwatch();
+        }
+      });
+    }
+
+    if (stopwatchFinishBtnEl) {
+      stopwatchFinishBtnEl.addEventListener("click", () => {
+        if (stopwatchElapsedSeconds > 0) {
+          commitStudySession(true);
+        } else {
+          showToast("Секундомер еще не отсчитал время");
+        }
+      });
+    }
+
+    window.addEventListener("beforeunload", () => {
+      if (stopwatchElapsedSeconds >= 15) {
+        const minutes = Math.max(1, Math.round(stopwatchElapsedSeconds / 60));
+        const today = getLocalDateString();
+        studyTimeLog[today] = (studyTimeLog[today] || 0) + minutes;
+        saveStudyTimeLog(studyTimeLog);
+        userXP += minutes * 5;
+        saveUserXP(userXP);
+      }
+    });
+
     // Состояние режима отображения (список / таймлайн)
     let currentViewMode = localStorage.getItem("history_view_mode_v1") || "list";
 
@@ -2807,23 +3199,31 @@
 
     const MONTH_NAMES = ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"];
 
-    function formatTooltipDate(dateStr) {
-      const [y, m, d] = dateStr.split("-").map(Number);
-      const date = new Date(y, m - 1, d);
-      return date.toLocaleDateString("ru-RU", { day: "numeric", month: "short", year: "numeric" });
+    function formatStudyTimeMinutes(mins) {
+      const minutes = parseInt(mins, 10) || 0;
+      if (minutes <= 0) return "0 мин.";
+      const hours = Math.floor(minutes / 60);
+      const remainMins = minutes % 60;
+      if (hours === 0) return `${remainMins} мин.`;
+      if (remainMins === 0) return `${hours} ч.`;
+      return `${hours} ч. ${remainMins} мин.`;
     }
 
-    function formatActionsCount(count) {
-      if (count === 0) return "нет активности";
-      const mod10 = count % 10;
-      const mod100 = count % 100;
-      let word = "действий";
-      if (mod10 === 1 && mod100 !== 11) {
-        word = "действие";
-      } else if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) {
-        word = "действия";
-      }
-      return `${count} ${word}`;
+    function formatShortDate(dateStr) {
+      const [y, m, d] = dateStr.split("-").map(Number);
+      const date = new Date(y, m - 1, d);
+      const formatted = date.toLocaleDateString("ru-RU", { day: "numeric", month: "short" });
+      return formatted.replace(/\.$/, "");
+    }
+
+    function formatTotalYearStudyTime(totalMins) {
+      const minutes = parseInt(totalMins, 10) || 0;
+      if (minutes === 0) return "0 мин";
+      const hours = Math.floor(minutes / 60);
+      const remainMins = minutes % 60;
+      if (hours === 0) return `${remainMins} мин`;
+      if (remainMins === 0) return `${hours} ч`;
+      return `${hours} ч ${remainMins} мин`;
     }
 
     function renderHeatmap() {
@@ -2839,7 +3239,7 @@
       const startDate = new Date(currentWeekEnd);
       startDate.setDate(currentWeekEnd.getDate() - (52 * 7 - 1));
 
-      let totalYearActions = 0;
+      let totalYearMinutes = 0;
       const monthPositions = [];
       let lastMonth = -1;
 
@@ -2862,25 +3262,27 @@
 
           const isFuture = cellDate > today;
           const dateStr = getLocalDateString(cellDate);
-          const count = isFuture ? 0 : (activityLog[dateStr] || 0);
+          const minutes = isFuture ? 0 : (studyTimeLog[dateStr] || 0);
 
           if (!isFuture) {
-            totalYearActions += count;
+            totalYearMinutes += minutes;
           }
 
           let levelClass = "level-0";
-          if (count >= 4) {
-            levelClass = "level-3";
-          } else if (count >= 2) {
-            levelClass = "level-2";
-          } else if (count >= 1) {
-            levelClass = "level-1";
+          if (minutes >= 240) {
+            levelClass = "level-4"; // 240+ мин (4 ч+, режим берсерка)
+          } else if (minutes >= 120) {
+            levelClass = "level-3"; // 120–239 мин (хорошая работа)
+          } else if (minutes >= 30) {
+            levelClass = "level-2"; // 30–119 мин (норма)
+          } else if (minutes >= 1) {
+            levelClass = "level-1"; // 1–29 мин (разминка)
           }
 
           if (isFuture) {
             weekHtml += `<span class="heatmap-cell future"></span>`;
           } else {
-            weekHtml += `<span class="heatmap-cell ${levelClass}" data-date="${dateStr}" data-count="${count}"></span>`;
+            weekHtml += `<span class="heatmap-cell ${levelClass}" data-date="${dateStr}" data-minutes="${minutes}"></span>`;
           }
         }
 
@@ -2914,7 +3316,7 @@
       `;
 
       if (heatmapTotalYearEl) {
-        heatmapTotalYearEl.textContent = totalYearActions;
+        heatmapTotalYearEl.textContent = formatTotalYearStudyTime(totalYearMinutes);
       }
 
       if (heatmapScrollEl) {
@@ -2930,11 +3332,11 @@
         if (!cell) return;
 
         const dateStr = cell.getAttribute("data-date");
-        const count = parseInt(cell.getAttribute("data-count") || "0", 10);
-        const formattedDate = formatTooltipDate(dateStr);
-        const formattedCount = formatActionsCount(count);
+        const minutes = parseInt(cell.getAttribute("data-minutes") || "0", 10);
+        const formattedDate = formatShortDate(dateStr);
+        const formattedTime = formatStudyTimeMinutes(minutes);
 
-        heatmapTooltipEl.textContent = `${formattedDate}: ${formattedCount}`;
+        heatmapTooltipEl.textContent = `${formattedDate}: ${formattedTime}`;
         heatmapTooltipEl.classList.add("visible");
 
         const rect = cell.getBoundingClientRect();
@@ -2968,6 +3370,10 @@
       cinemaNotesTextareaEl.value = item.note || "";
       cinemaIframeEl.src = embedUrl;
 
+      // Автоматический запуск секундомера при открытии плеера
+      resetStopwatch();
+      startStopwatch();
+
       cinemaBackdropEl.classList.add("active");
       cinemaBackdropEl.setAttribute("aria-hidden", "false");
     }
@@ -2977,6 +3383,13 @@
       cinemaBackdropEl.setAttribute("aria-hidden", "true");
       cinemaIframeEl.src = ""; // Очищаем src, чтобы остановить воспроизведение видео и звука!
       activeCinemaLectureId = null;
+
+      // При закрытии плеера с ненулевым таймером фиксируем время
+      if (stopwatchElapsedSeconds > 0) {
+        commitStudySession(true);
+      } else {
+        resetStopwatch();
+      }
     }
 
     cinemaCloseBtnEl.addEventListener("click", closeCinemaModal);
@@ -3805,6 +4218,7 @@
       const exportData = {
         lectures: lectures,
         activityLog: activityLog,
+        studyTimeLog: studyTimeLog,
         userXP: userXP
       };
       const dataStr = JSON.stringify(exportData, null, 2);
@@ -3855,6 +4269,10 @@
           if (importedActivity) {
             activityLog = importedActivity;
             saveActivityLog(activityLog);
+          }
+          if (parsed && typeof parsed === "object" && parsed.studyTimeLog && typeof parsed.studyTimeLog === "object") {
+            studyTimeLog = parsed.studyTimeLog;
+            saveStudyTimeLog(studyTimeLog);
           }
           if (parsed && typeof parsed === "object" && parsed.userXP !== undefined) {
             userXP = Math.max(0, parseInt(parsed.userXP, 10) || 0);
