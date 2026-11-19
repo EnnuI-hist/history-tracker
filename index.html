@@ -58,6 +58,11 @@
     .container {
       width: 100%;
       max-width: 720px;
+      transition: max-width 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .container.view-timeline {
+      max-width: 1240px;
     }
 
     /* 1. Чистая шапка в стиле Apple */
@@ -421,12 +426,327 @@
       color: var(--text-primary);
     }
 
+    /* Панель заголовка списков и переключения режимов */
+    .view-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      min-height: 32px;
+    }
+
     .matching-status {
       font-size: 0.78rem;
       color: var(--text-muted);
-      margin-bottom: 12px;
+      margin-bottom: 0;
       min-height: 18px;
       padding-left: 2px;
+    }
+
+    .view-toggle {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg-card);
+      padding: 3px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      flex-shrink: 0;
+      margin-left: auto;
+    }
+
+    .view-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-family: inherit;
+      user-select: none;
+    }
+
+    .view-toggle-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .view-toggle-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(var(--accent-rgb), 0.35);
+    }
+
+    /* 4. Стили таймлайна по эпохам */
+    .timeline-container {
+      width: 100%;
+    }
+
+    /* Быстрая навигация по эпохам */
+    .timeline-nav-track {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 2px 2px 14px;
+      margin-bottom: 6px;
+    }
+
+    .timeline-nav-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .timeline-nav-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-secondary);
+      font-size: 0.76rem;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+      user-select: none;
+      font-family: inherit;
+    }
+
+    .timeline-nav-pill:hover {
+      background: #323238;
+      color: var(--text-primary);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .timeline-nav-pill.active {
+      background: rgba(var(--accent-rgb), 0.18);
+      border-color: rgba(var(--accent-rgb), 0.45);
+      color: #ffffff;
+    }
+
+    .nav-pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.7;
+    }
+
+    .timeline-nav-pill.completed-all .nav-pill-dot {
+      background: #34d399;
+      opacity: 1;
+    }
+
+    .nav-pill-badge {
+      font-size: 0.68rem;
+      opacity: 0.65;
+      font-feature-settings: "tnum";
+    }
+
+    /* Горизонтальная лента эпох (desktop) */
+    .timeline-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 4px 4px 28px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .timeline-track::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .timeline-track::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-pill);
+    }
+
+    .timeline-track::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-pill);
+    }
+
+    .timeline-track::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Колонка эпохи на десктопе */
+    .timeline-era-section {
+      min-width: 330px;
+      max-width: 360px;
+      flex-shrink: 0;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+      scroll-snap-align: start;
+      overflow: hidden;
+    }
+
+    /* Крупная липкая шапка эпохи */
+    .timeline-era-sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(39, 39, 42, 0.95);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      padding: 16px 18px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .era-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .era-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .era-milestone-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.6);
+      flex-shrink: 0;
+    }
+
+    .era-index-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+    }
+
+    .era-counter-pill {
+      font-size: 0.74rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      font-feature-settings: "tnum";
+    }
+
+    .era-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+
+    .era-progress-bar {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin-top: 2px;
+    }
+
+    .era-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: var(--radius-pill);
+      transition: width 0.3s ease;
+    }
+
+    /* Карточки внутри колонки эпохи */
+    .timeline-era-cards {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: calc(100vh - 350px);
+      min-height: 120px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+    }
+
+    .timeline-era-cards::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .timeline-era-cards::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-pill);
+    }
+
+    .timeline-era-cards .lecture-card {
+      background: #1f1f23;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .timeline-era-cards .lecture-card:hover {
+      background: #2a2a2f;
+    }
+
+    /* Пустое состояние эпохи */
+    .era-empty-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px 14px;
+      color: var(--text-muted);
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      margin: 8px 0;
+    }
+
+    .era-empty-box p {
+      font-size: 0.82rem;
+      margin-bottom: 10px;
+      color: var(--text-muted);
+    }
+
+    .btn-era-add {
+      background: rgba(var(--accent-rgb), 0.12);
+      border: 1px solid rgba(var(--accent-rgb), 0.25);
+      color: var(--accent);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .btn-era-add:hover {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
     }
 
     /* 4. Компактные карточки лекций в стиле Apple */
@@ -569,6 +889,12 @@
 
     .meta-format {
       color: var(--text-muted);
+    }
+
+    .meta-era {
+      color: var(--accent);
+      opacity: 0.92;
+      font-weight: 500;
     }
 
     /* Таймкод остановки */
@@ -1209,6 +1535,86 @@
       }
     }
 
+    @media (max-width: 768px) {
+      .container.view-timeline {
+        max-width: 720px;
+      }
+
+      .timeline-track {
+        display: flex;
+        flex-direction: column;
+        gap: 36px;
+        overflow-x: visible;
+        padding: 8px 0 20px;
+      }
+
+      .timeline-era-section {
+        min-width: 100% !important;
+        max-width: 100% !important;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        overflow: visible;
+        position: relative;
+        padding-left: 28px;
+      }
+
+      /* Вертикальная направляющая линия степпера */
+      .timeline-era-section::before {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 36px;
+        bottom: -36px;
+        width: 2px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .timeline-era-section:last-child::before {
+        display: none;
+      }
+
+      /* Узел эпохи на линии */
+      .timeline-era-section::after {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 18px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.6);
+        z-index: 5;
+      }
+
+      /* Липкий заголовок эпохи на мобильном */
+      .timeline-era-sticky-header {
+        position: sticky;
+        top: 12px;
+        z-index: 20;
+        background: rgba(24, 24, 27, 0.94);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: var(--radius-md);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+        margin-bottom: 12px;
+        padding: 12px 14px;
+      }
+
+      .timeline-era-cards {
+        padding: 0;
+        max-height: none !important;
+        overflow-y: visible !important;
+      }
+
+      .timeline-era-cards .lecture-card {
+        background: var(--bg-card);
+        border: none;
+      }
+    }
+
     @media (max-width: 600px) {
       body {
         padding: 40px 14px 90px;
@@ -1233,8 +1639,9 @@
 </head>
 <body>
 
-  <!-- Общий список автодополнения для лекторов -->
+  <!-- Общий список автодополнения для лекторов и эпох -->
   <datalist id="lecturersList"></datalist>
+  <datalist id="erasList"></datalist>
 
   <!-- Всплывающий тултип для ячеек активности -->
   <div id="heatmapTooltip" class="heatmap-tooltip"></div>
@@ -1319,13 +1726,49 @@
       </div>
     </div>
 
-    <!-- Индикатор совпадений -->
-    <div class="matching-status" id="matchingCountText"></div>
+    <!-- Панель переключения режима: Список / Таймлайн -->
+    <div class="view-header-bar">
+      <div class="matching-status" id="matchingCountText"></div>
+      <div class="view-toggle" role="tablist" aria-label="Режим отображения">
+        <button type="button" class="view-toggle-btn active" id="btnViewList" data-view="list" title="Вид списком">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+          <span>Список</span>
+        </button>
+        <button type="button" class="view-toggle-btn" id="btnViewTimeline" data-view="timeline" title="Таймлайн по эпохам">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Таймлайн</span>
+        </button>
+      </div>
+    </div>
 
-    <!-- 4. Список компактных карточек лекций -->
-    <main>
+    <!-- 4. Основная область лекций: Список или Таймлайн -->
+    <main id="mainContainer">
+      <!-- Обычный список лекций -->
       <div class="lecture-list" id="lectureList">
         <!-- Карточки генерируются скриптом -->
+      </div>
+
+      <!-- Режим «Таймлайн по эпохам» -->
+      <div class="timeline-container" id="timelineContainer" style="display: none;">
+        <!-- Быстрая навигация по эпохам -->
+        <div class="timeline-nav-track" id="timelineNavTrack">
+          <!-- Генерируется через JS -->
+        </div>
+
+        <!-- Горизонтальная лента (desktop) / вертикальный степпер (mobile) -->
+        <div class="timeline-track" id="timelineTrack">
+          <!-- Колонки эпох генерируются через JS -->
+        </div>
       </div>
     </main>
 
@@ -1359,6 +1802,7 @@
         <div class="cinema-badges">
           <span class="cinema-badge" id="cinemaLecturer">Лектор</span>
           <span class="cinema-badge" id="cinemaFormat">Формат</span>
+          <span class="cinema-badge" id="cinemaEra" style="display: none;">Эпоха</span>
         </div>
       </div>
       <div class="cinema-controls">
@@ -1416,6 +1860,11 @@
             <input type="text" id="lectureUrl" placeholder="https://youtube.com/watch?v=..." required>
           </div>
 
+          <div class="form-group-full">
+            <label for="lectureEra">Эпоха / Период</label>
+            <input type="text" id="lectureEra" list="erasList" placeholder="Выберите эпоху или введите свою..." autocomplete="off">
+          </div>
+
           <div>
             <label for="lectureLecturer">Лектор</label>
             <input type="text" id="lectureLecturer" list="lecturersList" placeholder="Шубин, Гончаров..." required autocomplete="off">
@@ -1459,6 +1908,11 @@
             <input type="text" id="editLectureUrl" required>
           </div>
 
+          <div class="form-group-full">
+            <label for="editLectureEra">Эпоха / Период</label>
+            <input type="text" id="editLectureEra" list="erasList" placeholder="Выберите эпоху или введите свою..." autocomplete="off">
+          </div>
+
           <div>
             <label for="editLectureLecturer">Лектор</label>
             <input type="text" id="editLectureLecturer" list="lecturersList" placeholder="Имя лектора" required autocomplete="off">
@@ -1482,7 +1936,19 @@
   </div>
 
   <script>
-    // Тестовые карточки по умолчанию (с валидными YouTube ссылками для проверки кинотеатра)
+    // 8 стандартных периодов истории для ЕГЭ и олимпиад
+    const STANDARD_ERAS = [
+      "Древняя Русь (IX–XIII вв.)",
+      "Раздробленность и Орда (XIII–XV вв.)",
+      "Московское царство (XV–XVII вв.)",
+      "Империя: XVIII век",
+      "Империя: XIX век",
+      "Начало XX века и Революция",
+      "СССР (1922–1991)",
+      "Современная Россия"
+    ];
+
+    // Тестовые карточки по умолчанию с эпохами (и валидными YouTube ссылками для кинотеатра)
     const INITIAL_LECTURES = [
       {
         id: "init-1",
@@ -1490,6 +1956,7 @@
         url: "https://www.youtube.com/watch?v=kXx3yD27H2g",
         lecturer: "Гончаров",
         format: "ЕГЭ",
+        era: "Древняя Русь (IX–XIII вв.)",
         completed: false,
         timecode: "18:40",
         note: "Ключевые даты: 862 г. — призвание варягов, 882 г. — объединение Киева и Новгорода князем Олегом."
@@ -1500,6 +1967,7 @@
         url: "https://www.youtube.com/watch?v=1La4QzGeaaQ",
         lecturer: "Борисов",
         format: "Олимпиады",
+        era: "Московское царство (XV–XVII вв.)",
         completed: true,
         timecode: "",
         note: "Важно для эссе: обратить внимание на сравнение земских соборов 1598 и 1613 годов."
@@ -1510,6 +1978,7 @@
         url: "https://www.youtube.com/watch?v=Xz2Qk8b4G6g",
         lecturer: "Данилевский",
         format: "Олимпиады",
+        era: "Раздробленность и Орда (XIII–XV вв.)",
         completed: false,
         timecode: "07:15",
         note: ""
@@ -1520,9 +1989,32 @@
         url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
         lecturer: "Станишевский",
         format: "ЕГЭ",
+        era: "Империя: XVIII век",
         completed: false,
         timecode: "",
         note: ""
+      },
+      {
+        id: "init-5",
+        title: "Отечественная война 1812 года и заграничные походы",
+        url: "https://www.youtube.com/watch?v=kXx3yD27H2g",
+        lecturer: "Борисов",
+        format: "ЕГЭ",
+        era: "Империя: XIX век",
+        completed: false,
+        timecode: "",
+        note: "Бородинское сражение, Тарутинский маневр, военный совет в Филях."
+      },
+      {
+        id: "init-6",
+        title: "Великая российская революция 1917 года: от Февраля к Октябрю",
+        url: "https://www.youtube.com/watch?v=1La4QzGeaaQ",
+        lecturer: "Данилевский",
+        format: "Олимпиады",
+        era: "Начало XX века и Революция",
+        completed: false,
+        timecode: "",
+        note: "Двоевластие: Временное правительство и Петросовет. Апрельские тезисы."
       }
     ];
 
@@ -1671,14 +2163,19 @@
       }
     }
 
-    // Безопасная нормализация лекции
+    // Безопасная нормализация лекции (с миграцией поля era)
     function sanitizeLecture(item, index) {
+      let era = "Без эпохи";
+      if (item && typeof item.era === "string" && item.era.trim()) {
+        era = item.era.trim();
+      }
       return {
         id: item && typeof item.id === "string" ? item.id : "lec-" + Date.now() + "-" + index,
         title: item && typeof item.title === "string" ? item.title : "Без названия",
         url: item && typeof item.url === "string" ? item.url : "#",
         lecturer: item && typeof item.lecturer === "string" && item.lecturer.trim() ? item.lecturer.trim() : "Не указан",
         format: item && typeof item.format === "string" ? item.format : "ЕГЭ",
+        era: era,
         completed: Boolean(item && item.completed),
         timecode: item && typeof item.timecode === "string" ? item.timecode : "",
         note: item && typeof item.note === "string" ? item.note : ""
@@ -1691,7 +2188,17 @@
         if (stored) {
           const parsed = JSON.parse(stored);
           if (Array.isArray(parsed)) {
-            return parsed.map((item, idx) => sanitizeLecture(item, idx));
+            let migrationNeeded = false;
+            const result = parsed.map((item, idx) => {
+              if (!item || !item.era || typeof item.era !== "string" || !item.era.trim()) {
+                migrationNeeded = true;
+              }
+              return sanitizeLecture(item, idx);
+            });
+            if (migrationNeeded) {
+              saveLectures(result);
+            }
+            return result;
           }
         }
       } catch (err) {
@@ -1712,7 +2219,15 @@
     let lectures = loadLectures();
 
     // DOM Элементы
+    const mainContainerEl = document.getElementById("mainContainer");
     const listElement = document.getElementById("lectureList");
+    const timelineContainerEl = document.getElementById("timelineContainer");
+    const timelineNavTrackEl = document.getElementById("timelineNavTrack");
+    const timelineTrackEl = document.getElementById("timelineTrack");
+    const btnViewList = document.getElementById("btnViewList");
+    const btnViewTimeline = document.getElementById("btnViewTimeline");
+    const erasListDatalistEl = document.getElementById("erasList");
+
     const completedCountEl = document.getElementById("completedCount");
     const totalCountEl = document.getElementById("totalCount");
     const progressPercentEl = document.getElementById("progressPercent");
@@ -1737,6 +2252,7 @@
     const cinemaTitleEl = document.getElementById("cinemaTitle");
     const cinemaLecturerEl = document.getElementById("cinemaLecturer");
     const cinemaFormatEl = document.getElementById("cinemaFormat");
+    const cinemaEraEl = document.getElementById("cinemaEra");
     const cinemaExternalLinkEl = document.getElementById("cinemaExternalLink");
     const cinemaCloseBtnEl = document.getElementById("cinemaCloseBtn");
     const cinemaNotesTextareaEl = document.getElementById("cinemaNotesTextarea");
@@ -1747,6 +2263,7 @@
     const addModalCloseEl = document.getElementById("addModalClose");
     const addModalCancelEl = document.getElementById("addModalCancel");
     const addLectureFormEl = document.getElementById("addLectureForm");
+    const lectureEraInputEl = document.getElementById("lectureEra");
 
     // Модалка редактирования
     const editModalEl = document.getElementById("editModal");
@@ -1756,12 +2273,16 @@
     const editLectureUrlEl = document.getElementById("editLectureUrl");
     const editLectureLecturerEl = document.getElementById("editLectureLecturer");
     const editLectureFormatEl = document.getElementById("editLectureFormat");
+    const editLectureEraEl = document.getElementById("editLectureEra");
     const editModalCloseEl = document.getElementById("editModalClose");
     const editModalCancelEl = document.getElementById("editModalCancel");
 
     // Бэкап
     const exportBackupBtnEl = document.getElementById("exportBackupBtn");
     const importBackupInputEl = document.getElementById("importBackupInput");
+
+    // Состояние режима отображения (список / таймлайн)
+    let currentViewMode = localStorage.getItem("history_view_mode_v1") || "list";
 
     function getUniqueLecturers() {
       const set = new Set();
@@ -1797,6 +2318,27 @@
         });
 
         lecturerFiltersEl.innerHTML = html;
+      }
+    }
+
+    // Получение списка эпох (8 стандартных + любые пользовательские)
+    function getAvailableEras() {
+      const set = new Set(STANDARD_ERAS);
+      lectures.forEach(l => {
+        if (l.era && typeof l.era === "string") {
+          const name = l.era.trim();
+          if (name && name !== "Без эпохи") set.add(name);
+        }
+      });
+      const custom = Array.from(set).filter(e => !STANDARD_ERAS.includes(e)).sort((a, b) => a.localeCompare(b, "ru"));
+      return [...STANDARD_ERAS, ...custom];
+    }
+
+    function updateErasUI() {
+      if (erasListDatalistEl) {
+        erasListDatalistEl.innerHTML = getAvailableEras()
+          .map(era => `<option value="${escapeHtml(era)}">`)
+          .join("");
       }
     }
 
@@ -1966,6 +2508,14 @@
       cinemaTitleEl.textContent = item.title;
       cinemaLecturerEl.textContent = item.lecturer;
       cinemaFormatEl.textContent = item.format;
+      if (cinemaEraEl) {
+        if (item.era && item.era !== "Без эпохи") {
+          cinemaEraEl.textContent = item.era;
+          cinemaEraEl.style.display = "inline-block";
+        } else {
+          cinemaEraEl.style.display = "none";
+        }
+      }
       cinemaExternalLinkEl.href = item.url;
       cinemaNotesTextareaEl.value = item.note || "";
       cinemaIframeEl.src = embedUrl;
@@ -2084,10 +2634,248 @@
       render();
     }
 
+    // Генерация HTML карточки лекции (общая для обычного списка и таймлайна)
+    function renderCardHtml(item) {
+      const isCompleted = Boolean(item.completed);
+      const timecodeValue = (item.timecode || "").trim();
+      const hasTimecode = timecodeValue.length > 0;
+      const noteValue = item.note || "";
+      const hasNote = noteValue.trim().length > 0;
+      const isNoteOpen = openNoteIds.has(item.id);
+      const hasEra = item.era && item.era !== "Без эпохи";
+
+      return `
+        <article class="lecture-card ${isCompleted ? 'completed' : ''}" data-id="${item.id}">
+          <div class="card-main">
+            <div class="card-left">
+              <!-- Круглый чекбокс -->
+              <label class="checkbox-container" title="${isCompleted ? 'Отметить как непросмотренное' : 'Отметить как просмотренное'}">
+                <input type="checkbox" class="toggle-checkbox" ${isCompleted ? 'checked' : ''}>
+                <span class="checkmark">
+                  <svg viewBox="0 0 24 24">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </span>
+              </label>
+
+              <!-- Контент: Название и мета снизу -->
+              <div class="card-content">
+                <h4 class="lecture-title">${escapeHtml(item.title)}</h4>
+                <div class="meta-row">
+                  <span class="meta-lecturer">${escapeHtml(item.lecturer)}</span>
+                  <span class="meta-separator">•</span>
+                  <span class="meta-format">${escapeHtml(item.format)}</span>
+                  ${hasEra ? `
+                    <span class="meta-separator">•</span>
+                    <span class="meta-era">${escapeHtml(item.era)}</span>
+                  ` : ''}
+
+                  <!-- Компактный таймкод -->
+                  <div class="timecode-pill ${hasTimecode ? 'has-value' : ''}" title="Таймкод остановки">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <input type="text" class="timecode-input" placeholder="00:00" value="${escapeHtml(timecodeValue)}" maxlength="10">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Кнопки действий (видны при hover) -->
+            <div class="card-actions">
+              <!-- Конспект -->
+              <button type="button" class="btn-icon btn-note ${hasNote ? 'has-note' : ''} ${isNoteOpen ? 'active' : ''}" title="${hasNote ? 'Есть конспект (нажмите, чтобы открыть)' : 'Открыть заметку'}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                </svg>
+                ${hasNote ? '<span class="note-dot"></span>' : ''}
+              </button>
+
+              <!-- Смотреть (Кинотеатр) -->
+              <button type="button" class="btn-icon btn-watch" title="Смотреть видео (Режим кинотеатра)" aria-label="Смотреть видео">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </button>
+
+              <!-- Редактировать -->
+              <button type="button" class="btn-icon btn-edit" title="Редактировать лекцию" aria-label="Редактировать">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                </svg>
+              </button>
+
+              <!-- Удалить -->
+              <button type="button" class="btn-icon btn-delete" title="Удалить лекцию" aria-label="Удалить">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Разворачивающийся блок заметок -->
+          <div class="lecture-note-drawer ${isNoteOpen ? 'open' : ''}">
+            <textarea class="note-textarea" placeholder="Конспект, важные даты и мысли по лекции...">${escapeHtml(noteValue)}</textarea>
+          </div>
+        </article>
+      `;
+    }
+
+    const ROMAN_NUMERALS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+
+    // Рендер режима «Таймлайн по эпохам»
+    function renderTimeline(filtered) {
+      if (!timelineTrackEl || !timelineNavTrackEl) return;
+
+      const eraMap = new Map();
+
+      // Если фильтры не активны — показываем все 8 стандартных эпох
+      if (!isFilterActive()) {
+        STANDARD_ERAS.forEach(era => eraMap.set(era, []));
+      }
+
+      // Группируем отфильтрованные лекции по эпохам
+      filtered.forEach(item => {
+        const era = item.era || "Без эпохи";
+        if (!eraMap.has(era)) {
+          eraMap.set(era, []);
+        }
+        eraMap.get(era).push(item);
+      });
+
+      // Также учитываем кастомные эпохи из общей базы, если фильтр выключен
+      if (!isFilterActive()) {
+        lectures.forEach(item => {
+          const era = item.era || "Без эпохи";
+          if (!eraMap.has(era)) {
+            eraMap.set(era, []);
+          }
+        });
+      }
+
+      // Сортировка эпох: сначала стандартные эпохи хронологически, затем кастомные по алфавиту, «Без эпохи» в конце
+      const sortedEras = Array.from(eraMap.keys()).sort((a, b) => {
+        const idxA = STANDARD_ERAS.indexOf(a);
+        const idxB = STANDARD_ERAS.indexOf(b);
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        if (a === "Без эпохи") return 1;
+        if (b === "Без эпохи") return -1;
+        return a.localeCompare(b, "ru");
+      });
+
+      // При активном поиске/фильтрах скрываем эпохи, в которых 0 совпадений
+      const displayEras = isFilterActive()
+        ? sortedEras.filter(era => (eraMap.get(era) || []).length > 0)
+        : sortedEras;
+
+      if (displayEras.length === 0) {
+        timelineNavTrackEl.innerHTML = "";
+        timelineTrackEl.innerHTML = `
+          <div class="empty-state" style="width: 100%;">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <p>В таймлайне по выбранным фильтрам ничего не найдено</p>
+            <button type="button" class="btn-reset-filters" id="emptyResetBtn">Сбросить фильтры</button>
+          </div>
+        `;
+        return;
+      }
+
+      // 1. Быстрая навигация по эпохам (pills)
+      timelineNavTrackEl.innerHTML = displayEras.map((era) => {
+        const items = eraMap.get(era) || [];
+        const completed = items.filter(l => l.completed).length;
+        const total = items.length;
+        const isComplete = total > 0 && completed === total;
+        const shortName = era.replace(/\s*\([^)]*\)/, "").trim();
+
+        return `
+          <button type="button" class="timeline-nav-pill ${isComplete ? 'completed-all' : ''}" data-era-target="${escapeHtml(era)}" title="Перейти к эпохе: ${escapeHtml(era)}">
+            <span class="nav-pill-dot"></span>
+            <span class="nav-pill-title">${escapeHtml(shortName)}</span>
+            <span class="nav-pill-badge">${completed}/${total}</span>
+          </button>
+        `;
+      }).join("");
+
+      // 2. Основная дорожка таймлайна с крупными sticky шапками
+      timelineTrackEl.innerHTML = displayEras.map((era) => {
+        const items = eraMap.get(era) || [];
+        const total = items.length;
+        const completed = items.filter(l => l.completed).length;
+        const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+        const standardIdx = STANDARD_ERAS.indexOf(era);
+        const indexLabel = standardIdx !== -1 ? `Эпоха ${ROMAN_NUMERALS[standardIdx] || standardIdx + 1}` : "Период";
+
+        let cardsHtml = "";
+        if (total === 0) {
+          cardsHtml = `
+            <div class="era-empty-box">
+              <p>В этой эпохе пока нет лекций</p>
+              <button type="button" class="btn-era-add" onclick="openAddModalWithEra('${escapeHtml(era)}')">+ Добавить лекцию</button>
+            </div>
+          `;
+        } else {
+          cardsHtml = items.map(item => renderCardHtml(item)).join("");
+        }
+
+        return `
+          <section class="timeline-era-section" data-era="${escapeHtml(era)}">
+            <div class="timeline-era-sticky-header">
+              <div class="era-header-top">
+                <div class="era-badge-row">
+                  <span class="era-milestone-dot"></span>
+                  <span class="era-index-label">${indexLabel}</span>
+                </div>
+                <span class="era-counter-pill">${completed} из ${total} просмотрено</span>
+              </div>
+              <h3 class="era-title">${escapeHtml(era)}</h3>
+              <div class="era-progress-bar">
+                <div class="era-progress-fill" style="width: ${percent}%;"></div>
+              </div>
+            </div>
+
+            <div class="timeline-era-cards">
+              ${cardsHtml}
+            </div>
+          </section>
+        `;
+      }).join("");
+    }
+
     function render() {
       updateLecturersUI();
+      updateErasUI();
       updateOverallProgress();
       renderHeatmap();
+
+      const containerEl = document.querySelector(".container");
+
+      // Применение текущего режима отображения (список / таймлайн)
+      if (currentViewMode === "timeline") {
+        listElement.style.display = "none";
+        timelineContainerEl.style.display = "block";
+        containerEl.classList.add("view-timeline");
+        btnViewList.classList.remove("active");
+        btnViewTimeline.classList.add("active");
+      } else {
+        listElement.style.display = "flex";
+        timelineContainerEl.style.display = "none";
+        containerEl.classList.remove("view-timeline");
+        btnViewList.classList.add("active");
+        btnViewTimeline.classList.remove("active");
+      }
 
       if (lectures.length === 0) {
         matchingCountTextEl.textContent = "";
@@ -2101,6 +2889,8 @@
             <button type="button" class="btn-reset-filters" onclick="openAddModal()">Добавить первую лекцию</button>
           </div>
         `;
+        if (timelineTrackEl) timelineTrackEl.innerHTML = "";
+        if (timelineNavTrackEl) timelineNavTrackEl.innerHTML = "";
         return;
       }
 
@@ -2123,95 +2913,12 @@
             <button type="button" class="btn-reset-filters" id="emptyResetBtn">Сбросить фильтры</button>
           </div>
         `;
-        return;
+      } else {
+        listElement.innerHTML = filtered.map(item => renderCardHtml(item)).join("");
       }
 
-      listElement.innerHTML = filtered.map(item => {
-        const isCompleted = Boolean(item.completed);
-        const timecodeValue = (item.timecode || "").trim();
-        const hasTimecode = timecodeValue.length > 0;
-        const noteValue = item.note || "";
-        const hasNote = noteValue.trim().length > 0;
-        const isNoteOpen = openNoteIds.has(item.id);
-
-        return `
-          <article class="lecture-card ${isCompleted ? 'completed' : ''}" data-id="${item.id}">
-            <div class="card-main">
-              <div class="card-left">
-                <!-- Круглый чекбокс -->
-                <label class="checkbox-container" title="${isCompleted ? 'Отметить как непросмотренное' : 'Отметить как просмотренное'}">
-                  <input type="checkbox" class="toggle-checkbox" ${isCompleted ? 'checked' : ''}>
-                  <span class="checkmark">
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </span>
-                </label>
-
-                <!-- Контент: Название и мета снизу -->
-                <div class="card-content">
-                  <h4 class="lecture-title">${escapeHtml(item.title)}</h4>
-                  <div class="meta-row">
-                    <span class="meta-lecturer">${escapeHtml(item.lecturer)}</span>
-                    <span class="meta-separator">•</span>
-                    <span class="meta-format">${escapeHtml(item.format)}</span>
-
-                    <!-- Компактный таймкод -->
-                    <div class="timecode-pill ${hasTimecode ? 'has-value' : ''}" title="Таймкод остановки">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                      </svg>
-                      <input type="text" class="timecode-input" placeholder="00:00" value="${escapeHtml(timecodeValue)}" maxlength="10">
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Кнопки действий (видны при hover) -->
-              <div class="card-actions">
-                <!-- Конспект -->
-                <button type="button" class="btn-icon btn-note ${hasNote ? 'has-note' : ''} ${isNoteOpen ? 'active' : ''}" title="${hasNote ? 'Есть конспект (нажмите, чтобы открыть)' : 'Открыть заметку'}">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                  </svg>
-                  ${hasNote ? '<span class="note-dot"></span>' : ''}
-                </button>
-
-                <!-- Смотреть (Кинотеатр) -->
-                <button type="button" class="btn-icon btn-watch" title="Смотреть видео (Режим кинотеатра)" aria-label="Смотреть видео">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                  </svg>
-                </button>
-
-                <!-- Редактировать -->
-                <button type="button" class="btn-icon btn-edit" title="Редактировать лекцию" aria-label="Редактировать">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                  </svg>
-                </button>
-
-                <!-- Удалить -->
-                <button type="button" class="btn-icon btn-delete" title="Удалить лекцию" aria-label="Удалить">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="3 6 5 6 21 6"></polyline>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Разворачивающийся блок заметок -->
-            <div class="lecture-note-drawer ${isNoteOpen ? 'open' : ''}">
-              <textarea class="note-textarea" placeholder="Конспект, важные даты и мысли по лекции...">${escapeHtml(noteValue)}</textarea>
-            </div>
-          </article>
-        `;
-      }).join("");
+      // Обновляем таймлайн
+      renderTimeline(filtered);
     }
 
     // --- Обработчики поиска и фильтров ---
@@ -2252,16 +2959,61 @@
 
     resetHeaderBtnEl.addEventListener("click", resetAllFilters);
 
-    listElement.addEventListener("click", (e) => {
+    // --- Переключение режимов отображения (Список / Таймлайн) ---
+    btnViewList.addEventListener("click", () => {
+      currentViewMode = "list";
+      localStorage.setItem("history_view_mode_v1", "list");
+      render();
+    });
+
+    btnViewTimeline.addEventListener("click", () => {
+      currentViewMode = "timeline";
+      localStorage.setItem("history_view_mode_v1", "timeline");
+      render();
+    });
+
+    // Быстрый скролл к эпохе при клике по pill-табу
+    if (timelineNavTrackEl) {
+      timelineNavTrackEl.addEventListener("click", (e) => {
+        const pill = e.target.closest(".timeline-nav-pill");
+        if (!pill) return;
+        const targetEra = pill.getAttribute("data-era-target");
+        if (!targetEra) return;
+
+        const targetSection = timelineTrackEl.querySelector(`.timeline-era-section[data-era="${CSS.escape(targetEra)}"]`);
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+        }
+
+        timelineNavTrackEl.querySelectorAll(".timeline-nav-pill").forEach(p => p.classList.toggle("active", p === pill));
+      });
+    }
+
+    // Горизонтальный скролл колесиком мыши для ленты таймлайна на десктопе
+    if (timelineTrackEl) {
+      timelineTrackEl.addEventListener("wheel", (e) => {
+        if (window.innerWidth > 768 && Math.abs(e.deltaY) > Math.abs(e.deltaX) && !e.shiftKey) {
+          const scrollableCards = e.target.closest(".timeline-era-cards");
+          if (scrollableCards && scrollableCards.scrollHeight > scrollableCards.clientHeight) {
+            const atTop = scrollableCards.scrollTop === 0 && e.deltaY < 0;
+            const atBottom = scrollableCards.scrollTop + scrollableCards.clientHeight >= scrollableCards.scrollHeight && e.deltaY > 0;
+            if (!atTop && !atBottom) return;
+          }
+          e.preventDefault();
+          timelineTrackEl.scrollLeft += e.deltaY * 1.2;
+        }
+      }, { passive: false });
+    }
+
+    // --- Интерактивные действия с карточками (делегирование на mainContainerEl) ---
+    mainContainerEl.addEventListener("click", (e) => {
       if (e.target.closest("#emptyResetBtn")) {
         resetAllFilters();
       }
     });
 
-    // --- Интерактивные действия с карточками ---
-
     // Автосохранение таймкода и заметок
-    listElement.addEventListener("input", (e) => {
+    mainContainerEl.addEventListener("input", (e) => {
       if (e.target.classList.contains("timecode-input")) {
         const card = e.target.closest(".lecture-card");
         if (!card) return;
@@ -2307,8 +3059,8 @@
       }
     });
 
-    // Клики по карточке
-    listElement.addEventListener("click", (e) => {
+    // Клики по карточке в списке или таймлайне
+    mainContainerEl.addEventListener("click", (e) => {
       // 1. Клик по кнопке "Смотреть" (Режим «Кинотеатр»)
       const watchBtn = e.target.closest(".btn-watch");
       if (watchBtn) {
@@ -2387,7 +3139,7 @@
     });
 
     // Переключение чекбокса "Просмотрено"
-    listElement.addEventListener("change", (e) => {
+    mainContainerEl.addEventListener("change", (e) => {
       if (e.target.classList.contains("toggle-checkbox")) {
         const card = e.target.closest(".lecture-card");
         if (!card) return;
@@ -2409,12 +3161,23 @@
       setTimeout(() => document.getElementById("lectureTitle").focus(), 100);
     }
 
+    // Открытие модалки с предустановленной эпохой (из таймлайна)
+    window.openAddModalWithEra = function(eraName) {
+      openAddModal();
+      if (lectureEraInputEl && eraName) {
+        lectureEraInputEl.value = eraName;
+      }
+    };
+
     function closeAddModal() {
       addModalEl.classList.remove("active");
       addModalEl.setAttribute("aria-hidden", "true");
     }
 
-    openAddModalBtnEl.addEventListener("click", openAddModal);
+    openAddModalBtnEl.addEventListener("click", () => {
+      if (lectureEraInputEl) lectureEraInputEl.value = "";
+      openAddModal();
+    });
     addModalCloseEl.addEventListener("click", closeAddModal);
     addModalCancelEl.addEventListener("click", closeAddModal);
 
@@ -2434,6 +3197,7 @@
       let url = urlInput.value.trim();
       const lecturer = lecturerInput.value.trim();
       const format = formatInput.value;
+      const era = (lectureEraInputEl ? lectureEraInputEl.value.trim() : "") || "Без эпохи";
 
       if (!title || !url || !lecturer) return;
 
@@ -2447,6 +3211,7 @@
         url,
         lecturer,
         format,
+        era,
         completed: false,
         timecode: "",
         note: ""
@@ -2459,6 +3224,7 @@
       titleInput.value = "";
       urlInput.value = "";
       lecturerInput.value = "";
+      if (lectureEraInputEl) lectureEraInputEl.value = "";
       closeAddModal();
 
       logActivity(3);
@@ -2471,6 +3237,9 @@
       editLectureUrlEl.value = item.url;
       editLectureLecturerEl.value = item.lecturer;
       editLectureFormatEl.value = item.format;
+      if (editLectureEraEl) {
+        editLectureEraEl.value = item.era && item.era !== "Без эпохи" ? item.era : "";
+      }
 
       editModalEl.classList.add("active");
       editModalEl.setAttribute("aria-hidden", "false");
@@ -2510,6 +3279,9 @@
       item.url = newUrl;
       item.lecturer = newLecturer;
       item.format = editLectureFormatEl.value;
+      if (editLectureEraEl) {
+        item.era = editLectureEraEl.value.trim() || "Без эпохи";
+      }
 
       saveLectures(lectures);
       render();
