@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Мой прогресс | Трекер лекций</title>
+  <!-- Легковесный салют конфетти для отметок прогресса -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
   <style>
     :root {
       /* Apple-style Zinc + Indigo палитра */
@@ -73,8 +75,17 @@
     .header-top {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 12px;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
     }
 
     .header-title {
@@ -90,6 +101,94 @@
       color: var(--text-secondary);
       font-weight: 400;
       font-feature-settings: "tnum";
+    }
+
+    /* Компактный блок RPG-ранга (Табель о рангах) */
+    .rank-profile-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 9px 14px 10px;
+      min-width: 210px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+      cursor: default;
+    }
+
+    .rank-profile-card:hover {
+      border-color: rgba(129, 140, 248, 0.35);
+      box-shadow: var(--shadow-card-hover);
+    }
+
+    .rank-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .rank-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rank-icon-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #818cf8;
+      box-shadow: 0 0 8px rgba(129, 140, 248, 0.8);
+      flex-shrink: 0;
+    }
+
+    .rank-name {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #818cf8; /* Indigo-400 */
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .rank-xp-caption {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      font-feature-settings: "tnum";
+      white-space: nowrap;
+    }
+
+    .rank-progress-track {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .rank-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #818cf8; /* Indigo-400 */
+      border-radius: var(--radius-pill);
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .rank-profile-card.rank-max .rank-icon-dot {
+      background: #f59e0b;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.8);
+    }
+
+    .rank-profile-card.rank-max .rank-name {
+      color: #fbbf24;
+    }
+
+    .rank-profile-card.rank-max .rank-progress-fill {
+      background: #f59e0b;
     }
 
     .progress-track {
@@ -1619,6 +1718,15 @@
       body {
         padding: 40px 14px 90px;
       }
+      .header-top {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .rank-profile-card {
+        width: 100%;
+        min-width: 0;
+      }
       .header-title {
         font-size: 1.7rem;
       }
@@ -1647,12 +1755,28 @@
   <div id="heatmapTooltip" class="heatmap-tooltip"></div>
 
   <div class="container">
-    <!-- 1. Минималистичная шапка "Мой прогресс" -->
+    <!-- 1. Минималистичная шапка "Мой прогресс" с блоком профиля/ранга -->
     <header class="app-header">
       <div class="header-top">
-        <h1 class="header-title">Мой прогресс</h1>
-        <div class="header-subtitle">
-          <span id="completedCount">0</span> из <span id="totalCount">0</span> лекций • <span id="progressPercent">0%</span>
+        <div class="header-left">
+          <h1 class="header-title">Мой прогресс</h1>
+          <div class="header-subtitle">
+            <span id="completedCount">0</span> из <span id="totalCount">0</span> лекций • <span id="progressPercent">0%</span>
+          </div>
+        </div>
+
+        <!-- Компактный блок «Профиль» (Табель о рангах) -->
+        <div class="rank-profile-card" id="rankProfileCard" title="Ваш ранг в Табели о рангах">
+          <div class="rank-header-row">
+            <div class="rank-badge">
+              <span class="rank-icon-dot"></span>
+              <strong class="rank-name" id="userRankTitle">Рекрут</strong>
+            </div>
+            <span class="rank-xp-caption" id="userRankXpCaption">0 / 500 XP</span>
+          </div>
+          <div class="rank-progress-track">
+            <div class="rank-progress-fill" id="userRankProgressBar"></div>
+          </div>
         </div>
       </div>
       <div class="progress-track">
@@ -2281,6 +2405,115 @@
     const exportBackupBtnEl = document.getElementById("exportBackupBtn");
     const importBackupInputEl = document.getElementById("importBackupInput");
 
+    // Элементы RPG-профиля (Табель о рангах)
+    const userRankTitleEl = document.getElementById("userRankTitle");
+    const userRankProgressBarEl = document.getElementById("userRankProgressBar");
+    const userRankXpCaptionEl = document.getElementById("userRankXpCaption");
+    const rankProfileCardEl = document.getElementById("rankProfileCard");
+
+    // Табель о рангах (XP пороги)
+    const STORAGE_XP_KEY = "userXP";
+    const RANKS = [
+      { name: "Рекрут", minXP: 0, nextXP: 500 },
+      { name: "Унтер-офицер", minXP: 500, nextXP: 1500 },
+      { name: "Поручик", minXP: 1500, nextXP: 3000 },
+      { name: "Статский советник", minXP: 3000, nextXP: 5000 },
+      { name: "Тайный советник", minXP: 5000, nextXP: 8000 },
+      { name: "Канцлер Империи", minXP: 8000, nextXP: null }
+    ];
+
+    function saveUserXP(amount) {
+      const val = Math.max(0, parseInt(amount, 10) || 0);
+      try {
+        localStorage.setItem(STORAGE_XP_KEY, String(val));
+        localStorage.setItem("history_user_xp_v1", String(val));
+      } catch (e) {
+        console.error("Ошибка при сохранении userXP", e);
+      }
+      return val;
+    }
+
+    function loadUserXP() {
+      const stored = localStorage.getItem(STORAGE_XP_KEY) || localStorage.getItem("history_user_xp_v1");
+      if (stored !== null && !isNaN(parseInt(stored, 10))) {
+        return Math.max(0, parseInt(stored, 10));
+      }
+      // При первом запуске: пересчет по уже просмотренным лекциям
+      const completedCount = (lectures || []).filter(l => l.completed).length;
+      const initialXP = completedCount * 100;
+      saveUserXP(initialXP);
+      return initialXP;
+    }
+
+    let userXP = loadUserXP();
+
+    function getRankData(xp) {
+      const currentXp = Math.max(0, parseInt(xp, 10) || 0);
+
+      let currentRank = RANKS[0];
+      for (let i = RANKS.length - 1; i >= 0; i--) {
+        if (currentXp >= RANKS[i].minXP) {
+          currentRank = RANKS[i];
+          break;
+        }
+      }
+
+      let percent = 100;
+      let caption = `${currentXp} XP`;
+
+      if (currentRank.nextXP !== null) {
+        const span = currentRank.nextXP - currentRank.minXP;
+        const progressInRank = currentXp - currentRank.minXP;
+        percent = Math.min(100, Math.max(0, Math.round((progressInRank / span) * 100)));
+        caption = `${currentXp} / ${currentRank.nextXP} XP`;
+      } else {
+        caption = `${currentXp} XP • Высший чин`;
+      }
+
+      return {
+        name: currentRank.name,
+        xp: currentXp,
+        nextXP: currentRank.nextXP,
+        percent,
+        caption,
+        isMax: currentRank.nextXP === null
+      };
+    }
+
+    function updateRankUI() {
+      const data = getRankData(userXP);
+      if (userRankTitleEl) {
+        userRankTitleEl.textContent = data.name;
+      }
+      if (userRankProgressBarEl) {
+        userRankProgressBarEl.style.width = `${data.percent}%`;
+      }
+      if (userRankXpCaptionEl) {
+        userRankXpCaptionEl.textContent = data.caption;
+      }
+      if (rankProfileCardEl) {
+        rankProfileCardEl.classList.toggle("rank-max", data.isMax);
+        rankProfileCardEl.title = `Табель о рангах: ${data.name} (${userXP} XP)`;
+      }
+    }
+
+    // Запуск аккуратного салюта конфетти снизу при отметке лекции
+    function triggerConfetti() {
+      if (typeof confetti !== "function") return;
+      confetti({
+        particleCount: 50,
+        angle: 90,
+        spread: 60,
+        origin: { x: 0.5, y: 0.88 },
+        colors: ["#6366f1", "#818cf8", "#a5b4fc", "#c7d2fe", "#f59e0b", "#34d399"],
+        ticks: 160,
+        gravity: 1.1,
+        scalar: 0.85,
+        drift: 0,
+        disableForReducedMotion: true
+      });
+    }
+
     // Состояние режима отображения (список / таймлайн)
     let currentViewMode = localStorage.getItem("history_view_mode_v1") || "list";
 
@@ -2858,6 +3091,7 @@
       updateLecturersUI();
       updateErasUI();
       updateOverallProgress();
+      updateRankUI();
       renderHeatmap();
 
       const containerEl = document.querySelector(".container");
@@ -3129,6 +3363,10 @@
 
         if (confirm(`Удалить лекцию «${title}»?\nВсе заметки и таймкоды к ней также будут безвозвратно удалены.`)) {
           openNoteIds.delete(lectureId);
+          if (item && item.completed) {
+            userXP = Math.max(0, userXP - 100);
+            saveUserXP(userXP);
+          }
           lectures = lectures.filter(l => l.id !== lectureId);
           saveLectures(lectures);
           render();
@@ -3146,10 +3384,21 @@
         const lectureId = card.getAttribute("data-id");
         const item = lectures.find(l => l.id === lectureId);
         if (item) {
-          item.completed = e.target.checked;
+          const isNowChecked = e.target.checked;
+          item.completed = isNowChecked;
           saveLectures(lectures);
+
+          // Обновление RPG-опыта: +100 при отметке, -100 при снятии
+          if (isNowChecked) {
+            userXP += 100;
+            triggerConfetti();
+          } else {
+            userXP = Math.max(0, userXP - 100);
+          }
+          saveUserXP(userXP);
+
           render();
-          logActivity(e.target.checked ? 3 : 1);
+          logActivity(isNowChecked ? 3 : 1);
         }
       }
     });
@@ -3313,7 +3562,8 @@
       const filename = `history-backup-${dateStr}.json`;
       const exportData = {
         lectures: lectures,
-        activityLog: activityLog
+        activityLog: activityLog,
+        userXP: userXP
       };
       const dataStr = JSON.stringify(exportData, null, 2);
       const blob = new Blob([dataStr], { type: "application/json;charset=utf-8" });
@@ -3363,6 +3613,13 @@
           if (importedActivity) {
             activityLog = importedActivity;
             saveActivityLog(activityLog);
+          }
+          if (parsed && typeof parsed === "object" && parsed.userXP !== undefined) {
+            userXP = Math.max(0, parseInt(parsed.userXP, 10) || 0);
+            saveUserXP(userXP);
+          } else {
+            userXP = lectures.filter(l => l.completed).length * 100;
+            saveUserXP(userXP);
           }
           openNoteIds.clear();
           saveLectures(lectures);
