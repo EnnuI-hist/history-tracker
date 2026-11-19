@@ -908,6 +908,209 @@
       background: var(--accent-hover);
     }
 
+    /* 7. Режим «Кинотеатр» (Встроенный просмотр видео) */
+    .cinema-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(12, 12, 15, 0.92);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      display: flex;
+      flex-direction: column;
+      z-index: 1500;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+      padding: 16px 20px 20px;
+    }
+
+    .cinema-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .cinema-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+      width: 100%;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      flex-shrink: 0;
+    }
+
+    .cinema-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .cinema-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.01em;
+    }
+
+    .cinema-badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .cinema-badge {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+    }
+
+    .cinema-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-cinema-ext {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-cinema-ext:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-primary);
+    }
+
+    .cinema-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.15s ease;
+    }
+
+    .cinema-close-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+
+    .cinema-workspace {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 18px;
+      width: 100%;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .cinema-player-box {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .cinema-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .cinema-notes-panel {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: var(--shadow-card);
+      min-height: 0;
+    }
+
+    .cinema-notes-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cinema-notes-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cinema-notes-hint {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .cinema-notes-textarea {
+      width: 100%;
+      flex: 1;
+      background: var(--bg-input);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      padding: 12px;
+      resize: none;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .cinema-notes-textarea:focus {
+      border-color: rgba(var(--accent-rgb), 0.5);
+      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
+    }
+
+    .cinema-notes-textarea::placeholder {
+      color: var(--text-muted);
+    }
+
     /* Пустые состояния */
     .empty-state {
       text-align: center;
@@ -947,7 +1150,7 @@
       color: #ffffff;
     }
 
-    /* 7. Подвал */
+    /* 8. Подвал */
     .app-footer {
       margin-top: 56px;
       display: flex;
@@ -988,6 +1191,22 @@
       font-size: 0.74rem;
       color: var(--text-muted);
       opacity: 0.6;
+    }
+
+    @media (max-width: 900px) {
+      .cinema-backdrop {
+        padding: 12px;
+        overflow-y: auto;
+      }
+      .cinema-workspace {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 240px;
+        flex: none;
+      }
+      .cinema-player-box {
+        aspect-ratio: 16 / 9;
+        height: auto;
+      }
     }
 
     @media (max-width: 600px) {
@@ -1132,6 +1351,52 @@
     </svg>
   </button>
 
+  <!-- Модальное окно режима «Кинотеатр» (Встроенный плеер) -->
+  <div class="cinema-backdrop" id="cinemaBackdrop" aria-hidden="true">
+    <div class="cinema-header">
+      <div class="cinema-info">
+        <h3 class="cinema-title" id="cinemaTitle">Название лекции</h3>
+        <div class="cinema-badges">
+          <span class="cinema-badge" id="cinemaLecturer">Лектор</span>
+          <span class="cinema-badge" id="cinemaFormat">Формат</span>
+        </div>
+      </div>
+      <div class="cinema-controls">
+        <a href="#" target="_blank" rel="noopener noreferrer" class="btn-cinema-ext" id="cinemaExternalLink" title="Открыть видео во внешней вкладке">
+          <span>Открыть оригинал</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+        <button type="button" class="cinema-close-btn" id="cinemaCloseBtn" title="Закрыть режим кинотеатра (Esc)">✕</button>
+      </div>
+    </div>
+
+    <div class="cinema-workspace">
+      <div class="cinema-player-box">
+        <iframe id="cinemaIframe" class="cinema-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+
+      <div class="cinema-notes-panel">
+        <div class="cinema-notes-header">
+          <span class="cinema-notes-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            Конспект лекции
+          </span>
+          <span class="cinema-notes-hint">автосохранение</span>
+        </div>
+        <textarea id="cinemaNotesTextarea" class="cinema-notes-textarea" placeholder="Записывайте мысли, даты и конспект прямо во время просмотра..."></textarea>
+      </div>
+    </div>
+  </div>
+
   <!-- Модальное окно добавления лекции с текстовым полем лектора и datalist -->
   <div class="modal-backdrop" id="addModal" aria-hidden="true">
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="addModalTitle">
@@ -1217,12 +1482,12 @@
   </div>
 
   <script>
-    // Тестовые карточки по умолчанию
+    // Тестовые карточки по умолчанию (с валидными YouTube ссылками для проверки кинотеатра)
     const INITIAL_LECTURES = [
       {
         id: "init-1",
         title: "Древняя Русь: от призвания варягов до распада державы",
-        url: "https://www.youtube.com/results?search_query=древняя+русь+гончаров",
+        url: "https://www.youtube.com/watch?v=kXx3yD27H2g",
         lecturer: "Гончаров",
         format: "ЕГЭ",
         completed: false,
@@ -1232,7 +1497,7 @@
       {
         id: "init-2",
         title: "Смутное время и воцарение династии Романовых",
-        url: "https://www.youtube.com/results?search_query=смутное+время+борисов",
+        url: "https://www.youtube.com/watch?v=1La4QzGeaaQ",
         lecturer: "Борисов",
         format: "Олимпиады",
         completed: true,
@@ -1242,7 +1507,7 @@
       {
         id: "init-3",
         title: "Культура и быт Руси XIV–XVI веков: историографический анализ",
-        url: "https://www.youtube.com/results?search_query=история+руси+данилевский",
+        url: "https://www.youtube.com/watch?v=Xz2Qk8b4G6g",
         lecturer: "Данилевский",
         format: "Олимпиады",
         completed: false,
@@ -1252,7 +1517,7 @@
       {
         id: "init-4",
         title: "Реформы Петра I и модернизация Российской империи",
-        url: "https://www.youtube.com/results?search_query=реформы+петра+станишевский",
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
         lecturer: "Станишевский",
         format: "ЕГЭ",
         completed: false,
@@ -1264,7 +1529,7 @@
     const STORAGE_KEY = "history_lecture_tracker_data_v1";
     const STORAGE_ACTIVITY_KEY = "history_activity_log_v1";
 
-    // Состояние открытых заметок
+    // Состояние открытых заметок в карточках
     const openNoteIds = new Set();
 
     // Состояние фильтрации
@@ -1275,12 +1540,75 @@
       status: "all"
     };
 
+    // ID лекции, открытой в режиме «Кинотеатр»
+    let activeCinemaLectureId = null;
+
     // Вспомогательная функция получения даты в формате YYYY-MM-DD
     function getLocalDateString(d = new Date()) {
       const year = d.getFullYear();
       const month = String(d.getMonth() + 1).padStart(2, "0");
       const day = String(d.getDate()).padStart(2, "0");
       return `${year}-${month}-${day}`;
+    }
+
+    // --- Распознавание ссылок на видео (YouTube / VK / RuTube) ---
+    function parseTimecodeToSeconds(tc) {
+      if (!tc || typeof tc !== "string") return 0;
+      const parts = tc.trim().split(":").map(p => parseInt(p, 10));
+      if (parts.some(isNaN)) return 0;
+      if (parts.length === 2) {
+        return parts[0] * 60 + parts[1];
+      } else if (parts.length === 3) {
+        return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      } else if (parts.length === 1) {
+        return parts[0];
+      }
+      return 0;
+    }
+
+    function getVideoEmbedData(url, timecodeStr) {
+      if (!url || typeof url !== "string") return null;
+
+      // 1. YouTube
+      const ytRegex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?|live|shorts)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
+      const ytMatch = url.match(ytRegex);
+      if (ytMatch && ytMatch[1]) {
+        const videoId = ytMatch[1];
+        let embed = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+        const startSec = parseTimecodeToSeconds(timecodeStr);
+        if (startSec > 0) {
+          embed += `&start=${startSec}`;
+        }
+        return { type: "youtube", embedUrl: embed };
+      }
+
+      // 2. VK Видео
+      if (url.includes("vk.com/video_ext.php")) {
+        const hasQuery = url.includes("?");
+        return { type: "vk", embedUrl: url + (hasQuery ? "&autoplay=1" : "?autoplay=1") };
+      }
+      const vkMatch = url.match(/video(-?\d+)_(\d+)/i);
+      if (vkMatch) {
+        const oid = vkMatch[1];
+        const id = vkMatch[2];
+        const hashMatch = url.match(/[?&]hash=([a-zA-Z0-9]+)/i);
+        const hashParam = hashMatch ? `&hash=${hashMatch[1]}` : "";
+        return {
+          type: "vk",
+          embedUrl: `https://vk.com/video_ext.php?oid=${oid}&id=${id}${hashParam}&autoplay=1`
+        };
+      }
+
+      // 3. RuTube
+      const rutubeMatch = url.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/i);
+      if (rutubeMatch) {
+        return {
+          type: "rutube",
+          embedUrl: `https://rutube.ru/play/embed/${rutubeMatch[1]}/?autoplay=1`
+        };
+      }
+
+      return null;
     }
 
     // --- Логика учета активности (Activity Log) ---
@@ -1295,12 +1623,11 @@
         console.error("Ошибка при чтении activityLog", e);
       }
 
-      // Стартовые данные для красивого отображения в первые дни
       const seed = {};
       const now = new Date();
       const sampleDays = [
-        { offset: 0, count: 3 },   // сегодня
-        { offset: 1, count: 2 },   // вчера
+        { offset: 0, count: 3 },
+        { offset: 1, count: 2 },
         { offset: 3, count: 5 },
         { offset: 5, count: 1 },
         { offset: 8, count: 4 },
@@ -1328,7 +1655,6 @@
 
     let activityLog = loadActivityLog();
 
-    // Фиксация действия за сегодня
     function logActivity(amount = 1) {
       const today = getLocalDateString();
       activityLog[today] = (activityLog[today] || 0) + amount;
@@ -1336,17 +1662,16 @@
       renderHeatmap();
     }
 
-    // Троттлинг активности для набора текста конспекта/таймкода
     let lastTypingLogTime = 0;
     function logTypingActivity() {
       const now = Date.now();
-      if (now - lastTypingLogTime > 25000) { // не чаще одного действия в 25 секунд активного набора
+      if (now - lastTypingLogTime > 25000) {
         lastTypingLogTime = now;
         logActivity(1);
       }
     }
 
-    // Безопасная нормализация
+    // Безопасная нормализация лекции
     function sanitizeLecture(item, index) {
       return {
         id: item && typeof item.id === "string" ? item.id : "lec-" + Date.now() + "-" + index,
@@ -1360,7 +1685,6 @@
       };
     }
 
-    // Загрузка лекций из LocalStorage
     function loadLectures() {
       try {
         const stored = localStorage.getItem(STORAGE_KEY);
@@ -1377,7 +1701,6 @@
       return INITIAL_LECTURES;
     }
 
-    // Сохранение в LocalStorage
     function saveLectures(items) {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
@@ -1386,7 +1709,6 @@
       }
     }
 
-    // Данные
     let lectures = loadLectures();
 
     // DOM Элементы
@@ -1408,6 +1730,16 @@
     const heatmapScrollEl = document.getElementById("heatmapScroll");
     const heatmapTotalYearEl = document.getElementById("heatmapTotalYear");
     const heatmapTooltipEl = document.getElementById("heatmapTooltip");
+
+    // Кинотеатр (Cinema Modal)
+    const cinemaBackdropEl = document.getElementById("cinemaBackdrop");
+    const cinemaIframeEl = document.getElementById("cinemaIframe");
+    const cinemaTitleEl = document.getElementById("cinemaTitle");
+    const cinemaLecturerEl = document.getElementById("cinemaLecturer");
+    const cinemaFormatEl = document.getElementById("cinemaFormat");
+    const cinemaExternalLinkEl = document.getElementById("cinemaExternalLink");
+    const cinemaCloseBtnEl = document.getElementById("cinemaCloseBtn");
+    const cinemaNotesTextareaEl = document.getElementById("cinemaNotesTextarea");
 
     // Модалка добавления (FAB)
     const addModalEl = document.getElementById("addModal");
@@ -1431,7 +1763,6 @@
     const exportBackupBtnEl = document.getElementById("exportBackupBtn");
     const importBackupInputEl = document.getElementById("importBackupInput");
 
-    // Сбор уникальных лекторов из текущей базы
     function getUniqueLecturers() {
       const set = new Set();
       lectures.forEach(l => {
@@ -1443,23 +1774,19 @@
       return Array.from(set).sort((a, b) => a.localeCompare(b, "ru"));
     }
 
-    // Динамическое обновление фильтров лекторов и datalist
     function updateLecturersUI() {
       const uniqueLecturers = getUniqueLecturers();
 
-      // 1. Обновляем datalist подсказок
       if (lecturersListDatalistEl) {
         lecturersListDatalistEl.innerHTML = uniqueLecturers
           .map(name => `<option value="${escapeHtml(name)}">`)
           .join("");
       }
 
-      // 2. Если текущий выбранный лектор больше не существует в базе, сбрасываем фильтр на 'all'
       if (filterState.lecturer !== "all" && !uniqueLecturers.includes(filterState.lecturer)) {
         filterState.lecturer = "all";
       }
 
-      // 3. Рендерим кнопки-фильтры по лекторам
       if (lecturerFiltersEl) {
         const isAllActive = filterState.lecturer === "all";
         let html = `<button type="button" class="chip-btn ${isAllActive ? 'active' : ''}" data-filter="lecturer" data-value="all">Все лекторы</button>`;
@@ -1473,7 +1800,6 @@
       }
     }
 
-    // Общий прогресс-бар
     function updateOverallProgress() {
       const total = lectures.length;
       const completed = lectures.filter(item => item.completed).length;
@@ -1489,7 +1815,6 @@
       }
     }
 
-    // --- Рендер сетки активности (Heatmap) ---
     const MONTH_NAMES = ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"];
 
     function formatTooltipDate(dateStr) {
@@ -1516,13 +1841,11 @@
 
       const now = new Date();
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const todayDayOfWeek = (today.getDay() + 6) % 7; // 0 = Пн, 6 = Вс
+      const todayDayOfWeek = (today.getDay() + 6) % 7;
 
-      // Конец текущей недели (воскресенье)
       const currentWeekEnd = new Date(today);
       currentWeekEnd.setDate(today.getDate() + (6 - todayDayOfWeek));
 
-      // 52 недели назад (364 дня)
       const startDate = new Date(currentWeekEnd);
       startDate.setDate(currentWeekEnd.getDate() - (52 * 7 - 1));
 
@@ -1535,7 +1858,6 @@
       for (let w = 0; w < 52; w++) {
         let weekHtml = `<div class="heatmap-week-col">`;
 
-        // Проверяем смену месяца для подписи
         const weekFirstDay = new Date(startDate);
         weekFirstDay.setDate(startDate.getDate() + w * 7);
         const m = weekFirstDay.getMonth();
@@ -1576,15 +1898,13 @@
         columnsHtml += weekHtml;
       }
 
-      // Генерация строки месяцев
       let monthsRowHtml = `<div class="heatmap-months-row">`;
       monthPositions.forEach(item => {
-        const leftPx = item.weekIndex * 13; // 10px ширина ячейки + 3px gap
+        const leftPx = item.weekIndex * 13;
         monthsRowHtml += `<span class="heatmap-month-label" style="left: ${leftPx}px">${item.name}</span>`;
       });
       monthsRowHtml += `</div>`;
 
-      // Разметка всей сетки
       heatmapGridEl.innerHTML = `
         ${monthsRowHtml}
         <div class="heatmap-body">
@@ -1607,7 +1927,6 @@
         heatmapTotalYearEl.textContent = totalYearActions;
       }
 
-      // Автоматический скролл к последним неделям (сегодня)
       if (heatmapScrollEl) {
         requestAnimationFrame(() => {
           heatmapScrollEl.scrollLeft = heatmapScrollEl.scrollWidth;
@@ -1615,7 +1934,6 @@
       }
     }
 
-    // Обработчик тултипа активности при наведении
     if (heatmapGridEl && heatmapTooltipEl) {
       heatmapGridEl.addEventListener("mouseover", (e) => {
         const cell = e.target.closest(".heatmap-cell[data-date]");
@@ -1642,6 +1960,66 @@
       });
     }
 
+    // --- Функции режима «Кинотеатр» ---
+    function openCinemaModal(item, embedUrl) {
+      activeCinemaLectureId = item.id;
+      cinemaTitleEl.textContent = item.title;
+      cinemaLecturerEl.textContent = item.lecturer;
+      cinemaFormatEl.textContent = item.format;
+      cinemaExternalLinkEl.href = item.url;
+      cinemaNotesTextareaEl.value = item.note || "";
+      cinemaIframeEl.src = embedUrl;
+
+      cinemaBackdropEl.classList.add("active");
+      cinemaBackdropEl.setAttribute("aria-hidden", "false");
+    }
+
+    function closeCinemaModal() {
+      cinemaBackdropEl.classList.remove("active");
+      cinemaBackdropEl.setAttribute("aria-hidden", "true");
+      cinemaIframeEl.src = ""; // Очищаем src, чтобы остановить воспроизведение видео и звука!
+      activeCinemaLectureId = null;
+    }
+
+    cinemaCloseBtnEl.addEventListener("click", closeCinemaModal);
+
+    cinemaBackdropEl.addEventListener("click", (e) => {
+      if (e.target === cinemaBackdropEl) {
+        closeCinemaModal();
+      }
+    });
+
+    // Синхронизация заметок из плеера в базу и карточки
+    cinemaNotesTextareaEl.addEventListener("input", (e) => {
+      if (!activeCinemaLectureId) return;
+      const item = lectures.find(l => l.id === activeCinemaLectureId);
+      if (item) {
+        item.note = e.target.value;
+        saveLectures(lectures);
+
+        const card = document.querySelector(`.lecture-card[data-id="${activeCinemaLectureId}"]`);
+        if (card) {
+          const cardTextarea = card.querySelector(".note-textarea");
+          if (cardTextarea) cardTextarea.value = item.note;
+
+          const noteBtn = card.querySelector(".btn-note");
+          if (noteBtn) {
+            const hasNote = Boolean(item.note && item.note.trim());
+            noteBtn.classList.toggle("has-note", hasNote);
+            let dot = noteBtn.querySelector(".note-dot");
+            if (hasNote && !dot) {
+              const newDot = document.createElement("span");
+              newDot.className = "note-dot";
+              noteBtn.appendChild(newDot);
+            } else if (!hasNote && dot) {
+              dot.remove();
+            }
+          }
+        }
+        logTypingActivity();
+      }
+    });
+
     function escapeHtml(str) {
       return String(str)
         .replace(/&/g, "&amp;")
@@ -1651,7 +2029,6 @@
         .replace(/'/g, "&#039;");
     }
 
-    // Фильтрация
     function getFilteredLectures() {
       const query = filterState.search.trim().toLowerCase();
 
@@ -1707,15 +2084,9 @@
       render();
     }
 
-    // Рендер
     function render() {
-      // Обновляем лекторов (фильтры и datalist)
       updateLecturersUI();
-
-      // Обновляем общий прогресс
       updateOverallProgress();
-
-      // Отрисовываем сетку активности
       renderHeatmap();
 
       if (lectures.length === 0) {
@@ -1810,12 +2181,12 @@
                   ${hasNote ? '<span class="note-dot"></span>' : ''}
                 </button>
 
-                <!-- Смотреть видео -->
-                <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="btn-icon btn-watch" title="Открыть видео в новой вкладке">
+                <!-- Смотреть (Кинотеатр) -->
+                <button type="button" class="btn-icon btn-watch" title="Смотреть видео (Режим кинотеатра)" aria-label="Смотреть видео">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
                   </svg>
-                </a>
+                </button>
 
                 <!-- Редактировать -->
                 <button type="button" class="btn-icon btn-edit" title="Редактировать лекцию" aria-label="Редактировать">
@@ -1844,7 +2215,6 @@
     }
 
     // --- Обработчики поиска и фильтров ---
-
     searchInputEl.addEventListener("input", (e) => {
       filterState.search = e.target.value;
       clearSearchBtnEl.style.display = filterState.search ? "flex" : "none";
@@ -1859,7 +2229,6 @@
       render();
     });
 
-    // Делегирование фильтров-тегов
     document.querySelector(".filter-wrapper").addEventListener("click", (e) => {
       const chip = e.target.closest(".chip-btn");
       if (!chip) return;
@@ -1893,7 +2262,6 @@
 
     // Автосохранение таймкода и заметок
     listElement.addEventListener("input", (e) => {
-      // Таймкод
       if (e.target.classList.contains("timecode-input")) {
         const card = e.target.closest(".lecture-card");
         if (!card) return;
@@ -1911,7 +2279,6 @@
         return;
       }
 
-      // Заметка
       if (e.target.classList.contains("note-textarea")) {
         const card = e.target.closest(".lecture-card");
         if (!card) return;
@@ -1942,7 +2309,27 @@
 
     // Клики по карточке
     listElement.addEventListener("click", (e) => {
-      // Заметка
+      // 1. Клик по кнопке "Смотреть" (Режим «Кинотеатр»)
+      const watchBtn = e.target.closest(".btn-watch");
+      if (watchBtn) {
+        e.preventDefault();
+        const card = watchBtn.closest(".lecture-card");
+        if (!card) return;
+        const lectureId = card.getAttribute("data-id");
+        const item = lectures.find(l => l.id === lectureId);
+        if (!item) return;
+
+        const embedData = getVideoEmbedData(item.url, item.timecode);
+        if (embedData) {
+          openCinemaModal(item, embedData.embedUrl);
+        } else {
+          // Если ссылку невозможно встроить — открываем в новой вкладке
+          window.open(item.url, "_blank", "noopener,noreferrer");
+        }
+        return;
+      }
+
+      // 2. Раскрытие / сворачивание заметок
       const noteBtn = e.target.closest(".btn-note");
       if (noteBtn) {
         const card = noteBtn.closest(".lecture-card");
@@ -1966,7 +2353,7 @@
         return;
       }
 
-      // Редактирование
+      // 3. Редактирование
       const editBtn = e.target.closest(".btn-edit");
       if (editBtn) {
         const card = editBtn.closest(".lecture-card");
@@ -1979,7 +2366,7 @@
         return;
       }
 
-      // Удаление с подтверждением
+      // 4. Удаление с подтверждением
       const deleteBtn = e.target.closest(".btn-delete");
       if (deleteBtn) {
         const card = deleteBtn.closest(".lecture-card");
@@ -2074,7 +2461,7 @@
       lecturerInput.value = "";
       closeAddModal();
 
-      logActivity(3); // Добавление лекции — высокая активность
+      logActivity(3);
     });
 
     // --- Модальное окно редактирования ---
@@ -2134,6 +2521,10 @@
     // Закрытие модалок по Escape
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
+        if (cinemaBackdropEl.classList.contains("active")) {
+          closeCinemaModal();
+          return;
+        }
         if (editModalEl.classList.contains("active")) closeEditModal();
         if (addModalEl.classList.contains("active")) closeAddModal();
       }
