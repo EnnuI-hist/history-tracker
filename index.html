@@ -3,318 +3,152 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Трекер по истории | Видеолекции</title>
+  <title>Мой прогресс | Трекер лекций</title>
   <style>
     :root {
-      --bg-main: #0d0f14;
-      --bg-surface: #161922;
-      --bg-card: #1f232f;
-      --bg-card-hover: #262c3b;
-      --bg-input: #12141c;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --border-focus: rgba(245, 158, 11, 0.55);
+      /* Apple-style Zinc + Indigo палитра */
+      --bg-page: #18181b;          /* Zinc 900 */
+      --bg-card: #27272a;          /* Zinc 800 */
+      --bg-card-hover: #2e2e33;
+      --bg-input: #1f1f23;
+      --border-subtle: rgba(255, 255, 255, 0.07);
       
-      --accent: #f59e0b;
-      --accent-hover: #d97706;
-      --accent-rgb: 245, 158, 11;
+      --accent: #6366f1;           /* Calm Indigo */
+      --accent-hover: #4f46e5;
+      --accent-rgb: 99, 102, 241;
       
-      --text-primary: #f3f4f6;
-      --text-secondary: #9ca3af;
-      --text-muted: #6b7280;
+      --text-primary: #f4f4f5;     /* Zinc 100 */
+      --text-secondary: #a1a1aa;   /* Zinc 400 */
+      --text-muted: #71717a;       /* Zinc 500 */
       
-      --badge-ege-bg: rgba(59, 130, 246, 0.14);
-      --badge-ege-color: #60a5fa;
-      --badge-olymp-bg: rgba(168, 85, 247, 0.14);
-      --badge-olymp-color: #c084fc;
+      --danger: #f87171;
+      --danger-hover: #ef4444;
       
-      --danger: #ef4444;
-      --danger-hover: #dc2626;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-pill: 9999px;
       
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 14px;
-      --shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45);
+      --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.25), 0 2px 6px -1px rgba(0, 0, 0, 0.2);
+      --shadow-card-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.4);
+      --shadow-modal: 0 25px 60px -12px rgba(0, 0, 0, 0.65);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--bg-main);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
+      background-color: var(--bg-page);
       color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 44px 16px 60px;
-      line-height: 1.5;
+      padding: 56px 20px 100px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
       width: 100%;
-      max-width: 780px;
+      max-width: 720px;
     }
 
-    /* Шапка и прогресс */
-    header {
-      margin-bottom: 28px;
+    /* 1. Чистая шапка в стиле Apple */
+    .app-header {
+      margin-bottom: 32px;
     }
 
-    .title-row {
+    .header-top {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
+      align-items: flex-end;
+      margin-bottom: 12px;
     }
 
-    .title-row h1 {
-      font-size: 1.75rem;
+    .header-title {
+      font-size: 2rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #fff;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      line-height: 1.2;
     }
 
-    .title-row h1 .icon {
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-    }
-
-    .stats-pill {
-      font-size: 0.85rem;
-      color: var(--accent);
-      background: rgba(var(--accent-rgb), 0.1);
-      padding: 4px 12px;
-      border-radius: 9999px;
-      font-weight: 600;
-      border: 1px solid rgba(var(--accent-rgb), 0.2);
-    }
-
-    .progress-box {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 18px 22px;
-      box-shadow: var(--shadow);
-    }
-
-    .progress-labels {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .header-subtitle {
       font-size: 0.92rem;
-      margin-bottom: 10px;
-    }
-
-    .progress-text {
       color: var(--text-secondary);
-    }
-
-    .progress-text strong {
-      color: var(--text-primary);
-      font-weight: 600;
-    }
-
-    .progress-percentage {
-      font-weight: 700;
-      color: var(--accent);
+      font-weight: 400;
       font-feature-settings: "tnum";
     }
 
-    .progress-bar-bg {
+    .progress-track {
       width: 100%;
-      height: 8px;
+      height: 4px;
       background: rgba(255, 255, 255, 0.08);
-      border-radius: 9999px;
+      border-radius: var(--radius-pill);
       overflow: hidden;
       position: relative;
     }
 
-    .progress-bar-fill {
+    .progress-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #f59e0b, #fbbf24);
-      border-radius: 9999px;
-      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Форма добавления лекции */
-    .form-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow);
-    }
-
-    .form-card h2 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 16px;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .form-group-full {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-
-    input, select {
-      width: 100%;
-      background: var(--bg-input);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-      padding: 10px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 0.9rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    input:focus, select:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.14);
-    }
-
-    input::placeholder {
-      color: var(--text-muted);
-    }
-
-    select option {
-      background: var(--bg-card);
-      color: var(--text-primary);
-    }
-
-    .form-actions {
-      grid-column: 1 / -1;
-      margin-top: 4px;
-    }
-
-    .btn-submit {
-      width: 100%;
       background: var(--accent);
-      color: #121316;
-      border: none;
-      padding: 11px 16px;
-      border-radius: var(--radius-sm);
-      font-weight: 600;
-      font-size: 0.92rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: background 0.15s ease, transform 0.05s active;
+      border-radius: var(--radius-pill);
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .btn-submit:hover {
-      background: var(--accent-hover);
-    }
-
-    .btn-submit:active {
-      transform: translateY(1px);
-    }
-
-    /* Панель фильтрации и поиска */
-    .filter-panel {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 20px 22px;
-      margin-bottom: 26px;
-      box-shadow: var(--shadow);
-    }
-
-    .filter-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .filter-header h2 {
-      font-size: 1.02rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-reset-text {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: color 0.15s ease;
-      padding: 2px 4px;
-    }
-
-    .btn-reset-text:hover {
-      color: var(--accent);
-    }
-
-    .search-wrapper {
+    /* 2. Поиск и горизонтальные теги-фильтры */
+    .search-container {
       position: relative;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .search-icon {
       position: absolute;
-      left: 12px;
+      left: 14px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
       pointer-events: none;
       display: flex;
-      align-items: center;
     }
 
     .search-input {
-      padding-left: 38px;
-      padding-right: 36px;
-      height: 42px;
-      background: var(--bg-input);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
+      width: 100%;
+      height: 44px;
+      background: var(--bg-card);
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      padding: 0 40px 0 42px;
       font-size: 0.92rem;
+      color: var(--text-primary);
+      font-family: inherit;
+      outline: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s ease;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .search-input:focus {
+      background: #202024;
+      border-color: rgba(var(--accent-rgb), 0.5);
+      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
     }
 
     .search-clear-btn {
       position: absolute;
-      right: 10px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
       background: none;
@@ -330,113 +164,115 @@
 
     .search-clear-btn:hover {
       color: var(--text-primary);
-      background: rgba(255, 255, 255, 0.08);
     }
 
-    .filter-groups {
+    /* Скроллируемые треки фильтров (Pills) */
+    .filter-wrapper {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+      margin-bottom: 28px;
     }
 
-    .filter-row {
+    .filter-track {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .filter-label {
-      font-size: 0.74rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      min-width: 68px;
-      flex-shrink: 0;
-    }
-
-    .filter-chips {
-      display: flex;
-      flex-wrap: wrap;
       gap: 6px;
-      flex: 1;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 2px 0;
+    }
+
+    .filter-track::-webkit-scrollbar {
+      display: none;
     }
 
     .chip-btn {
-      background: var(--bg-input);
-      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      border: none;
       color: var(--text-secondary);
-      font-size: 0.82rem;
-      padding: 5px 12px;
-      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
       cursor: pointer;
       font-family: inherit;
-      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.18s ease;
       user-select: none;
     }
 
     .chip-btn:hover {
+      background: #323238;
       color: var(--text-primary);
-      border-color: rgba(255, 255, 255, 0.2);
     }
 
     .chip-btn.active {
       background: var(--accent);
-      border-color: var(--accent);
-      color: #121316;
+      color: #ffffff;
       font-weight: 600;
-      box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.25);
+      box-shadow: 0 2px 10px rgba(var(--accent-rgb), 0.35);
     }
 
-    /* Список лекций */
-    .lectures-section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-      padding: 0 2px;
+    .filter-divider {
+      color: rgba(255, 255, 255, 0.15);
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      margin: 0 2px;
     }
 
-    .lectures-section-header h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .matching-count {
-      font-size: 0.82rem;
+    .reset-filter-link {
+      background: none;
+      border: none;
       color: var(--text-muted);
+      font-size: 0.78rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: color 0.15s ease;
     }
 
+    .reset-filter-link:hover {
+      color: var(--text-primary);
+    }
+
+    .matching-status {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      min-height: 18px;
+      padding-left: 2px;
+    }
+
+    /* 3. Компактные карточки лекций в стиле Apple */
     .lecture-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
-    /* Карточка лекции */
     .lecture-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 16px 18px;
+      padding: 14px 16px;
       display: flex;
       flex-direction: column;
-      transition: background 0.15s ease, border-color 0.15s ease, opacity 0.25s ease, transform 0.15s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--shadow-card);
+      transition: background-color 0.15s ease, box-shadow 0.2s ease, opacity 0.25s ease, transform 0.15s ease;
+      position: relative;
     }
 
     .lecture-card:hover {
       background: var(--bg-card-hover);
-      border-color: rgba(255, 255, 255, 0.14);
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-1px);
     }
 
     .lecture-card.completed {
-      opacity: 0.55;
-      background: rgba(31, 35, 47, 0.65);
+      opacity: 0.42;
     }
 
     .lecture-card.completed .lecture-title {
@@ -448,64 +284,65 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 14px;
       width: 100%;
     }
 
     .card-left {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 14px;
       flex: 1;
       min-width: 0;
     }
 
-    /* Кастомный чекбокс */
+    /* Круглый чекбокс */
     .checkbox-container {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      margin-top: 3px;
+      justify-content: center;
+      position: relative;
       cursor: pointer;
       user-select: none;
-      position: relative;
       flex-shrink: 0;
     }
 
     .checkbox-container input {
       position: absolute;
       opacity: 0;
-      cursor: pointer;
-      height: 0;
       width: 0;
+      height: 0;
     }
 
     .checkmark {
-      width: 20px;
-      height: 20px;
-      background-color: var(--bg-input);
-      border: 2px solid var(--text-muted);
-      border-radius: 6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.8px solid #52525b;
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.18s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .checkbox-container:hover input ~ .checkmark {
-      border-color: var(--accent);
+    .checkbox-container:hover .checkmark {
+      border-color: #a1a1aa;
+      transform: scale(1.06);
     }
 
     .checkbox-container input:checked ~ .checkmark {
       background-color: var(--accent);
       border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.4);
     }
 
     .checkmark svg {
       display: none;
-      width: 13px;
-      height: 13px;
-      stroke: #121316;
-      stroke-width: 3;
+      width: 11px;
+      height: 11px;
+      stroke: #ffffff;
+      stroke-width: 2.6;
       fill: none;
     }
 
@@ -516,7 +353,7 @@
     .card-content {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 3px;
       min-width: 0;
     }
 
@@ -524,278 +361,228 @@
       font-size: 0.98rem;
       font-weight: 600;
       color: var(--text-primary);
+      line-height: 1.4;
       word-break: break-word;
-      line-height: 1.35;
-      transition: color 0.2s ease;
+      letter-spacing: -0.01em;
     }
 
-    .badges-row {
+    .meta-row {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.72rem;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      font-weight: 500;
-      line-height: 1.4;
-    }
-
-    .badge-lecturer {
-      background: rgba(255, 255, 255, 0.08);
-      color: #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .badge-ege {
-      background: var(--badge-ege-bg);
-      color: var(--badge-ege-color);
-      border: 1px solid rgba(96, 165, 250, 0.25);
-    }
-
-    .badge-olymp {
-      background: var(--badge-olymp-bg);
-      color: var(--badge-olymp-color);
-      border: 1px solid rgba(192, 132, 252, 0.25);
-    }
-
-    /* Компактное поле таймкода */
-    .timecode-container {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: var(--bg-input);
-      border: 1px solid var(--border-color);
-      border-radius: 9999px;
-      padding: 2px 8px;
+      gap: 8px;
+      font-size: 0.78rem;
       color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .meta-lecturer {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .meta-separator {
+      opacity: 0.35;
+      font-size: 0.7rem;
+    }
+
+    .meta-format {
+      color: var(--text-muted);
+    }
+
+    /* Таймкод остановки */
+    .timecode-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-pill);
+      padding: 1px 7px;
       transition: all 0.2s ease;
     }
 
-    .timecode-container:focus-within {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.15);
-    }
-
-    .timecode-container.has-value {
-      border-color: rgba(var(--accent-rgb), 0.55);
-      background: rgba(var(--accent-rgb), 0.09);
+    .timecode-pill.has-value {
+      background: rgba(var(--accent-rgb), 0.15);
       color: var(--accent);
-      box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.18);
     }
 
     .timecode-input {
-      width: 44px;
+      width: 40px;
       background: transparent;
       border: none;
       outline: none;
-      color: var(--text-secondary);
+      color: var(--text-muted);
       font-size: 0.74rem;
       font-family: inherit;
       font-feature-settings: "tnum";
       padding: 0;
       text-align: center;
-      line-height: 1.3;
+      line-height: 1.2;
     }
 
-    .timecode-container.has-value .timecode-input {
+    .timecode-pill.has-value .timecode-input {
       color: var(--accent);
       font-weight: 600;
     }
 
     .timecode-input::placeholder {
       color: var(--text-muted);
-      opacity: 0.7;
+      opacity: 0.6;
     }
 
-    /* Действия на карточке */
+    /* Кнопки действий (hover-reveal) */
     .card-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       flex-shrink: 0;
+      opacity: 0;
+      transform: translateX(4px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    .btn-note {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-secondary);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 7px 11px;
-      border-radius: var(--radius-sm);
-      font-size: 0.83rem;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.15s ease;
-      font-family: inherit;
+    .lecture-card:hover .card-actions,
+    .lecture-card:focus-within .card-actions {
+      opacity: 1;
+      transform: translateX(0);
     }
 
-    .btn-note:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: var(--text-primary);
-      border-color: rgba(255, 255, 255, 0.2);
+    @media (hover: none) {
+      .card-actions {
+        opacity: 1;
+        transform: none;
+      }
     }
 
-    .btn-note.active {
-      background: rgba(var(--accent-rgb), 0.15);
-      border-color: rgba(var(--accent-rgb), 0.45);
-      color: var(--accent);
-    }
-
-    .btn-note.has-note {
-      border-color: rgba(var(--accent-rgb), 0.35);
-      color: var(--text-primary);
-    }
-
-    .note-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-      box-shadow: 0 0 6px var(--accent);
-      display: inline-block;
-      margin-left: -1px;
-    }
-
-    .btn-watch {
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      text-decoration: none;
-      padding: 7px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 0.83rem;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-    }
-
-    .btn-watch:hover {
-      background: rgba(var(--accent-rgb), 0.15);
-      border-color: rgba(var(--accent-rgb), 0.4);
-      color: var(--accent);
-    }
-
-    .btn-action-icon {
+    .btn-icon {
       background: transparent;
-      border: 1px solid transparent;
+      border: none;
       color: var(--text-muted);
-      padding: 7px 8px;
+      width: 32px;
+      height: 32px;
       border-radius: var(--radius-sm);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       transition: all 0.15s ease;
+      position: relative;
+      text-decoration: none;
     }
 
-    .btn-action-icon:hover {
+    .btn-icon:hover {
       background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.15);
+      color: var(--text-primary);
+    }
+
+    .btn-icon.active {
+      background: rgba(var(--accent-rgb), 0.15);
+      color: var(--accent);
+    }
+
+    .btn-icon.has-note {
       color: var(--text-primary);
     }
 
     .btn-delete:hover {
-      background: rgba(239, 68, 68, 0.12);
-      border-color: rgba(239, 68, 68, 0.25);
+      background: rgba(239, 68, 68, 0.14);
       color: var(--danger);
     }
 
-    /* Раскрывающийся блок заметки */
+    .note-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: absolute;
+      top: 6px;
+      right: 6px;
+    }
+
+    /* Разворачивающийся блок заметок */
     .lecture-note-drawer {
       max-height: 0;
       overflow: hidden;
       opacity: 0;
-      transition: max-height 0.26s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, margin-top 0.2s ease;
+      transition: max-height 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, margin-top 0.2s ease;
       margin-top: 0;
     }
 
     .lecture-note-drawer.open {
-      max-height: 240px;
+      max-height: 220px;
       opacity: 1;
-      margin-top: 14px;
+      margin-top: 12px;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding-top: 12px;
-    }
-
-    .note-inner {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .note-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .note-label {
-      font-size: 0.74rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 0;
-    }
-
-    .note-hint {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      opacity: 0.8;
+      padding-top: 10px;
     }
 
     .note-textarea {
       width: 100%;
       background: var(--bg-input);
-      border: 1px solid var(--border-color);
+      border: 1px solid transparent;
       border-radius: var(--radius-sm);
       color: var(--text-primary);
       font-family: inherit;
-      font-size: 0.86rem;
-      line-height: 1.45;
-      padding: 9px 11px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      padding: 8px 10px;
       resize: vertical;
-      min-height: 64px;
-      max-height: 180px;
+      min-height: 56px;
+      max-height: 160px;
       outline: none;
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
     .note-textarea:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.12);
+      border-color: rgba(var(--accent-rgb), 0.4);
+      box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.12);
     }
 
     .note-textarea::placeholder {
       color: var(--text-muted);
     }
 
-    /* Модальное окно редактирования */
+    /* 4. Плавающая кнопка добавления (FAB) */
+    .fab-add {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 24px -2px rgba(var(--accent-rgb), 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.15s ease, box-shadow 0.2s ease;
+      z-index: 90;
+    }
+
+    .fab-add:hover {
+      transform: scale(1.08) translateY(-2px);
+      background: var(--accent-hover);
+      box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.6);
+    }
+
+    .fab-add:active {
+      transform: scale(0.94);
+    }
+
+    /* 5. Модальные окна с Apple-blur */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 1000;
-      padding: 16px;
+      padding: 20px;
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.2s ease, visibility 0.2s ease;
@@ -807,15 +594,14 @@
     }
 
     .modal-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
+      background: var(--bg-card);
       border-radius: var(--radius-lg);
       padding: 24px;
       width: 100%;
-      max-width: 520px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      max-width: 480px;
+      box-shadow: var(--shadow-modal);
       transform: scale(0.96);
-      transition: transform 0.2s ease;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .modal-backdrop.active .modal-card {
@@ -826,16 +612,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
     .modal-header h3 {
-      font-size: 1.12rem;
+      font-size: 1.18rem;
       font-weight: 600;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      letter-spacing: -0.02em;
+      color: #ffffff;
     }
 
     .modal-close {
@@ -843,16 +627,59 @@
       border: none;
       color: var(--text-muted);
       cursor: pointer;
-      padding: 4px;
-      border-radius: 4px;
+      font-size: 1.1rem;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
-      transition: color 0.15s ease;
+      transition: all 0.15s ease;
     }
 
     .modal-close:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-group-full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    input[type="text"], input[type="url"], select {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-primary);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: rgba(var(--accent-rgb), 0.5);
+      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
+    }
+
+    select option {
+      background: var(--bg-card);
       color: var(--text-primary);
     }
 
@@ -861,91 +688,54 @@
       display: flex;
       justify-content: flex-end;
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
-    .btn-cancel {
+    .btn-secondary {
       background: transparent;
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text-secondary);
-      padding: 10px 16px;
+      padding: 9px 16px;
       border-radius: var(--radius-sm);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.15s ease;
+      font-family: inherit;
     }
 
-    .btn-cancel:hover {
+    .btn-secondary:hover {
       background: rgba(255, 255, 255, 0.05);
       color: var(--text-primary);
     }
 
-    /* Подвал и резервное копирование */
-    footer.app-footer {
-      margin-top: 48px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      text-align: center;
-    }
-
-    .backup-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn-backup {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: var(--text-secondary);
-      padding: 8px 16px;
+    .btn-primary {
+      background: var(--accent);
+      border: none;
+      color: #ffffff;
+      padding: 9px 18px;
       border-radius: var(--radius-sm);
-      font-size: 0.84rem;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: background 0.15s ease;
       font-family: inherit;
-      user-select: none;
     }
 
-    .btn-backup:hover {
-      background: var(--bg-card);
-      border-color: rgba(255, 255, 255, 0.2);
-      color: var(--text-primary);
-    }
-
-    .btn-backup:active {
-      transform: translateY(1px);
-    }
-
-    .footer-copy {
-      font-size: 0.78rem;
-      color: var(--text-muted);
+    .btn-primary:hover {
+      background: var(--accent-hover);
     }
 
     /* Пустые состояния */
     .empty-state {
       text-align: center;
-      padding: 44px 20px;
-      background: var(--bg-surface);
-      border: 1px dashed var(--border-color);
-      border-radius: var(--radius-lg);
+      padding: 56px 20px;
       color: var(--text-muted);
     }
 
     .empty-state svg {
-      margin-bottom: 12px;
-      opacity: 0.55;
+      margin-bottom: 14px;
+      opacity: 0.45;
       display: block;
       margin-left: auto;
       margin-right: auto;
@@ -954,60 +744,85 @@
     .empty-state p {
       font-size: 0.95rem;
       color: var(--text-secondary);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .btn-reset-filters {
-      margin-top: 12px;
-      background: rgba(var(--accent-rgb), 0.12);
+      background: rgba(var(--accent-rgb), 0.15);
       color: var(--accent);
-      border: 1px solid rgba(var(--accent-rgb), 0.3);
-      padding: 8px 18px;
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.84rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      margin-top: 10px;
     }
 
     .btn-reset-filters:hover {
       background: var(--accent);
-      color: #121316;
+      color: #ffffff;
+    }
+
+    /* 6. Подвал */
+    .app-footer {
+      margin-top: 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-link-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: color 0.15s ease;
+      padding: 4px;
+      user-select: none;
+      font-family: inherit;
+    }
+
+    .footer-link-btn:hover {
+      color: var(--text-secondary);
+    }
+
+    .footer-dot {
+      color: rgba(255, 255, 255, 0.15);
+      font-size: 0.7rem;
+    }
+
+    .footer-note {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      opacity: 0.6;
     }
 
     @media (max-width: 600px) {
       body {
-        padding: 24px 12px 60px;
+        padding: 40px 14px 90px;
       }
-      .title-row h1 {
-        font-size: 1.45rem;
+      .header-title {
+        font-size: 1.7rem;
+      }
+      .fab-add {
+        bottom: 24px;
+        right: 24px;
+        width: 52px;
+        height: 52px;
       }
       .form-grid {
         grid-template-columns: 1fr;
-      }
-      .filter-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-      }
-      .card-main {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .card-actions {
-        margin-top: 8px;
-        justify-content: flex-end;
-        flex-wrap: wrap;
-      }
-      .btn-watch, .btn-note {
-        flex: 1;
-        justify-content: center;
-      }
-      .modal-card {
-        padding: 18px;
       }
     }
   </style>
@@ -1015,48 +830,107 @@
 <body>
 
   <div class="container">
-    <!-- Шапка с названием и общим прогрессом -->
-    <header>
-      <div class="title-row">
-        <h1>
-          <span class="icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
-              <path d="M6 6h10"></path>
-              <path d="M6 10h10"></path>
-            </svg>
-          </span>
-          Трекер по истории
-        </h1>
-        <span class="stats-pill" id="totalLecturesBadge">0 лекций</span>
-      </div>
-
-      <div class="progress-box">
-        <div class="progress-labels">
-          <span class="progress-text">Просмотрено <strong id="completedCount">0</strong> из <strong id="totalCount">0</strong> лекций</span>
-          <span class="progress-percentage" id="progressPercent">0%</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="progressBar"></div>
+    <!-- 1. Минималистичная шапка "Мой прогресс" -->
+    <header class="app-header">
+      <div class="header-top">
+        <h1 class="header-title">Мой прогресс</h1>
+        <div class="header-subtitle">
+          <span id="completedCount">0</span> из <span id="totalCount">0</span> лекций • <span id="progressPercent">0%</span>
         </div>
       </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+      <!-- Элемент для совместимости с JS -->
+      <span id="totalLecturesBadge" style="display: none;">0 лекций</span>
     </header>
 
-    <!-- Форма добавления лекции -->
-    <section class="form-card">
-      <h2>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="8" x2="12" y2="16"></line>
-          <line x1="8" y1="12" x2="16" y2="12"></line>
+    <!-- 2. Поиск и горизонтальные теги (Pills) -->
+    <div class="search-container">
+      <span class="search-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        Добавить новую лекцию
-      </h2>
+      </span>
+      <input type="text" id="searchInput" class="search-input" placeholder="Поиск по названию или конспекту...">
+      <button type="button" id="clearSearchBtn" class="search-clear-btn" title="Очистить поиск" aria-label="Очистить поиск">✕</button>
+    </div>
+
+    <div class="filter-wrapper">
+      <!-- Лекторы -->
+      <div class="filter-track" id="lecturerFilters">
+        <button type="button" class="chip-btn active" data-filter="lecturer" data-value="all">Все лекторы</button>
+        <button type="button" class="chip-btn" data-filter="lecturer" data-value="Гончаров">Гончаров</button>
+        <button type="button" class="chip-btn" data-filter="lecturer" data-value="Борисов">Борисов</button>
+        <button type="button" class="chip-btn" data-filter="lecturer" data-value="Данилевский">Данилевский</button>
+        <button type="button" class="chip-btn" data-filter="lecturer" data-value="Станишевский">Станишевский</button>
+      </div>
+
+      <!-- Формат и статус в скроллируемой строке -->
+      <div class="filter-track">
+        <div id="formatFilters" style="display: flex; gap: 6px;">
+          <button type="button" class="chip-btn active" data-filter="format" data-value="all">Все форматы</button>
+          <button type="button" class="chip-btn" data-filter="format" data-value="ЕГЭ">ЕГЭ</button>
+          <button type="button" class="chip-btn" data-filter="format" data-value="Олимпиады">Олимпиады</button>
+        </div>
+
+        <span class="filter-divider">|</span>
+
+        <div id="statusFilters" style="display: flex; gap: 6px;">
+          <button type="button" class="chip-btn active" data-filter="status" data-value="all">Все</button>
+          <button type="button" class="chip-btn" data-filter="status" data-value="uncompleted">Не просмотрено</button>
+          <button type="button" class="chip-btn" data-filter="status" data-value="completed">Просмотрено</button>
+        </div>
+
+        <button type="button" class="reset-filter-link" id="resetHeaderBtn">Сбросить</button>
+      </div>
+    </div>
+
+    <!-- Индикатор совпадений -->
+    <div class="matching-status" id="matchingCountText"></div>
+
+    <!-- 3. Список компактных карточек лекций -->
+    <main>
+      <div class="lecture-list" id="lectureList">
+        <!-- Карточки генерируются скриптом -->
+      </div>
+    </main>
+
+    <!-- 4. Подвал с резервным копированием -->
+    <footer class="app-footer">
+      <div class="footer-links">
+        <button type="button" class="footer-link-btn" id="exportBackupBtn">Скачать бэкап (JSON)</button>
+        <span class="footer-dot">•</span>
+        <label class="footer-link-btn" for="importBackupInput">
+          Загрузить бэкап
+          <input type="file" id="importBackupInput" accept=".json" style="display: none;">
+        </label>
+      </div>
+      <p class="footer-note">Данные сохраняются локально в браузере</p>
+    </footer>
+  </div>
+
+  <!-- Плавающая кнопка добавления (FAB) -->
+  <button type="button" class="fab-add" id="openAddModalBtn" title="Добавить новую лекцию" aria-label="Добавить новую лекцию">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+  </button>
+
+  <!-- Модальное окно добавления лекции (Apple-blur) -->
+  <div class="modal-backdrop" id="addModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="addModalTitle">
+      <div class="modal-header">
+        <h3 id="addModalTitle">Новая лекция</h3>
+        <button type="button" class="modal-close" id="addModalClose" aria-label="Закрыть">✕</button>
+      </div>
       <form id="addLectureForm">
         <div class="form-grid">
           <div class="form-group-full">
-            <label for="lectureTitle">Название лекции</label>
-            <input type="text" id="lectureTitle" placeholder="Например: Внешняя политика Екатерины II" required>
+            <label for="lectureTitle">Название</label>
+            <input type="text" id="lectureTitle" placeholder="Внешняя политика Екатерины II" required>
           </div>
 
           <div class="form-group-full">
@@ -1082,147 +956,28 @@
             </select>
           </div>
 
-          <div class="form-actions">
-            <button type="submit" class="btn-submit">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-              Добавить
-            </button>
+          <div class="modal-actions">
+            <button type="button" class="btn-secondary" id="addModalCancel">Отмена</button>
+            <button type="submit" class="btn-primary">Добавить лекцию</button>
           </div>
         </div>
       </form>
-    </section>
-
-    <!-- Панель фильтрации и поиска -->
-    <section class="filter-panel">
-      <div class="filter-header">
-        <h2>
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-          </svg>
-          Фильтры и поиск
-        </h2>
-        <button type="button" class="btn-reset-text" id="resetHeaderBtn" title="Сбросить все параметры поиска">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1 4 1 10 7 10"></polyline>
-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-          </svg>
-          Сбросить фильтры
-        </button>
-      </div>
-
-      <!-- Поиск по названию и заметкам -->
-      <div class="search-wrapper">
-        <span class="search-icon">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-        </span>
-        <input type="text" id="searchInput" class="search-input" placeholder="Быстрый поиск по названию или тексту заметок...">
-        <button type="button" id="clearSearchBtn" class="search-clear-btn" title="Очистить поиск" aria-label="Очистить поиск">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Группы переключателей -->
-      <div class="filter-groups">
-        <!-- По лекторам -->
-        <div class="filter-row">
-          <span class="filter-label">Лектор:</span>
-          <div class="filter-chips" id="lecturerFilters">
-            <button type="button" class="chip-btn active" data-filter="lecturer" data-value="all">Все</button>
-            <button type="button" class="chip-btn" data-filter="lecturer" data-value="Гончаров">Гончаров</button>
-            <button type="button" class="chip-btn" data-filter="lecturer" data-value="Борисов">Борисов</button>
-            <button type="button" class="chip-btn" data-filter="lecturer" data-value="Данилевский">Данилевский</button>
-            <button type="button" class="chip-btn" data-filter="lecturer" data-value="Станишевский">Станишевский</button>
-          </div>
-        </div>
-
-        <!-- По формату -->
-        <div class="filter-row">
-          <span class="filter-label">Формат:</span>
-          <div class="filter-chips" id="formatFilters">
-            <button type="button" class="chip-btn active" data-filter="format" data-value="all">Все</button>
-            <button type="button" class="chip-btn" data-filter="format" data-value="ЕГЭ">ЕГЭ</button>
-            <button type="button" class="chip-btn" data-filter="format" data-value="Олимпиады">Олимпиады</button>
-          </div>
-        </div>
-
-        <!-- По статусу -->
-        <div class="filter-row">
-          <span class="filter-label">Статус:</span>
-          <div class="filter-chips" id="statusFilters">
-            <button type="button" class="chip-btn active" data-filter="status" data-value="all">Все</button>
-            <button type="button" class="chip-btn" data-filter="status" data-value="uncompleted">Не просмотрено</button>
-            <button type="button" class="chip-btn" data-filter="status" data-value="completed">Просмотрено</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Список карточек -->
-    <main>
-      <div class="lectures-section-header">
-        <h3>Список лекций</h3>
-        <span class="matching-count" id="matchingCountText"></span>
-      </div>
-      <div class="lecture-list" id="lectureList">
-        <!-- Карточки выводятся через JS -->
-      </div>
-    </main>
-
-    <!-- Подвал страницы с резервным копированием -->
-    <footer class="app-footer">
-      <div class="backup-actions">
-        <!-- Скачать бэкап -->
-        <button type="button" class="btn-backup" id="exportBackupBtn" title="Скачать всю базу лекций в JSON-файл">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          Скачать бэкап (JSON)
-        </button>
-
-        <!-- Загрузить бэкап -->
-        <label class="btn-backup" for="importBackupInput" title="Восстановить базу из ранее сохранённого JSON-файла">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="17 8 12 3 7 8"></polyline>
-            <line x1="12" y1="3" x2="12" y2="15"></line>
-          </svg>
-          Загрузить бэкап
-          <input type="file" id="importBackupInput" accept=".json" style="display: none;">
-        </label>
-      </div>
-      <p class="footer-copy">Трекер видеолекций по истории • Все данные сохраняются локально в браузере</p>
-    </footer>
+    </div>
   </div>
 
   <!-- Модальное окно редактирования лекции -->
   <div class="modal-backdrop" id="editModal" aria-hidden="true">
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
       <div class="modal-header">
-        <h3 id="modalTitle">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-          </svg>
-          Редактировать лекцию
-        </h3>
-        <button type="button" class="modal-close" id="editModalClose" aria-label="Закрыть окно">✕</button>
+        <h3 id="editModalTitle">Редактировать лекцию</h3>
+        <button type="button" class="modal-close" id="editModalClose" aria-label="Закрыть">✕</button>
       </div>
 
       <form id="editLectureForm">
         <input type="hidden" id="editLectureId">
         <div class="form-grid">
           <div class="form-group-full">
-            <label for="editLectureTitle">Название лекции</label>
+            <label for="editLectureTitle">Название</label>
             <input type="text" id="editLectureTitle" required>
           </div>
 
@@ -1250,8 +1005,8 @@
           </div>
 
           <div class="modal-actions">
-            <button type="button" class="btn-cancel" id="editModalCancel">Отмена</button>
-            <button type="submit" class="btn-submit" style="width: auto; padding: 10px 20px;">Сохранить изменения</button>
+            <button type="button" class="btn-secondary" id="editModalCancel">Отмена</button>
+            <button type="submit" class="btn-primary">Сохранить</button>
           </div>
         </div>
       </form>
@@ -1259,7 +1014,7 @@
   </div>
 
   <script>
-    // Тестовые карточки (по одной на каждого лектора с примерами таймкода и заметок)
+    // Тестовые карточки
     const INITIAL_LECTURES = [
       {
         id: "init-1",
@@ -1273,7 +1028,7 @@
       },
       {
         id: "init-2",
-        title: "Смутное время и воцарение династии Романовых (источниковедение)",
+        title: "Смутное время и воцарение династии Романовых",
         url: "https://www.youtube.com/results?search_query=смутное+время+борисов",
         lecturer: "Борисов",
         format: "Олимпиады",
@@ -1305,7 +1060,7 @@
 
     const STORAGE_KEY = "history_lecture_tracker_data_v1";
 
-    // Состояние открытых заметок (хранит ID карточек, у которых открыт блок заметок)
+    // Состояние открытых заметок
     const openNoteIds = new Set();
 
     // Состояние фильтрации
@@ -1316,7 +1071,7 @@
       status: "all"
     };
 
-    // Безопасная нормализация объекта лекции
+    // Безопасная нормализация
     function sanitizeLecture(item, index) {
       return {
         id: item && typeof item.id === "string" ? item.id : "lec-" + Date.now() + "-" + index,
@@ -1356,10 +1111,10 @@
       }
     }
 
-    // Данные
+    // Состояние данных
     let lectures = loadLectures();
 
-    // Элементы страницы
+    // DOM Элементы
     const listElement = document.getElementById("lectureList");
     const completedCountEl = document.getElementById("completedCount");
     const totalCountEl = document.getElementById("totalCount");
@@ -1367,12 +1122,18 @@
     const progressBarEl = document.getElementById("progressBar");
     const totalLecturesBadgeEl = document.getElementById("totalLecturesBadge");
     const matchingCountTextEl = document.getElementById("matchingCountText");
-    const formEl = document.getElementById("addLectureForm");
     const searchInputEl = document.getElementById("searchInput");
     const clearSearchBtnEl = document.getElementById("clearSearchBtn");
     const resetHeaderBtnEl = document.getElementById("resetHeaderBtn");
 
-    // Элементы модального окна
+    // Модалка добавления (FAB)
+    const addModalEl = document.getElementById("addModal");
+    const openAddModalBtnEl = document.getElementById("openAddModalBtn");
+    const addModalCloseEl = document.getElementById("addModalClose");
+    const addModalCancelEl = document.getElementById("addModalCancel");
+    const addLectureFormEl = document.getElementById("addLectureForm");
+
+    // Модалка редактирования
     const editModalEl = document.getElementById("editModal");
     const editLectureFormEl = document.getElementById("editLectureForm");
     const editLectureIdEl = document.getElementById("editLectureId");
@@ -1383,11 +1144,11 @@
     const editModalCloseEl = document.getElementById("editModalClose");
     const editModalCancelEl = document.getElementById("editModalCancel");
 
-    // Элементы бэкапа
+    // Бэкап
     const exportBackupBtnEl = document.getElementById("exportBackupBtn");
     const importBackupInputEl = document.getElementById("importBackupInput");
 
-    // Пересчёт общего прогресс-бара по ВСЕМ лекциям в базе
+    // Общий прогресс-бар
     function updateOverallProgress() {
       const total = lectures.length;
       const completed = lectures.filter(item => item.completed).length;
@@ -1398,18 +1159,11 @@
       progressPercentEl.textContent = `${percent}%`;
       progressBarEl.style.width = `${percent}%`;
 
-      let suffix = "лекций";
-      const mod10 = total % 10;
-      const mod100 = total % 100;
-      if (mod10 === 1 && mod100 !== 11) {
-        suffix = "лекция";
-      } else if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) {
-        suffix = "лекции";
+      if (totalLecturesBadgeEl) {
+        totalLecturesBadgeEl.textContent = `${total} лекций`;
       }
-      totalLecturesBadgeEl.textContent = `${total} ${suffix}`;
     }
 
-    // Экранирование вывода
     function escapeHtml(str) {
       return String(str)
         .replace(/&/g, "&amp;")
@@ -1419,31 +1173,25 @@
         .replace(/'/g, "&#039;");
     }
 
-    // Фильтрация лекций (поиск по названию И заметкам + лектор + формат + статус)
+    // Фильтрация
     function getFilteredLectures() {
       const query = filterState.search.trim().toLowerCase();
 
       return lectures.filter(item => {
-        // 1. Поиск по названию или тексту заметки
         if (query) {
           const titleMatch = (item.title || "").toLowerCase().includes(query);
           const noteMatch = (item.note || "").toLowerCase().includes(query);
-          if (!titleMatch && !noteMatch) {
-            return false;
-          }
+          if (!titleMatch && !noteMatch) return false;
         }
 
-        // 2. Фильтр по лектору
         if (filterState.lecturer !== "all" && item.lecturer !== filterState.lecturer) {
           return false;
         }
 
-        // 3. Фильтр по формату
         if (filterState.format !== "all" && item.format !== filterState.format) {
           return false;
         }
 
-        // 4. Фильтр по статусу
         if (filterState.status === "completed" && !item.completed) {
           return false;
         }
@@ -1455,7 +1203,6 @@
       });
     }
 
-    // Проверка активности фильтров
     function isFilterActive() {
       return (
         filterState.search.trim() !== "" ||
@@ -1465,7 +1212,6 @@
       );
     }
 
-    // Сброс всех фильтров
     function resetAllFilters() {
       filterState.search = "";
       filterState.lecturer = "all";
@@ -1483,7 +1229,7 @@
       render();
     }
 
-    // Рендер карточек
+    // Рендер
     function render() {
       updateOverallProgress();
 
@@ -1495,7 +1241,8 @@
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
             </svg>
-            <p>Список пуст. Добавьте свою первую лекцию с помощью формы выше!</p>
+            <p>Список пуст</p>
+            <button type="button" class="btn-reset-filters" onclick="openAddModal()">Добавить первую лекцию</button>
           </div>
         `;
         return;
@@ -1512,18 +1259,12 @@
       if (filtered.length === 0) {
         listElement.innerHTML = `
           <div class="empty-state">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <p>Лекций по этим фильтрам пока нет</p>
-            <button type="button" class="btn-reset-filters" id="emptyResetBtn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="1 4 1 10 7 10"></polyline>
-                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-              </svg>
-              Сбросить фильтры
-            </button>
+            <p>По выбранным фильтрам ничего не найдено</p>
+            <button type="button" class="btn-reset-filters" id="emptyResetBtn">Сбросить фильтры</button>
           </div>
         `;
         return;
@@ -1531,7 +1272,6 @@
 
       listElement.innerHTML = filtered.map(item => {
         const isCompleted = Boolean(item.completed);
-        const formatBadgeClass = item.format === "ЕГЭ" ? "badge-ege" : "badge-olymp";
         const timecodeValue = (item.timecode || "").trim();
         const hasTimecode = timecodeValue.length > 0;
         const noteValue = item.note || "";
@@ -1542,6 +1282,7 @@
           <article class="lecture-card ${isCompleted ? 'completed' : ''}" data-id="${item.id}">
             <div class="card-main">
               <div class="card-left">
+                <!-- Круглый чекбокс -->
                 <label class="checkbox-container" title="${isCompleted ? 'Отметить как непросмотренное' : 'Отметить как просмотренное'}">
                   <input type="checkbox" class="toggle-checkbox" ${isCompleted ? 'checked' : ''}>
                   <span class="checkmark">
@@ -1551,23 +1292,17 @@
                   </span>
                 </label>
 
+                <!-- Контент: Название и мета снизу -->
                 <div class="card-content">
                   <h4 class="lecture-title">${escapeHtml(item.title)}</h4>
-                  <div class="badges-row">
-                    <span class="badge badge-lecturer">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                      </svg>
-                      ${escapeHtml(item.lecturer)}
-                    </span>
-                    <span class="badge ${formatBadgeClass}">
-                      ${escapeHtml(item.format)}
-                    </span>
+                  <div class="meta-row">
+                    <span class="meta-lecturer">${escapeHtml(item.lecturer)}</span>
+                    <span class="meta-separator">•</span>
+                    <span class="meta-format">${escapeHtml(item.format)}</span>
 
-                    <!-- Поле таймкода остановки -->
-                    <div class="timecode-container ${hasTimecode ? 'has-value' : ''}" title="Таймкод остановки видео">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Компактный таймкод -->
+                    <div class="timecode-pill ${hasTimecode ? 'has-value' : ''}" title="Таймкод остановки">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10"></circle>
                         <polyline points="12 6 12 12 16 14"></polyline>
                       </svg>
@@ -1577,61 +1312,46 @@
                 </div>
               </div>
 
+              <!-- Кнопки действий (видны при hover) -->
               <div class="card-actions">
-                <!-- Кнопка заметки -->
-                <button type="button" class="btn-note ${hasNote ? 'has-note' : ''} ${isNoteOpen ? 'active' : ''}" title="${hasNote ? 'Есть заметка (нажмите, чтобы открыть)' : 'Добавить заметку к лекции'}">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Конспект -->
+                <button type="button" class="btn-icon btn-note ${hasNote ? 'has-note' : ''} ${isNoteOpen ? 'active' : ''}" title="${hasNote ? 'Есть конспект (нажмите, чтобы открыть)' : 'Открыть заметку'}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
                     <line x1="16" y1="13" x2="8" y2="13"></line>
                     <line x1="16" y1="17" x2="8" y2="17"></line>
                   </svg>
-                  <span>Заметка</span>
-                  ${hasNote ? '<span class="note-dot" title="Заметка заполнена"></span>' : ''}
+                  ${hasNote ? '<span class="note-dot"></span>' : ''}
                 </button>
 
-                <!-- Кнопка Смотреть -->
-                <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="btn-watch" title="Открыть видео в новой вкладке">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                <!-- Смотреть видео -->
+                <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="btn-icon btn-watch" title="Открыть видео в новой вкладке">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
                   </svg>
-                  Смотреть
                 </a>
 
-                <!-- Кнопка Редактировать (карандаш) -->
-                <button type="button" class="btn-action-icon btn-edit" title="Редактировать лекцию" aria-label="Редактировать лекцию">
+                <!-- Редактировать -->
+                <button type="button" class="btn-icon btn-edit" title="Редактировать лекцию" aria-label="Редактировать">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                   </svg>
                 </button>
 
-                <!-- Кнопка Удалить (корзина) -->
-                <button type="button" class="btn-action-icon btn-delete" title="Удалить лекцию" aria-label="Удалить лекцию">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Удалить -->
+                <button type="button" class="btn-icon btn-delete" title="Удалить лекцию" aria-label="Удалить">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    <line x1="10" y1="11" x2="10" y2="17"></line>
-                    <line x1="14" y1="11" x2="14" y2="17"></line>
                   </svg>
                 </button>
               </div>
             </div>
 
-            <!-- Раскрывающийся блок заметки -->
+            <!-- Разворачивающийся блок заметок -->
             <div class="lecture-note-drawer ${isNoteOpen ? 'open' : ''}">
-              <div class="note-inner">
-                <div class="note-header">
-                  <span class="note-label">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                    </svg>
-                    Конспект и важные даты
-                  </span>
-                  <span class="note-hint">сохраняется автоматически</span>
-                </div>
-                <textarea class="note-textarea" placeholder="Запишите сюда ключевые даты, тезисы или мысли по лекции...">${escapeHtml(noteValue)}</textarea>
-              </div>
+              <textarea class="note-textarea" placeholder="Конспект, важные даты и мысли по лекции...">${escapeHtml(noteValue)}</textarea>
             </div>
           </article>
         `;
@@ -1640,14 +1360,12 @@
 
     // --- Обработчики поиска и фильтров ---
 
-    // Живой поиск
     searchInputEl.addEventListener("input", (e) => {
       filterState.search = e.target.value;
       clearSearchBtnEl.style.display = filterState.search ? "flex" : "none";
       render();
     });
 
-    // Очистка строки поиска
     clearSearchBtnEl.addEventListener("click", () => {
       filterState.search = "";
       searchInputEl.value = "";
@@ -1656,8 +1374,8 @@
       render();
     });
 
-    // Переключение кнопок-чипов фильтров
-    document.querySelector(".filter-groups").addEventListener("click", (e) => {
+    // Делегирование фильтров-тегов
+    document.querySelector(".filter-wrapper").addEventListener("click", (e) => {
       const chip = e.target.closest(".chip-btn");
       if (!chip) return;
 
@@ -1675,21 +1393,19 @@
       }
     });
 
-    // Сброс фильтров из шапки панели
     resetHeaderBtnEl.addEventListener("click", resetAllFilters);
 
-    // Сброс фильтров из пустого состояния списка
     listElement.addEventListener("click", (e) => {
       if (e.target.closest("#emptyResetBtn")) {
         resetAllFilters();
       }
     });
 
-    // --- Интерактивные действия со списком карточек ---
+    // --- Интерактивные действия с карточками ---
 
-    // 1. Автосохранение ввода в таймкод и заметку на лету (input)
+    // Автосохранение таймкода и заметок
     listElement.addEventListener("input", (e) => {
-      // Ввод в поле таймкода
+      // Таймкод
       if (e.target.classList.contains("timecode-input")) {
         const card = e.target.closest(".lecture-card");
         if (!card) return;
@@ -1698,7 +1414,7 @@
         if (item) {
           item.timecode = e.target.value.trim();
           saveLectures(lectures);
-          const container = e.target.closest(".timecode-container");
+          const container = e.target.closest(".timecode-pill");
           if (container) {
             container.classList.toggle("has-value", Boolean(item.timecode));
           }
@@ -1706,7 +1422,7 @@
         return;
       }
 
-      // Ввод в поле заметки
+      // Заметка
       if (e.target.classList.contains("note-textarea")) {
         const card = e.target.closest(".lecture-card");
         if (!card) return;
@@ -1724,7 +1440,6 @@
             if (hasNote && !dot) {
               const newDot = document.createElement("span");
               newDot.className = "note-dot";
-              newDot.title = "Заметка заполнена";
               noteBtn.appendChild(newDot);
             } else if (!hasNote && dot) {
               dot.remove();
@@ -1735,9 +1450,9 @@
       }
     });
 
-    // 2. Клики по карточке (раскрытие заметки, редактирование, удаление)
+    // Клики по карточке
     listElement.addEventListener("click", (e) => {
-      // Раскрытие / сворачивание заметки
+      // Заметка
       const noteBtn = e.target.closest(".btn-note");
       if (noteBtn) {
         const card = noteBtn.closest(".lecture-card");
@@ -1761,7 +1476,7 @@
         return;
       }
 
-      // Редактирование лекции (кнопка карандаш)
+      // Редактирование
       const editBtn = e.target.closest(".btn-edit");
       if (editBtn) {
         const card = editBtn.closest(".lecture-card");
@@ -1774,7 +1489,7 @@
         return;
       }
 
-      // Кнопка удаления с защитой от случайного клика
+      // Удаление с подтверждением
       const deleteBtn = e.target.closest(".btn-delete");
       if (deleteBtn) {
         const card = deleteBtn.closest(".lecture-card");
@@ -1793,7 +1508,7 @@
       }
     });
 
-    // 3. Переключение чекбокса "Просмотрено"
+    // Переключение чекбокса
     listElement.addEventListener("change", (e) => {
       if (e.target.classList.contains("toggle-checkbox")) {
         const card = e.target.closest(".lecture-card");
@@ -1808,8 +1523,27 @@
       }
     });
 
-    // 4. Добавление новой лекции
-    formEl.addEventListener("submit", (e) => {
+    // --- Модальное окно добавления (FAB) ---
+    function openAddModal() {
+      addModalEl.classList.add("active");
+      addModalEl.setAttribute("aria-hidden", "false");
+      setTimeout(() => document.getElementById("lectureTitle").focus(), 100);
+    }
+
+    function closeAddModal() {
+      addModalEl.classList.remove("active");
+      addModalEl.setAttribute("aria-hidden", "true");
+    }
+
+    openAddModalBtnEl.addEventListener("click", openAddModal);
+    addModalCloseEl.addEventListener("click", closeAddModal);
+    addModalCancelEl.addEventListener("click", closeAddModal);
+
+    addModalEl.addEventListener("click", (e) => {
+      if (e.target === addModalEl) closeAddModal();
+    });
+
+    addLectureFormEl.addEventListener("submit", (e) => {
       e.preventDefault();
 
       const titleInput = document.getElementById("lectureTitle");
@@ -1845,11 +1579,10 @@
 
       titleInput.value = "";
       urlInput.value = "";
-      titleInput.focus();
+      closeAddModal();
     });
 
-    // --- Логика модального окна редактирования ---
-
+    // --- Модальное окно редактирования ---
     function openEditModal(item) {
       editLectureIdEl.value = item.id;
       editLectureTitleEl.value = item.title;
@@ -1859,7 +1592,7 @@
 
       editModalEl.classList.add("active");
       editModalEl.setAttribute("aria-hidden", "false");
-      editLectureTitleEl.focus();
+      setTimeout(() => editLectureTitleEl.focus(), 100);
     }
 
     function closeEditModal() {
@@ -1870,21 +1603,10 @@
     editModalCloseEl.addEventListener("click", closeEditModal);
     editModalCancelEl.addEventListener("click", closeEditModal);
 
-    // Закрытие по клику вне окна
     editModalEl.addEventListener("click", (e) => {
-      if (e.target === editModalEl) {
-        closeEditModal();
-      }
+      if (e.target === editModalEl) closeEditModal();
     });
 
-    // Закрытие по Escape
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && editModalEl.classList.contains("active")) {
-        closeEditModal();
-      }
-    });
-
-    // Сохранение изменений в модалке
     editLectureFormEl.addEventListener("submit", (e) => {
       e.preventDefault();
 
@@ -1911,9 +1633,15 @@
       closeEditModal();
     });
 
-    // --- Резервное копирование и восстановление (JSON) ---
+    // Закрытие модалок по Escape
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (editModalEl.classList.contains("active")) closeEditModal();
+        if (addModalEl.classList.contains("active")) closeAddModal();
+      }
+    });
 
-    // Скачать бэкап
+    // --- Бэкап и восстановление (JSON) ---
     exportBackupBtnEl.addEventListener("click", () => {
       if (lectures.length === 0) {
         alert("База лекций пуста. Нечего экспортировать.");
@@ -1934,7 +1662,6 @@
       URL.revokeObjectURL(link.href);
     });
 
-    // Загрузить бэкап
     importBackupInputEl.addEventListener("change", (e) => {
       const file = e.target.files && e.target.files[0];
       if (!file) return;
@@ -1957,7 +1684,6 @@
             return;
           }
 
-          // Нормализуем импортированные лекции
           lectures = parsed.map((item, idx) => sanitizeLecture(item, idx));
           openNoteIds.clear();
           saveLectures(lectures);
