@@ -2106,6 +2106,553 @@
         padding: 40px 18px;
       }
     }
+
+    /* ==========================================================================
+       Главная навигация: [Мои Лекции] / [Кодификатор Тем]
+       ========================================================================== */
+    .main-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 22px;
+    }
+
+    .main-nav-tabs {
+      display: inline-flex;
+      background: rgba(24, 24, 27, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 5px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+      gap: 5px;
+    }
+
+    .main-nav-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+      font-family: inherit;
+    }
+
+    .main-nav-tab:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .main-nav-tab.active {
+      color: #ffffff;
+      background: var(--accent);
+      box-shadow: 0 2px 12px rgba(99, 102, 241, 0.42);
+    }
+
+    .main-nav-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      color: currentColor;
+      transition: background 0.2s ease;
+    }
+
+    .main-nav-tab.active .main-nav-badge {
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    /* ==========================================================================
+       Раздел "Кодификатор" (Roadmap) в стиле Notion / Bento
+       ========================================================================== */
+    .roadmap-section {
+      display: none;
+      animation: fadeInSection 0.25s ease-out;
+    }
+
+    @keyframes fadeInSection {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .roadmap-header-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .roadmap-header-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 260px;
+      height: 100%;
+      background: radial-gradient(circle at 100% 0%, rgba(99, 102, 241, 0.14), transparent 70%);
+      pointer-events: none;
+    }
+
+    .roadmap-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .roadmap-title-area h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .roadmap-title-area p {
+      color: var(--text-secondary);
+      font-size: 0.86rem;
+      margin-top: 5px;
+      max-width: 680px;
+      line-height: 1.5;
+    }
+
+    .roadmap-actions-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-roadmap-action {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-roadmap-action:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .roadmap-overall-progress {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .roadmap-overall-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+
+    .roadmap-meta-count {
+      color: var(--text-primary);
+    }
+
+    .roadmap-meta-percent {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .roadmap-bar-outer {
+      height: 9px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .roadmap-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      border-radius: var(--radius-pill);
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Аккордеон списка блоков */
+    .roadmap-tree {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .roadmap-block {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+    }
+
+    .roadmap-block:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    /* Блок закрыт на 100% (Золотой статус) */
+    .roadmap-block.completed {
+      border-color: rgba(245, 158, 11, 0.45);
+      box-shadow: 0 4px 24px -2px rgba(245, 158, 11, 0.18), 0 0 16px rgba(245, 158, 11, 0.12);
+    }
+
+    .roadmap-block.completed .roadmap-block-header {
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.02) 65%, transparent);
+    }
+
+    .roadmap-block.completed .roadmap-block-title {
+      color: #fef3c7;
+      text-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+    }
+
+    .roadmap-block.completed .roadmap-progress-bar-inner {
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+    }
+
+    /* Заголовок аккордеона */
+    .roadmap-block-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s ease;
+    }
+
+    .roadmap-block-header:hover {
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .roadmap-block-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .roadmap-chevron {
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .roadmap-block.open .roadmap-chevron {
+      transform: rotate(90deg);
+      color: var(--text-primary);
+    }
+
+    .roadmap-block-icon {
+      font-size: 1.25rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .roadmap-block-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      gap: 2px;
+    }
+
+    .roadmap-block-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      line-height: 1.35;
+    }
+
+    .roadmap-block-dates {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .roadmap-block-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    /* Прогресс-бар блока */
+    .roadmap-block-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .roadmap-progress-text {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      min-width: 72px;
+      text-align: right;
+    }
+
+    .roadmap-progress-bar-outer {
+      width: 76px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .roadmap-progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      border-radius: var(--radius-pill);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .roadmap-complete-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      color: #fbbf24;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.22);
+      animation: popInBadge 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes popInBadge {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Тело аккордеона (список подтем) */
+    .roadmap-block-body {
+      display: none;
+      padding: 6px 16px 16px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .roadmap-block.open .roadmap-block-body {
+      display: block;
+      animation: fadeInAccordion 0.22s ease-out;
+    }
+
+    @keyframes fadeInAccordion {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .roadmap-topic-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .roadmap-topic-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      transition: all 0.18s ease;
+    }
+
+    .roadmap-topic-item:hover {
+      background: rgba(255, 255, 255, 0.045);
+      border-color: rgba(255, 255, 255, 0.09);
+    }
+
+    .roadmap-topic-item.checked {
+      background: rgba(99, 102, 241, 0.06);
+      border-color: rgba(99, 102, 241, 0.15);
+    }
+
+    .roadmap-topic-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* Кастомный чекбокс */
+    .roadmap-checkbox-label {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .roadmap-checkbox-input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .roadmap-checkbox-custom {
+      width: 19px;
+      height: 19px;
+      border-radius: 5px;
+      border: 1.8px solid var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      color: transparent;
+    }
+
+    .roadmap-checkbox-input:checked + .roadmap-checkbox-custom {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    }
+
+    .roadmap-checkbox-custom svg {
+      width: 12px;
+      height: 12px;
+      stroke-width: 2.5;
+    }
+
+    .roadmap-topic-title-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+      font-size: 0.88rem;
+      color: var(--text-primary);
+      font-family: inherit;
+      cursor: pointer;
+      line-height: 1.45;
+      flex: 1;
+      transition: color 0.18s ease;
+    }
+
+    .roadmap-topic-title-btn:hover {
+      color: #a5b4fc;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .roadmap-topic-item.checked .roadmap-topic-title-btn {
+      color: var(--text-secondary);
+      text-decoration: line-through;
+      text-decoration-color: rgba(255, 255, 255, 0.28);
+    }
+
+    .roadmap-topic-item.checked .roadmap-topic-title-btn:hover {
+      text-decoration: line-through underline;
+      color: #cbd5e1;
+    }
+
+    /* Кнопка быстрого поиска лекций */
+    .roadmap-topic-find-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+      transition: all 0.18s ease;
+      font-family: inherit;
+    }
+
+    .roadmap-topic-find-btn:hover {
+      background: rgba(99, 102, 241, 0.18);
+      border-color: rgba(99, 102, 241, 0.35);
+      color: #c7d2fe;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 600px) {
+      .roadmap-block-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px 16px;
+      }
+      .roadmap-block-right {
+        width: 100%;
+        justify-content: space-between;
+        padding-left: 36px;
+      }
+      .roadmap-header-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .roadmap-actions-bar {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .roadmap-topic-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .roadmap-topic-find-btn {
+        align-self: flex-end;
+      }
+    }
   </style>
 </head>
 <body>
@@ -2192,89 +2739,158 @@
       </section>
     </div>
 
-    <!-- 3. Поиск и горизонтальные теги (Pills) -->
-    <div class="search-container">
-      <span class="search-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </span>
-      <input type="text" id="searchInput" class="search-input" placeholder="Поиск по названию или конспекту...">
-      <button type="button" id="clearSearchBtn" class="search-clear-btn" title="Очистить поиск" aria-label="Очистить поиск">✕</button>
-    </div>
-
-    <div class="filter-wrapper">
-      <!-- Динамический горизонтальный трек лекторов -->
-      <div class="filter-track" id="lecturerFilters">
-        <!-- Генерируется через JS на основе лекций -->
-      </div>
-
-      <!-- Формат и статус в скроллируемой строке -->
-      <div class="filter-track">
-        <div id="formatFilters" style="display: flex; gap: 6px;">
-          <button type="button" class="chip-btn active" data-filter="format" data-value="all">Все форматы</button>
-          <button type="button" class="chip-btn" data-filter="format" data-value="ЕГЭ">ЕГЭ</button>
-          <button type="button" class="chip-btn" data-filter="format" data-value="Олимпиады">Олимпиады</button>
-        </div>
-
-        <span class="filter-divider">|</span>
-
-        <div id="statusFilters" style="display: flex; gap: 6px;">
-          <button type="button" class="chip-btn active" data-filter="status" data-value="all">Все</button>
-          <button type="button" class="chip-btn" data-filter="status" data-value="uncompleted">Не просмотрено</button>
-          <button type="button" class="chip-btn" data-filter="status" data-value="completed">Просмотрено</button>
-        </div>
-
-        <button type="button" class="reset-filter-link" id="resetHeaderBtn">Сбросить</button>
-      </div>
-    </div>
-
-    <!-- Панель переключения режима: Список / Таймлайн -->
-    <div class="view-header-bar">
-      <div class="matching-status" id="matchingCountText"></div>
-      <div class="view-toggle" role="tablist" aria-label="Режим отображения">
-        <button type="button" class="view-toggle-btn active" id="btnViewList" data-view="list" title="Вид списком">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="8" y1="6" x2="21" y2="6"></line>
-            <line x1="8" y1="12" x2="21" y2="12"></line>
-            <line x1="8" y1="18" x2="21" y2="18"></line>
-            <line x1="3" y1="6" x2="3.01" y2="6"></line>
-            <line x1="3" y1="12" x2="3.01" y2="12"></line>
-            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+    <!-- Главный переключатель разделов: [Мои Лекции] / [Кодификатор Тем] -->
+    <div class="main-nav-bar">
+      <div class="main-nav-tabs" role="tablist" aria-label="Основные разделы">
+        <button type="button" class="main-nav-tab active" id="tabMyLectures" data-tab="lectures">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
           </svg>
-          <span>Список</span>
+          <span>Мои Лекции</span>
+          <span class="main-nav-badge" id="tabLecturesBadge">0</span>
         </button>
-        <button type="button" class="view-toggle-btn" id="btnViewTimeline" data-view="timeline" title="Таймлайн по эпохам">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
+        <button type="button" class="main-nav-tab" id="tabRoadmap" data-tab="roadmap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 11 12 14 22 4"></polyline>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
           </svg>
-          <span>Таймлайн</span>
+          <span>Кодификатор Тем</span>
+          <span class="main-nav-badge" id="tabRoadmapBadge">0%</span>
         </button>
       </div>
     </div>
 
-    <!-- 4. Основная область лекций: Список или Таймлайн -->
-    <main id="mainContainer">
-      <!-- Обычный список лекций -->
-      <div class="lecture-list" id="lectureList">
-        <!-- Карточки генерируются скриптом -->
+    <!-- РАЗДЕЛ 1: Мои Лекции (Поиск, фильтры, список и таймлайн) -->
+    <div class="lectures-section" id="lecturesSection">
+      <!-- 3. Поиск и горизонтальные теги (Pills) -->
+      <div class="search-container">
+        <span class="search-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Поиск по названию или конспекту...">
+        <button type="button" id="clearSearchBtn" class="search-clear-btn" title="Очистить поиск" aria-label="Очистить поиск">✕</button>
       </div>
 
-      <!-- Режим «Таймлайн по эпохам» -->
-      <div class="timeline-container" id="timelineContainer" style="display: none;">
-        <!-- Быстрая навигация по эпохам -->
-        <div class="timeline-nav-track" id="timelineNavTrack">
-          <!-- Генерируется через JS -->
+      <div class="filter-wrapper">
+        <!-- Динамический горизонтальный трек лекторов -->
+        <div class="filter-track" id="lecturerFilters">
+          <!-- Генерируется через JS на основе лекций -->
         </div>
 
-        <!-- Горизонтальная лента (desktop) / вертикальный степпер (mobile) -->
-        <div class="timeline-track" id="timelineTrack">
-          <!-- Колонки эпох генерируются через JS -->
+        <!-- Формат и статус в скроллируемой строке -->
+        <div class="filter-track">
+          <div id="formatFilters" style="display: flex; gap: 6px;">
+            <button type="button" class="chip-btn active" data-filter="format" data-value="all">Все форматы</button>
+            <button type="button" class="chip-btn" data-filter="format" data-value="ЕГЭ">ЕГЭ</button>
+            <button type="button" class="chip-btn" data-filter="format" data-value="Олимпиады">Олимпиады</button>
+          </div>
+
+          <span class="filter-divider">|</span>
+
+          <div id="statusFilters" style="display: flex; gap: 6px;">
+            <button type="button" class="chip-btn active" data-filter="status" data-value="all">Все</button>
+            <button type="button" class="chip-btn" data-filter="status" data-value="uncompleted">Не просмотрено</button>
+            <button type="button" class="chip-btn" data-filter="status" data-value="completed">Просмотрено</button>
+          </div>
+
+          <button type="button" class="reset-filter-link" id="resetHeaderBtn">Сбросить</button>
         </div>
       </div>
-    </main>
+
+      <!-- Панель переключения режима: Список / Таймлайн -->
+      <div class="view-header-bar">
+        <div class="matching-status" id="matchingCountText"></div>
+        <div class="view-toggle" role="tablist" aria-label="Режим отображения">
+          <button type="button" class="view-toggle-btn active" id="btnViewList" data-view="list" title="Вид списком">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
+            </svg>
+            <span>Список</span>
+          </button>
+          <button type="button" class="view-toggle-btn" id="btnViewTimeline" data-view="timeline" title="Таймлайн по эпохам">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>Таймлайн</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4. Основная область лекций: Список или Таймлайн -->
+      <main id="mainContainer">
+        <!-- Обычный список лекций -->
+        <div class="lecture-list" id="lectureList">
+          <!-- Карточки генерируются скриптом -->
+        </div>
+
+        <!-- Режим «Таймлайн по эпохам» -->
+        <div class="timeline-container" id="timelineContainer" style="display: none;">
+          <!-- Быстрая навигация по эпохам -->
+          <div class="timeline-nav-track" id="timelineNavTrack">
+            <!-- Генерируется через JS -->
+          </div>
+
+          <!-- Горизонтальная лента (desktop) / вертикальный степпер (mobile) -->
+          <div class="timeline-track" id="timelineTrack">
+            <!-- Колонки эпох генерируются через JS -->
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- РАЗДЕЛ 2: Кодификатор Тем (Roadmap) -->
+    <section class="roadmap-section" id="roadmapSection">
+      <!-- Дашборд кодификатора с общим прогрессом -->
+      <div class="roadmap-header-card">
+        <div class="roadmap-header-top">
+          <div class="roadmap-title-area">
+            <h2>
+              <span>🗺️ Кодификатор тем истории</span>
+            </h2>
+            <p>Дерево тем историко-культурного стандарта и ЕГЭ. Отмечайте изученное и нажимайте на любую тему для мгновенного поиска лекций в базе.</p>
+          </div>
+          <div class="roadmap-actions-bar">
+            <button type="button" class="btn-roadmap-action" id="roadmapExpandAllBtn" title="Развернуть все блоки">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+              <span>Развернуть все</span>
+            </button>
+            <button type="button" class="btn-roadmap-action" id="roadmapCollapseAllBtn" title="Свернуть все блоки">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+              <span>Свернуть все</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="roadmap-overall-progress">
+          <div class="roadmap-overall-meta">
+            <span class="roadmap-meta-count" id="roadmapOverallCount">Изучено: 0 из 52 тем</span>
+            <span class="roadmap-meta-percent" id="roadmapOverallPercent">0%</span>
+          </div>
+          <div class="roadmap-bar-outer">
+            <div class="roadmap-bar-inner" id="roadmapOverallBar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Дерево тем: Аккордеон блоков -->
+      <div class="roadmap-tree" id="roadmapTree">
+        <!-- Генерируется через JS -->
+      </div>
+    </section>
 
     <!-- 5. Подвал с резервным копированием -->
     <footer class="app-footer">
@@ -2874,6 +3490,377 @@
     const exportBackupBtnEl = document.getElementById("exportBackupBtn");
     const importBackupInputEl = document.getElementById("importBackupInput");
 
+    // Элементы навигации верхнего уровня: [Мои Лекции] / [Кодификатор Тем]
+    const tabMyLecturesEl = document.getElementById("tabMyLectures");
+    const tabRoadmapEl = document.getElementById("tabRoadmap");
+    const tabLecturesBadgeEl = document.getElementById("tabLecturesBadge");
+    const tabRoadmapBadgeEl = document.getElementById("tabRoadmapBadge");
+    const lecturesSectionEl = document.getElementById("lecturesSection");
+    const roadmapSectionEl = document.getElementById("roadmapSection");
+
+    // Элементы Кодификатора (Roadmap)
+    const roadmapTreeEl = document.getElementById("roadmapTree");
+    const roadmapOverallCountEl = document.getElementById("roadmapOverallCount");
+    const roadmapOverallPercentEl = document.getElementById("roadmapOverallPercent");
+    const roadmapOverallBarEl = document.getElementById("roadmapOverallBar");
+    const roadmapExpandAllBtnEl = document.getElementById("roadmapExpandAllBtn");
+    const roadmapCollapseAllBtnEl = document.getElementById("roadmapCollapseAllBtn");
+
+    // Константы и состояние Кодификатора
+    const STORAGE_ROADMAP_PROGRESS_KEY = "roadmapProgress";
+    let roadmapProgress = loadRoadmapProgress();
+    let roadmapOpenBlocks = new Set(["rus-ancient", "moscow-state"]);
+    let currentMainTab = "lectures";
+    try {
+      currentMainTab = localStorage.getItem("history_main_tab_v1") || "lectures";
+    } catch (e) {}
+
+    const ROADMAP_DATA = [
+      {
+        id: "rus-ancient",
+        icon: "🏛️",
+        title: "1. Древность и Русь (IX–XIII вв.)",
+        period: "IX–XIII вв.",
+        topics: [
+          { id: "rus-1", title: "Восточные славяне и их соседи. Призвание варягов (862 г.)", search: "варяг" },
+          { id: "rus-2", title: "Первые киевские князья: Олег, Игорь, Ольга, Святослав", search: "Ольга" },
+          { id: "rus-3", title: "Владимир I Святой. Крещение Руси (988 г.)", search: "Крещение Руси" },
+          { id: "rus-4", title: "Ярослав Мудрый и «Русская Правда». Расцвет Киевской Руси", search: "Ярослав Мудрый" },
+          { id: "rus-5", title: "Владимир Мономах. Любечский съезд князей (1097 г.)", search: "Мономах" },
+          { id: "rus-6", title: "Культура и быт Древней Руси: храмовое зодчество, летописи, крещение", search: "Культура Руси" }
+        ]
+      },
+      {
+        id: "moscow-state",
+        icon: "⚔️",
+        title: "2. Раздробленность и Московское государство (XIII–XVII вв.)",
+        period: "XIII–XVII вв.",
+        topics: [
+          { id: "mos-1", title: "Феодальная раздробленность: Новгородская земля, Владимиро-Суздальское княжество", search: "Раздробленность" },
+          { id: "mos-2", title: "Монгольское нашествие хана Батыя и установление ордынского ига", search: "Батый" },
+          { id: "mos-3", title: "Александр Невский: Невская битва (1240 г.) и Ледовое побоище (1242 г.)", search: "Александр Невский" },
+          { id: "mos-4", title: "Возвышение Москвы: Иван Калита и объединение русских земель", search: "Иван Калита" },
+          { id: "mos-5", title: "Дмитрий Донской. Куликовская битва (1380 г.)", search: "Куликовская битва" },
+          { id: "mos-6", title: "Иван III: Стояние на Угре (1480 г.), освобождение от Орды и Судебник 1497 г.", search: "Иван III" },
+          { id: "mos-7", title: "Иван IV Грозный: реформы Избранной рады и Опричнина", search: "Иван Грозный" },
+          { id: "mos-8", title: "Смутное время: интервенция, ополчения Минина и Пожарского (1612 г.)", search: "Смута" },
+          { id: "mos-9", title: "Первые Романовы: Соборное уложение 1649 г., церковный раскол Никона", search: "Соборное уложение" }
+        ]
+      },
+      {
+        id: "empire-18",
+        icon: "👑",
+        title: "3. Российская Империя: XVIII век",
+        period: "1689–1801 гг.",
+        topics: [
+          { id: "emp18-1", title: "Петр I: Северная война (1700–1721 гг.) и выход к Балтийскому морю", search: "Северная война" },
+          { id: "emp18-2", title: "Государственные, военные и культурные реформы Петра Великого", search: "Петр" },
+          { id: "emp18-3", title: "Эпоха дворцовых переворотов (1725–1762 гг.)", search: "Дворцовые перевороты" },
+          { id: "emp18-4", title: "Екатерина II: «Просвещенный абсолютизм» и Уложенная комиссия", search: "Екатерина II" },
+          { id: "emp18-5", title: "Русско-турецкие войны XVIII века. Суворов, Ушаков. Присоединение Крыма (1783 г.)", search: "Суворов" },
+          { id: "emp18-6", title: "Крестьянская война под предводительством Емельяна Пугачева (1773–1775 гг.)", search: "Пугачев" },
+          { id: "emp18-7", title: "Правление Павла I: закон о престолонаследии и внутренняя политика", search: "Павел I" }
+        ]
+      },
+      {
+        id: "empire-19",
+        icon: "📜",
+        title: "4. Российская Империя: XIX век",
+        period: "1801–1894 гг.",
+        topics: [
+          { id: "emp19-1", title: "Александр I: проект М. М. Сперанского и министерская реформа", search: "Александр I" },
+          { id: "emp19-2", title: "Отечественная война 1812 года и Заграничные походы русской армии (1813–1814 гг.)", search: "1812" },
+          { id: "emp19-3", title: "Движение декабристов. Восстание 14 декабря 1825 года на Сенатской площади", search: "Декабристы" },
+          { id: "emp19-4", title: "Николай I: теория официальной народности, Кавказская и Крымская войны (1853–1856 гг.)", search: "Николай I" },
+          { id: "emp19-5", title: "Александр II: Отмена крепостного права (1861 г.) и Великие реформы 1860–70-х годов", search: "Крепостное право" },
+          { id: "emp19-6", title: "Общественная мысль XIX в.: западники, славянофилы, народничество и марксизм", search: "Народничество" },
+          { id: "emp19-7", title: "Александр III: политика контрреформ, стабилизация и промышленный подъем", search: "Александр III" }
+        ]
+      },
+      {
+        id: "century-20-early",
+        icon: "🎖️",
+        title: "5. Первая половина XX века (Войны и Революции)",
+        period: "1894–1945 гг.",
+        topics: [
+          { id: "cen20-1", title: "Николай II: Русско-японская война (1904–1905 гг.)", search: "Русско-японская" },
+          { id: "cen20-2", title: "Первая русская революция (1905–1907 гг.) и Манифест 17 октября", search: "1905" },
+          { id: "cen20-3", title: "Аграрная реформа П. А. Столыпина и экономическое развитие России", search: "Столыпин" },
+          { id: "cen20-4", title: "Россия в Первой мировой войне (1914–1918 гг.). Брусиловский прорыв", search: "Первая мировая" },
+          { id: "cen20-5", title: "Великая российская революция 1917 года: падение монархии в Феврале и Октябрь", search: "1917" },
+          { id: "cen20-6", title: "Гражданская война в России и политика «военного коммунизма»", search: "Гражданская война" },
+          { id: "cen20-7", title: "Новая экономическая политика (НЭП) и образование СССР (1922 г.)", search: "НЭП" },
+          { id: "cen20-8", title: "Форсированная индустриализация и коллективизация сельского хозяйства в СССР", search: "Индустриализация" },
+          { id: "cen20-9", title: "Великая Отечественная война (1941–1945 гг.): битва за Москву, Сталинград, Курск, Победа", search: "Отечественная война" }
+        ]
+      },
+      {
+        id: "ussr-late",
+        icon: "🚀",
+        title: "6. СССР: Вторая половина XX века",
+        period: "1945–1991 гг.",
+        topics: [
+          { id: "ussr-1", title: "Послевоенное восстановление народного хозяйства и истоки «Холодной войны»", search: "Холодная война" },
+          { id: "ussr-2", title: "Н. С. Хрущев: эпоха «Оттепели», развенчание культа личности, Гагарин в космосе", search: "Оттепель" },
+          { id: "ussr-3", title: "Л. И. Брежнев: эпоха «развитого социализма», стабильность и нарастание застоя", search: "Брежнев" },
+          { id: "ussr-4", title: "Косыгинская экономическая реформа 1965 г. и научно-техническое развитие", search: "Косыгин" },
+          { id: "ussr-5", title: "Внешняя политика СССР: разрядка 1970-х, Хельсинки-1975, война в Афганистане", search: "Афганистан" },
+          { id: "ussr-6", title: "М. С. Горбачев: политика Перестройки, гласность и политические реформы", search: "Перестройка" },
+          { id: "ussr-7", title: "Кризис советской системы, августовский путч ГКЧП и распад СССР (1991 г.)", search: "Распад СССР" }
+        ]
+      },
+      {
+        id: "modern-russia",
+        icon: "🌐",
+        title: "7. Новейшая история (1991–2024)",
+        period: "1991–2024 гг.",
+        topics: [
+          { id: "mod-1", title: "Становление Российской Федерации: политический кризис и Конституция 1993 года", search: "Конституция 1993" },
+          { id: "mod-2", title: "Экономические реформы 1990-х: «шоковая терапия», приватизация, дефолт 1998 года", search: "Приватизация" },
+          { id: "mod-3", title: "Северокавказские вооруженные конфликты и укрепление федеративной целостности", search: "Чечня" },
+          { id: "mod-4", title: "Россия в 2000-е годы: курс на укрепление государственности и экономический рост", search: "Россия 2000" },
+          { id: "mod-5", title: "Внешняя политика РФ в XXI веке: концепция многополярности, Мюнхенская речь", search: "Внешняя политика" },
+          { id: "mod-6", title: "Воссоединение Крыма с Россией (2014 г.) и современные геополитические события", search: "Крым 2014" },
+          { id: "mod-7", title: "Принятие поправок к Конституции РФ 2020 года и развитие современной России", search: "Конституция 2020" }
+        ]
+      }
+    ];
+
+    const TOTAL_ROADMAP_TOPICS = ROADMAP_DATA.reduce((acc, b) => acc + b.topics.length, 0);
+
+    function loadRoadmapProgress() {
+      try {
+        const raw = localStorage.getItem(STORAGE_ROADMAP_PROGRESS_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === "object") return parsed;
+        }
+      } catch (e) {
+        console.error("Ошибка загрузки roadmapProgress", e);
+      }
+      return {};
+    }
+
+    function saveRoadmapProgress(progress = roadmapProgress) {
+      try {
+        localStorage.setItem(STORAGE_ROADMAP_PROGRESS_KEY, JSON.stringify(progress));
+      } catch (e) {
+        console.error("Ошибка сохранения roadmapProgress", e);
+      }
+    }
+
+    function getCompletedRoadmapCount() {
+      return Object.keys(roadmapProgress).filter(id => Boolean(roadmapProgress[id])).length;
+    }
+
+    function renderRoadmap() {
+      if (!roadmapTreeEl) return;
+
+      const completedOverall = getCompletedRoadmapCount();
+      const overallPercent = Math.round((completedOverall / TOTAL_ROADMAP_TOPICS) * 100);
+
+      if (roadmapOverallCountEl) {
+        roadmapOverallCountEl.textContent = `Изучено: ${completedOverall} из ${TOTAL_ROADMAP_TOPICS} тем`;
+      }
+      if (roadmapOverallPercentEl) {
+        roadmapOverallPercentEl.textContent = `${overallPercent}%`;
+      }
+      if (roadmapOverallBarEl) {
+        roadmapOverallBarEl.style.width = `${overallPercent}%`;
+      }
+      if (tabRoadmapBadgeEl) {
+        tabRoadmapBadgeEl.textContent = `${completedOverall}/${TOTAL_ROADMAP_TOPICS}`;
+      }
+
+      roadmapTreeEl.innerHTML = ROADMAP_DATA.map(block => {
+        const bTotal = block.topics.length;
+        const bCompleted = block.topics.filter(t => Boolean(roadmapProgress[t.id])).length;
+        const bPercent = Math.round((bCompleted / bTotal) * 100);
+        const isFull = bCompleted === bTotal;
+        const isOpen = roadmapOpenBlocks.has(block.id);
+
+        const topicsHtml = block.topics.map(topic => {
+          const isChecked = Boolean(roadmapProgress[topic.id]);
+          const query = topic.search || topic.title;
+          return `
+            <li class="roadmap-topic-item ${isChecked ? 'checked' : ''}" data-topic-id="${topic.id}">
+              <div class="roadmap-topic-left">
+                <label class="roadmap-checkbox-label" title="${isChecked ? 'Снять отметку' : 'Отметить как изученное'}">
+                  <input type="checkbox" class="roadmap-checkbox-input" data-topic-id="${topic.id}" ${isChecked ? 'checked' : ''}>
+                  <span class="roadmap-checkbox-custom">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </span>
+                </label>
+                <button type="button" class="roadmap-topic-title-btn" data-search-query="${escapeHtml(query)}" title="Найти лекции по теме: «${escapeHtml(topic.title)}»">
+                  ${escapeHtml(topic.title)}
+                </button>
+              </div>
+              <button type="button" class="roadmap-topic-find-btn" data-search-query="${escapeHtml(query)}" title="Искать подходящие лекции в базе">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <span>Лекции</span>
+              </button>
+            </li>
+          `;
+        }).join("");
+
+        return `
+          <div class="roadmap-block ${isOpen ? 'open' : ''} ${isFull ? 'completed' : ''}" data-block-id="${block.id}">
+            <div class="roadmap-block-header">
+              <div class="roadmap-block-left">
+                <span class="roadmap-chevron">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </span>
+                <span class="roadmap-block-icon">${block.icon}</span>
+                <div class="roadmap-block-info">
+                  <span class="roadmap-block-title">${escapeHtml(block.title)}</span>
+                  <span class="roadmap-block-dates">${escapeHtml(block.period)}</span>
+                </div>
+              </div>
+              <div class="roadmap-block-right">
+                ${isFull ? `
+                  <span class="roadmap-complete-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>100% 🏆</span>
+                  </span>
+                ` : ''}
+                <div class="roadmap-block-progress-wrap">
+                  <span class="roadmap-progress-text">${bCompleted}/${bTotal} тем</span>
+                  <div class="roadmap-progress-bar-outer">
+                    <div class="roadmap-progress-bar-inner" style="width: ${bPercent}%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="roadmap-block-body">
+              <ul class="roadmap-topic-list">
+                ${topicsHtml}
+              </ul>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function updateRoadmapUI() {
+      const completedOverall = getCompletedRoadmapCount();
+      const overallPercent = Math.round((completedOverall / TOTAL_ROADMAP_TOPICS) * 100);
+
+      if (roadmapOverallCountEl) {
+        roadmapOverallCountEl.textContent = `Изучено: ${completedOverall} из ${TOTAL_ROADMAP_TOPICS} тем`;
+      }
+      if (roadmapOverallPercentEl) {
+        roadmapOverallPercentEl.textContent = `${overallPercent}%`;
+      }
+      if (roadmapOverallBarEl) {
+        roadmapOverallBarEl.style.width = `${overallPercent}%`;
+      }
+      if (tabRoadmapBadgeEl) {
+        tabRoadmapBadgeEl.textContent = `${completedOverall}/${TOTAL_ROADMAP_TOPICS}`;
+      }
+
+      ROADMAP_DATA.forEach(block => {
+        const blockEl = document.querySelector(`.roadmap-block[data-block-id="${block.id}"]`);
+        if (!blockEl) return;
+
+        const bTotal = block.topics.length;
+        const bCompleted = block.topics.filter(t => Boolean(roadmapProgress[t.id])).length;
+        const bPercent = Math.round((bCompleted / bTotal) * 100);
+        const isFull = bCompleted === bTotal;
+
+        const progressTextEl = blockEl.querySelector(".roadmap-progress-text");
+        if (progressTextEl) progressTextEl.textContent = `${bCompleted}/${bTotal} тем`;
+
+        const progressBarInner = blockEl.querySelector(".roadmap-progress-bar-inner");
+        if (progressBarInner) progressBarInner.style.width = `${bPercent}%`;
+
+        const blockRightEl = blockEl.querySelector(".roadmap-block-right");
+        let badgeEl = blockEl.querySelector(".roadmap-complete-badge");
+
+        if (isFull) {
+          blockEl.classList.add("completed");
+          if (!badgeEl && blockRightEl) {
+            badgeEl = document.createElement("span");
+            badgeEl.className = "roadmap-complete-badge";
+            badgeEl.innerHTML = `
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>100% 🏆</span>
+            `;
+            blockRightEl.insertBefore(badgeEl, blockRightEl.firstChild);
+          }
+        } else {
+          blockEl.classList.remove("completed");
+          if (badgeEl) badgeEl.remove();
+        }
+      });
+    }
+
+    function switchMainTab(tab) {
+      currentMainTab = tab;
+      try {
+        localStorage.setItem("history_main_tab_v1", tab);
+      } catch (e) {}
+
+      if (tab === "roadmap") {
+        if (tabMyLecturesEl) tabMyLecturesEl.classList.remove("active");
+        if (tabRoadmapEl) tabRoadmapEl.classList.add("active");
+        if (lecturesSectionEl) lecturesSectionEl.style.display = "none";
+        if (roadmapSectionEl) roadmapSectionEl.style.display = "block";
+        if (openAddModalBtnEl) openAddModalBtnEl.style.display = "none";
+        renderRoadmap();
+      } else {
+        if (tabMyLecturesEl) tabMyLecturesEl.classList.add("active");
+        if (tabRoadmapEl) tabRoadmapEl.classList.remove("active");
+        if (lecturesSectionEl) lecturesSectionEl.style.display = "block";
+        if (roadmapSectionEl) roadmapSectionEl.style.display = "none";
+        if (openAddModalBtnEl) openAddModalBtnEl.style.display = "flex";
+      }
+    }
+
+    function handleRoadmapSearchClick(query) {
+      if (!query) return;
+
+      // 1. Переключаем на вкладку «Мои Лекции»
+      switchMainTab("lectures");
+
+      // 2. Сбрасываем фильтры лектора, формата и статуса, чтобы не скрывать результаты
+      filterState.status = "all";
+      filterState.format = "all";
+      filterState.lecturer = "all";
+      filterState.search = query;
+
+      if (searchInputEl) {
+        searchInputEl.value = query;
+        if (clearSearchBtnEl) clearSearchBtnEl.style.display = "flex";
+      }
+
+      document.querySelectorAll(".chip-btn").forEach(btn => {
+        const val = btn.getAttribute("data-value");
+        btn.classList.toggle("active", val === "all");
+      });
+
+      // 3. Вызываем рендер
+      render();
+
+      // 4. Плавный скролл к строке поиска/лекциям
+      const searchContainer = document.querySelector(".search-container");
+      if (searchContainer) {
+        searchContainer.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      showToast(`Поиск по теме: «${query}»`);
+    }
+
     // Элементы RPG-профиля (Табель о рангах)
     const userRankTitleEl = document.getElementById("userRankTitle");
     const userRankProgressBarEl = document.getElementById("userRankProgressBar");
@@ -3445,9 +4432,21 @@
 
       return lectures.filter(item => {
         if (query) {
-          const titleMatch = (item.title || "").toLowerCase().includes(query);
-          const noteMatch = (item.note || "").toLowerCase().includes(query);
-          if (!titleMatch && !noteMatch) return false;
+          const title = (item.title || "").toLowerCase();
+          const note = (item.note || "").toLowerCase();
+          const era = (item.era || "").toLowerCase();
+
+          let matched = title.includes(query) || note.includes(query) || era.includes(query);
+
+          // Если прямого вхождения нет, проверяем по основе слова для русского языка
+          if (!matched && query.length >= 4) {
+            const stem = query.replace(/(?:ое|ее|ый|ий|ая|яя|ые|ие|ов|ев|ей|ам|ям|ами|ями|ах|ях|ом|ем|ой|ей|а|я|у|ю|е|о|ы|и)$/i, "");
+            if (stem.length >= 3) {
+              matched = title.includes(stem) || note.includes(stem) || era.includes(stem);
+            }
+          }
+
+          if (!matched) return false;
         }
 
         if (filterState.lecturer !== "all" && item.lecturer !== filterState.lecturer) {
@@ -3730,6 +4729,11 @@
       updateOverallProgress();
       updateRankUI();
       renderHeatmap();
+
+      if (tabLecturesBadgeEl) {
+        tabLecturesBadgeEl.textContent = lectures.length;
+      }
+      updateRoadmapUI();
 
       const containerEl = document.querySelector(".container");
 
@@ -4206,6 +5210,92 @@
       }
     });
 
+    // --- Навигация верхнего уровня ([Мои Лекции] / [Кодификатор Тем]) ---
+    if (tabMyLecturesEl) {
+      tabMyLecturesEl.addEventListener("click", () => switchMainTab("lectures"));
+    }
+    if (tabRoadmapEl) {
+      tabRoadmapEl.addEventListener("click", () => switchMainTab("roadmap"));
+    }
+
+    // --- Обработчики Кодификатора (Roadmap) ---
+    if (roadmapTreeEl) {
+      // 1. Чекбоксы тем (событие change)
+      roadmapTreeEl.addEventListener("change", (e) => {
+        if (!e.target.classList.contains("roadmap-checkbox-input")) return;
+        const topicId = e.target.getAttribute("data-topic-id");
+        if (!topicId) return;
+
+        const isChecked = e.target.checked;
+        roadmapProgress[topicId] = isChecked;
+        saveRoadmapProgress(roadmapProgress);
+
+        const topicItem = e.target.closest(".roadmap-topic-item");
+        if (topicItem) {
+          topicItem.classList.toggle("checked", isChecked);
+        }
+
+        updateRoadmapUI();
+
+        if (isChecked) {
+          // Проверяем, закрылся ли блок на 100%
+          const blockObj = ROADMAP_DATA.find(b => b.topics.some(t => t.id === topicId));
+          if (blockObj && blockObj.topics.every(t => Boolean(roadmapProgress[t.id]))) {
+            if (typeof partyConfetti === "function") partyConfetti();
+            showToast(`Блок «${blockObj.title}» закрыт на 100%! 🏆`);
+          } else {
+            showToast("Тема изучена!");
+          }
+        }
+      });
+
+      // 2. Клики по темам (поиск) или заголовкам блоков (аккордеон)
+      roadmapTreeEl.addEventListener("click", (e) => {
+        // Если кликнули по чекбоксу или лейблу — пропускаем, так как сработает change
+        if (e.target.closest(".roadmap-checkbox-label, .roadmap-checkbox-input")) return;
+
+        // Клик по названию темы или кнопке «Лекции» -> поиск в «Моих Лекциях»
+        const searchBtn = e.target.closest(".roadmap-topic-title-btn, .roadmap-topic-find-btn");
+        if (searchBtn) {
+          const query = searchBtn.getAttribute("data-search-query");
+          if (query) {
+            handleRoadmapSearchClick(query);
+          }
+          return;
+        }
+
+        // Клик по заголовку блока аккордеона -> свернуть / развернуть
+        const header = e.target.closest(".roadmap-block-header");
+        if (header) {
+          const blockEl = header.closest(".roadmap-block");
+          if (blockEl) {
+            const blockId = blockEl.getAttribute("data-block-id");
+            if (roadmapOpenBlocks.has(blockId)) {
+              roadmapOpenBlocks.delete(blockId);
+              blockEl.classList.remove("open");
+            } else {
+              roadmapOpenBlocks.add(blockId);
+              blockEl.classList.add("open");
+            }
+          }
+        }
+      });
+    }
+
+    if (roadmapExpandAllBtnEl) {
+      roadmapExpandAllBtnEl.addEventListener("click", () => {
+        ROADMAP_DATA.forEach(b => roadmapOpenBlocks.add(b.id));
+        document.querySelectorAll(".roadmap-block").forEach(b => b.classList.add("open"));
+      });
+    }
+
+    if (roadmapCollapseAllBtnEl) {
+      roadmapCollapseAllBtnEl.addEventListener("click", () => {
+        roadmapOpenBlocks.clear();
+        document.querySelectorAll(".roadmap-block").forEach(b => b.classList.remove("open"));
+      });
+    }
+
     // --- Бэкап и восстановление (JSON) ---
     exportBackupBtnEl.addEventListener("click", () => {
       if (lectures.length === 0) {
@@ -4219,7 +5309,8 @@
         lectures: lectures,
         activityLog: activityLog,
         studyTimeLog: studyTimeLog,
-        userXP: userXP
+        userXP: userXP,
+        roadmapProgress: roadmapProgress
       };
       const dataStr = JSON.stringify(exportData, null, 2);
       const blob = new Blob([dataStr], { type: "application/json;charset=utf-8" });
@@ -4274,6 +5365,10 @@
             studyTimeLog = parsed.studyTimeLog;
             saveStudyTimeLog(studyTimeLog);
           }
+          if (parsed && typeof parsed === "object" && parsed.roadmapProgress && typeof parsed.roadmapProgress === "object") {
+            roadmapProgress = parsed.roadmapProgress;
+            saveRoadmapProgress(roadmapProgress);
+          }
           if (parsed && typeof parsed === "object" && parsed.userXP !== undefined) {
             userXP = Math.max(0, parseInt(parsed.userXP, 10) || 0);
             saveUserXP(userXP);
@@ -4284,6 +5379,7 @@
           openNoteIds.clear();
           saveLectures(lectures);
           render();
+          renderRoadmap();
 
           alert(`База успешно восстановлена! Загружено ${lectures.length} лекций.`);
         } catch (err) {
@@ -4299,6 +5395,8 @@
 
     // Первый запуск
     render();
+    renderRoadmap();
+    switchMainTab(currentMainTab);
   </script>
 </body>
 </html>
