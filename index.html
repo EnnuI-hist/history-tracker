@@ -1765,9 +1765,19 @@
       min-height: 0;
     }
 
+    .cinema-player-column {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+      gap: 10px;
+    }
+
     .cinema-player-box {
       width: 100%;
+      flex: 1;
       height: 100%;
+      min-height: 0;
       background: #000;
       border-radius: var(--radius-md);
       overflow: hidden;
@@ -1776,6 +1786,38 @@
       align-items: center;
       justify-content: center;
       position: relative;
+    }
+
+    .cinema-player-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-shrink: 0;
+      padding: 0 2px;
+    }
+
+    .cinema-fallback-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #fbbf24;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+
+    .cinema-fallback-btn:hover {
+      background: rgba(245, 158, 11, 0.22);
+      border-color: rgba(245, 158, 11, 0.6);
+      color: #fef08a;
+      box-shadow: 0 0 18px rgba(245, 158, 11, 0.35);
+      transform: translateY(-1px);
     }
 
     .cinema-iframe {
@@ -2090,9 +2132,14 @@
         grid-template-rows: auto 240px;
         flex: none;
       }
+      .cinema-player-column {
+        height: auto;
+        flex: none;
+      }
       .cinema-player-box {
         aspect-ratio: 16 / 9;
         height: auto;
+        flex: none;
       }
     }
 
@@ -3904,8 +3951,20 @@
     </div>
 
     <div class="cinema-workspace">
-      <div class="cinema-player-box">
-        <iframe id="cinemaIframe" class="cinema-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <div class="cinema-player-column">
+        <div class="cinema-player-box">
+          <iframe id="cinemaIframe" class="cinema-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="no-referrer"></iframe>
+        </div>
+        <div class="cinema-player-footer">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="cinema-fallback-btn" id="cinemaFallbackLink" title="Открыть видео в новой вкладке (если встроенный плеер блокируется)">
+            <span>⚠️ Не грузит? Открыть на YouTube</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+        </div>
       </div>
 
       <div class="cinema-notes-panel">
@@ -4276,8 +4335,8 @@
     function getVideoEmbedData(url, timecodeStr) {
       if (!url || typeof url !== "string") return null;
 
-      // 1. YouTube
-      const ytRegex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?|live|shorts)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
+      // 1. YouTube (Privacy-Enhanced Mode via youtube-nocookie.com)
+      const ytRegex = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?|live|shorts)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
       const ytMatch = url.match(ytRegex);
       if (ytMatch && ytMatch[1]) {
         const videoId = ytMatch[1];
@@ -4516,6 +4575,7 @@
     const cinemaFormatEl = document.getElementById("cinemaFormat");
     const cinemaEraEl = document.getElementById("cinemaEra");
     const cinemaExternalLinkEl = document.getElementById("cinemaExternalLink");
+    const cinemaFallbackLinkEl = document.getElementById("cinemaFallbackLink");
     const cinemaCloseBtnEl = document.getElementById("cinemaCloseBtn");
     const cinemaNotesTextareaEl = document.getElementById("cinemaNotesTextarea");
 
@@ -5452,6 +5512,19 @@
         }
       }
       cinemaExternalLinkEl.href = item.url;
+      if (cinemaFallbackLinkEl) {
+        cinemaFallbackLinkEl.href = item.url;
+        const isVk = item.url && item.url.includes("vk.com");
+        const isRutube = item.url && item.url.includes("rutube.ru");
+        const spanEl = cinemaFallbackLinkEl.querySelector("span");
+        if (spanEl) {
+          spanEl.textContent = isVk
+            ? "⚠️ Не грузит? Открыть во ВКонтакте"
+            : isRutube
+              ? "⚠️ Не грузит? Открыть на RuTube"
+              : "⚠️ Не грузит? Открыть на YouTube";
+        }
+      }
       cinemaNotesTextareaEl.value = item.note || "";
       cinemaIframeEl.src = embedUrl;
 
