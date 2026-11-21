@@ -2769,6 +2769,827 @@
         align-self: flex-end;
       }
     }
+
+    /* ==========================================================================
+       Раздел "Библиотека материалов" (Drawer, Dropzone, PDF Читалка, Лайтбокс)
+       ========================================================================== */
+    .bento-profile-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .btn-materials-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.28);
+      color: #c7d2fe;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: inherit;
+      user-select: none;
+    }
+
+    .btn-materials-header:hover {
+      background: rgba(99, 102, 241, 0.24);
+      border-color: rgba(99, 102, 241, 0.55);
+      color: #ffffff;
+      box-shadow: 0 0 18px rgba(99, 102, 241, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .main-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .main-nav-materials-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 16, 21, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+      border-left: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-secondary);
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: inherit;
+      user-select: none;
+      margin-left: auto;
+    }
+
+    .main-nav-materials-btn:hover {
+      color: #ffffff;
+      background: rgba(99, 102, 241, 0.18);
+      border-color: rgba(99, 102, 241, 0.45);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .materials-badge-count {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+      background: rgba(99, 102, 241, 0.24);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      line-height: 1.2;
+    }
+
+    /* Backdrop для панели Drawer */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(10px) saturate(140%);
+      -webkit-backdrop-filter: blur(10px) saturate(140%);
+      z-index: 1200;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .drawer-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Боковая панель Drawer */
+    .materials-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 480px;
+      max-width: 100vw;
+      background: rgba(14, 14, 18, 0.94);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: -18px 0 55px rgba(0, 0, 0, 0.8), inset 1px 0 0 rgba(255, 255, 255, 0.06);
+      z-index: 1250;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .materials-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 20px 22px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-shrink: 0;
+      background: rgba(18, 18, 24, 0.65);
+    }
+
+    .drawer-header-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .drawer-title-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .drawer-icon {
+      color: #818cf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 0 10px rgba(129, 140, 248, 0.5));
+    }
+
+    .drawer-title {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .drawer-stats {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .drawer-close-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .drawer-close-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      transform: scale(1.06);
+    }
+
+    .drawer-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 22px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+    }
+
+    .drawer-content::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .drawer-content::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+    }
+
+    /* Drag & Drop Зона */
+    .dropzone {
+      border: 2px dashed rgba(99, 102, 241, 0.38);
+      border-radius: var(--radius-md);
+      padding: 26px 18px;
+      text-align: center;
+      background: rgba(99, 102, 241, 0.04);
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+      position: relative;
+      user-select: none;
+    }
+
+    .dropzone:hover {
+      border-color: rgba(99, 102, 241, 0.7);
+      background: rgba(99, 102, 241, 0.09);
+      box-shadow: 0 0 24px rgba(99, 102, 241, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .dropzone.dragover {
+      border-color: #818cf8;
+      background: rgba(99, 102, 241, 0.2);
+      box-shadow: 0 0 35px rgba(99, 102, 241, 0.4);
+      transform: scale(1.02);
+    }
+
+    .dropzone-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #818cf8;
+      transition: all 0.2s ease;
+    }
+
+    .dropzone:hover .dropzone-icon {
+      transform: translateY(-2px);
+      background: rgba(99, 102, 241, 0.22);
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.5);
+    }
+
+    .dropzone-text {
+      font-size: 0.88rem;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .dropzone-browse {
+      color: #818cf8;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 600;
+    }
+
+    .dropzone-hint {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .dropzone-progress {
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: #818cf8;
+      font-weight: 600;
+    }
+
+    .dropzone-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(99, 102, 241, 0.3);
+      border-top-color: #818cf8;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    /* Поиск по материалам */
+    .materials-search-row {
+      width: 100%;
+    }
+
+    .materials-search-input {
+      width: 100%;
+      height: 38px;
+      background: rgba(13, 13, 17, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 0 12px;
+      font-size: 0.84rem;
+      color: var(--text-primary);
+      font-family: inherit;
+      outline: none;
+      transition: all 0.18s ease;
+    }
+
+    .materials-search-input:focus {
+      border-color: rgba(99, 102, 241, 0.6);
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+    }
+
+    .materials-search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Список загруженных файлов */
+    .materials-list-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .materials-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2px;
+    }
+
+    .materials-list-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+
+    .btn-clear-all-materials {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      cursor: pointer;
+      transition: color 0.15s ease;
+      font-family: inherit;
+    }
+
+    .btn-clear-all-materials:hover {
+      color: var(--danger);
+    }
+
+    .materials-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .material-item {
+      background: rgba(22, 22, 28, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .material-item:hover {
+      background: rgba(30, 30, 38, 0.9);
+      border-color: rgba(99, 102, 241, 0.35);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 16px rgba(99, 102, 241, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .material-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* Иконка / бейдж формата */
+    .material-format-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+      user-select: none;
+      text-transform: uppercase;
+    }
+
+    .badge-pdf {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.15);
+    }
+
+    .badge-doc {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
+    }
+
+    .badge-txt {
+      background: rgba(161, 161, 170, 0.15);
+      color: #e4e4e7;
+      border: 1px solid rgba(161, 161, 170, 0.35);
+    }
+
+    .badge-img {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.15);
+    }
+
+    .badge-table {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .badge-other {
+      background: rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .material-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      gap: 2px;
+    }
+
+    .material-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.01em;
+    }
+
+    .material-meta {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      font-feature-settings: "tnum";
+    }
+
+    .material-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-open-material {
+      background: rgba(99, 102, 241, 0.16);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #c7d2fe;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: inherit;
+      transition: all 0.18s ease;
+    }
+
+    .btn-open-material:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(99, 102, 241, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-delete-material {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .btn-delete-material:hover {
+      background: rgba(239, 68, 68, 0.14);
+      border-color: rgba(239, 68, 68, 0.25);
+      color: var(--danger);
+    }
+
+    /* Пустое состояние материалов */
+    .materials-empty {
+      text-align: center;
+      padding: 38px 16px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .materials-empty-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+    }
+
+    .materials-empty-title {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .materials-empty-desc {
+      font-size: 0.8rem;
+      line-height: 1.45;
+      max-width: 280px;
+    }
+
+    /* Полноэкранная встроенная читалка PDF */
+    .pdf-reader-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 14, 0.96);
+      backdrop-filter: blur(30px) saturate(180%);
+      -webkit-backdrop-filter: blur(30px) saturate(180%);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.24s ease, visibility 0.24s ease;
+    }
+
+    .pdf-reader-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .pdf-reader-header {
+      height: 58px;
+      padding: 0 20px;
+      background: rgba(18, 18, 24, 0.92);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .pdf-reader-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .pdf-badge {
+      background: #ef4444;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .pdf-reader-meta {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .pdf-reader-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.01em;
+    }
+
+    .pdf-reader-size {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-feature-settings: "tnum";
+    }
+
+    .pdf-reader-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn-pdf-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .btn-pdf-action:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .pdf-reader-close-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      transition: all 0.15s ease;
+    }
+
+    .pdf-reader-close-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      transform: scale(1.08);
+    }
+
+    .pdf-reader-body {
+      flex: 1;
+      width: 100%;
+      height: calc(100vh - 58px);
+      padding: 12px 16px 16px;
+      background: #09090c;
+      box-sizing: border-box;
+    }
+
+    .pdf-reader-iframe {
+      width: 100%;
+      height: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      background: #18181c;
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.85);
+      display: block;
+    }
+
+    /* Лайтбокс для изображений */
+    .image-lightbox-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 8, 12, 0.94);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.24s ease, visibility 0.24s ease;
+    }
+
+    .image-lightbox-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .image-lightbox-header {
+      height: 56px;
+      padding: 0 20px;
+      background: rgba(18, 18, 24, 0.85);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .image-lightbox-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .image-badge {
+      background: #a855f7;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .image-lightbox-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .image-lightbox-size {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .image-lightbox-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .image-lightbox-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: auto;
+    }
+
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 84vh;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 1px 1px rgba(255, 255, 255, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    @media (max-width: 600px) {
+      .materials-drawer {
+        width: 100vw;
+      }
+      .pdf-reader-header, .image-lightbox-header {
+        padding: 0 12px;
+      }
+      .btn-pdf-action span {
+        display: none;
+      }
+      .btn-pdf-action {
+        padding: 6px 9px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -2786,9 +3607,18 @@
       <!-- ЛЕВЫЙ БЛОК: Крупный Профиль, Ранг и Прогресс -->
       <section class="bento-card bento-profile-card">
         <div class="bento-profile-top">
-          <div class="bento-badge-tag">
-            <span class="badge-dot-live"></span>
-            Личный кабинет
+          <div class="bento-profile-badge-row">
+            <div class="bento-badge-tag">
+              <span class="badge-dot-live"></span>
+              Личный кабинет
+            </div>
+            <button type="button" class="btn-materials-header" id="headerMaterialsBtn" title="Открыть библиотеку материалов (учебники, конспекты, PDF)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span>Материалы</span>
+              <span class="materials-badge-count" id="materialsHeaderBadge">0</span>
+            </button>
           </div>
           <h1 class="header-title">Мой прогресс</h1>
         </div>
@@ -2875,6 +3705,13 @@
           <span class="main-nav-badge" id="tabRoadmapBadge">0%</span>
         </button>
       </div>
+      <button type="button" class="main-nav-materials-btn" id="openMaterialsDrawerBtn" title="Открыть библиотеку материалов (учебники, конспекты, PDF)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+        </svg>
+        <span>Материалы</span>
+        <span class="materials-badge-count" id="materialsNavBadge">0</span>
+      </button>
     </div>
 
     <!-- РАЗДЕЛ 1: Мои Лекции (Поиск, фильтры, список и таймлайн) -->
@@ -3201,6 +4038,125 @@
       </svg>
     </span>
     <span id="toastMessage">Записано: +45 мин в календарь</span>
+  </div>
+
+  <!-- Backdrop для панели Drawer материалов -->
+  <div class="drawer-backdrop" id="materialsDrawerBackdrop" aria-hidden="true"></div>
+
+  <!-- Боковая панель Drawer материалов -->
+  <aside class="materials-drawer" id="materialsDrawer" aria-hidden="true" aria-label="Библиотека материалов">
+    <div class="drawer-header">
+      <div class="drawer-header-title-wrap">
+        <div class="drawer-title-row">
+          <span class="drawer-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </span>
+          <h3 class="drawer-title">Библиотека материалов</h3>
+        </div>
+        <span class="drawer-stats" id="materialsStats">0 файлов • 0 МБ</span>
+      </div>
+      <button type="button" class="drawer-close-btn" id="materialsDrawerCloseBtn" title="Закрыть панель (Esc)" aria-label="Закрыть панель">✕</button>
+    </div>
+
+    <div class="drawer-content">
+      <!-- Drag & Drop Зона загрузки -->
+      <div class="dropzone" id="materialsDropzone" title="Нажмите или перетащите файлы для загрузки в IndexedDB">
+        <input type="file" id="materialsFileInput" multiple style="display: none;" accept=".pdf,.doc,.docx,.txt,.md,.rtf,.png,.jpg,.jpeg,.webp,.gif,.svg,.csv,.xls,.xlsx">
+        <div class="dropzone-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+        </div>
+        <div class="dropzone-text">
+          <strong>Перетащите файлы сюда</strong> или <span class="dropzone-browse">выберите с диска</span>
+        </div>
+        <div class="dropzone-hint">PDF до 50+ МБ, документы, конспекты, схемы и карты</div>
+        <div class="dropzone-progress" id="dropzoneProgress" style="display: none;">
+          <div class="dropzone-spinner"></div>
+          <span id="dropzoneProgressText">Сохранение в базу IndexedDB...</span>
+        </div>
+      </div>
+
+      <!-- Поиск по материалам -->
+      <div class="materials-search-row" id="materialsSearchRow" style="display: none;">
+        <input type="text" id="materialsSearchInput" class="materials-search-input" placeholder="Поиск по названию файла...">
+      </div>
+
+      <!-- Список файлов -->
+      <div class="materials-list-wrap">
+        <div class="materials-list-header">
+          <span class="materials-list-label">Загруженные файлы</span>
+          <button type="button" class="btn-clear-all-materials" id="clearAllMaterialsBtn" style="display: none;" title="Очистить все файлы из базы">Очистить всё</button>
+        </div>
+        <div class="materials-list" id="materialsList">
+          <!-- Генерируется скриптом -->
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Полноэкранная встроенная читалка PDF -->
+  <div class="pdf-reader-modal" id="pdfReaderModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="pdfReaderTitle">
+    <div class="pdf-reader-header">
+      <div class="pdf-reader-info">
+        <div class="pdf-badge">PDF</div>
+        <div class="pdf-reader-meta">
+          <h4 class="pdf-reader-title" id="pdfReaderTitle">Учебник.pdf</h4>
+          <span class="pdf-reader-size" id="pdfReaderSize">0 МБ</span>
+        </div>
+      </div>
+      <div class="pdf-reader-actions">
+        <a href="#" target="_blank" rel="noopener noreferrer" class="btn-pdf-action" id="pdfOpenNewTabBtn" title="Открыть в отдельной вкладке">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          <span>В новой вкладке</span>
+        </a>
+        <a href="#" download="" class="btn-pdf-action" id="pdfDownloadBtn" title="Скачать файл на компьютер">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Скачать</span>
+        </a>
+        <button type="button" class="pdf-reader-close-btn" id="pdfReaderCloseBtn" title="Закрыть читалку (Esc)" aria-label="Закрыть">✕</button>
+      </div>
+    </div>
+    <div class="pdf-reader-body">
+      <iframe id="pdfReaderIframe" class="pdf-reader-iframe" src="" title="Встроенный просмотр PDF-файла"></iframe>
+    </div>
+  </div>
+
+  <!-- Лайтбокс для просмотра изображений -->
+  <div class="image-lightbox-modal" id="imageLightboxModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="image-lightbox-header">
+      <div class="image-lightbox-info">
+        <span class="image-badge">IMG</span>
+        <span class="image-lightbox-title" id="lightboxTitle">Схема.png</span>
+        <span class="image-lightbox-size" id="lightboxSize">0 КБ</span>
+      </div>
+      <div class="image-lightbox-actions">
+        <a href="#" download="" class="btn-pdf-action" id="lightboxDownloadBtn" title="Скачать изображение">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Скачать</span>
+        </a>
+        <button type="button" class="pdf-reader-close-btn" id="imageLightboxCloseBtn" title="Закрыть (Esc)" aria-label="Закрыть">✕</button>
+      </div>
+    </div>
+    <div class="image-lightbox-body">
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Просмотр изображения">
+    </div>
   </div>
 
   <script>
@@ -3621,6 +4577,41 @@
     const roadmapOverallBarEl = document.getElementById("roadmapOverallBar");
     const roadmapExpandAllBtnEl = document.getElementById("roadmapExpandAllBtn");
     const roadmapCollapseAllBtnEl = document.getElementById("roadmapCollapseAllBtn");
+
+    // Элементы библиотеки материалов (Drawer, IndexedDB, Readers)
+    const materialsDrawerEl = document.getElementById("materialsDrawer");
+    const materialsDrawerBackdropEl = document.getElementById("materialsDrawerBackdrop");
+    const openMaterialsDrawerBtnEl = document.getElementById("openMaterialsDrawerBtn");
+    const headerMaterialsBtnEl = document.getElementById("headerMaterialsBtn");
+    const materialsDrawerCloseBtnEl = document.getElementById("materialsDrawerCloseBtn");
+    const materialsStatsEl = document.getElementById("materialsStats");
+    const materialsDropzoneEl = document.getElementById("materialsDropzone");
+    const materialsFileInputEl = document.getElementById("materialsFileInput");
+    const dropzoneProgressEl = document.getElementById("dropzoneProgress");
+    const dropzoneProgressTextEl = document.getElementById("dropzoneProgressText");
+    const materialsListEl = document.getElementById("materialsList");
+    const materialsSearchRowEl = document.getElementById("materialsSearchRow");
+    const materialsSearchInputEl = document.getElementById("materialsSearchInput");
+    const clearAllMaterialsBtnEl = document.getElementById("clearAllMaterialsBtn");
+    const materialsHeaderBadgeEl = document.getElementById("materialsHeaderBadge");
+    const materialsNavBadgeEl = document.getElementById("materialsNavBadge");
+
+    // Встроенная читалка PDF
+    const pdfReaderModalEl = document.getElementById("pdfReaderModal");
+    const pdfReaderTitleEl = document.getElementById("pdfReaderTitle");
+    const pdfReaderSizeEl = document.getElementById("pdfReaderSize");
+    const pdfReaderIframeEl = document.getElementById("pdfReaderIframe");
+    const pdfReaderCloseBtnEl = document.getElementById("pdfReaderCloseBtn");
+    const pdfOpenNewTabBtnEl = document.getElementById("pdfOpenNewTabBtn");
+    const pdfDownloadBtnEl = document.getElementById("pdfDownloadBtn");
+
+    // Лайтбокс изображений
+    const imageLightboxModalEl = document.getElementById("imageLightboxModal");
+    const lightboxTitleEl = document.getElementById("lightboxTitle");
+    const lightboxSizeEl = document.getElementById("lightboxSize");
+    const lightboxImgEl = document.getElementById("lightboxImg");
+    const imageLightboxCloseBtnEl = document.getElementById("imageLightboxCloseBtn");
+    const lightboxDownloadBtnEl = document.getElementById("lightboxDownloadBtn");
 
     // Константы и состояние Кодификатора
     const STORAGE_ROADMAP_PROGRESS_KEY = "roadmapProgress";
@@ -5314,9 +6305,664 @@
       logActivity(1);
     });
 
+    // ==========================================================================
+    // ТЕХНИЧЕСКАЯ ЧАСТЬ: Native IndexedDB (HistoryFilesDB)
+    // Хранение больших файлов (30-50+ МБ) в виде Blob/File
+    // ==========================================================================
+    const DB_NAME = "HistoryFilesDB";
+    const DB_VERSION = 1;
+    const STORE_NAME = "files";
+
+    let dbInstance = null;
+
+    function openFilesDB() {
+      return new Promise((resolve, reject) => {
+        if (dbInstance) {
+          return resolve(dbInstance);
+        }
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
+            store.createIndex("uploadedAt", "uploadedAt", { unique: false });
+            store.createIndex("name", "name", { unique: false });
+          }
+        };
+
+        request.onsuccess = (e) => {
+          dbInstance = e.target.result;
+          resolve(dbInstance);
+        };
+
+        request.onerror = (e) => {
+          console.error("IndexedDB open error:", e.target.error);
+          reject(e.target.error);
+        };
+      });
+    }
+
+    // Сохранение файла в базу как Blob
+    function saveFileToDB(file) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const db = await openFilesDB();
+          const tx = db.transaction(STORE_NAME, "readwrite");
+          const store = tx.objectStore(STORE_NAME);
+
+          const record = {
+            id: "file-" + Date.now() + "-" + Math.random().toString(36).substring(2, 8),
+            name: file.name,
+            type: file.type || getMimeTypeByName(file.name),
+            size: file.size,
+            data: file, // File является Blob и сохраняется в IndexedDB напрямую
+            uploadedAt: Date.now()
+          };
+
+          const request = store.add(record);
+          request.onsuccess = () => resolve(record);
+          request.onerror = (e) => reject(e.target.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    // Получение всех файлов (без загрузки всего блоба в память)
+    function getAllFilesFromDB() {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const db = await openFilesDB();
+          const tx = db.transaction(STORE_NAME, "readonly");
+          const store = tx.objectStore(STORE_NAME);
+          const request = store.getAll();
+
+          request.onsuccess = () => {
+            const list = (request.result || []).sort((a, b) => (b.uploadedAt || 0) - (a.uploadedAt || 0));
+            resolve(list);
+          };
+          request.onerror = (e) => reject(e.target.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    // Получение конкретного файла по ID
+    function getFileFromDB(id) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const db = await openFilesDB();
+          const tx = db.transaction(STORE_NAME, "readonly");
+          const store = tx.objectStore(STORE_NAME);
+          const request = store.get(id);
+
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = (e) => reject(e.target.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    // Удаление файла по ID
+    function deleteFileFromDB(id) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const db = await openFilesDB();
+          const tx = db.transaction(STORE_NAME, "readwrite");
+          const store = tx.objectStore(STORE_NAME);
+          const request = store.delete(id);
+
+          request.onsuccess = () => resolve(true);
+          request.onerror = (e) => reject(e.target.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    // Очистка всех файлов
+    function clearAllFilesFromDB() {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const db = await openFilesDB();
+          const tx = db.transaction(STORE_NAME, "readwrite");
+          const store = tx.objectStore(STORE_NAME);
+          const request = store.clear();
+
+          request.onsuccess = () => resolve(true);
+          request.onerror = (e) => reject(e.target.error);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    // Определение MIME типа по расширению
+    function getMimeTypeByName(name) {
+      const ext = (name.split('.').pop() || '').toLowerCase();
+      const map = {
+        pdf: "application/pdf",
+        doc: "application/msword",
+        docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        txt: "text/plain",
+        md: "text/markdown",
+        rtf: "application/rtf",
+        png: "image/png",
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg",
+        webp: "image/webp",
+        gif: "image/gif",
+        svg: "image/svg+xml",
+        csv: "text/csv",
+        xls: "application/vnd.ms-excel",
+        xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      };
+      return map[ext] || "application/octet-stream";
+    }
+
+    // Категория формата для иконок и логики просмотра
+    function getFileCategory(filename, mimeType) {
+      const ext = (filename.split('.').pop() || '').toLowerCase();
+      if (ext === 'pdf' || (mimeType && mimeType.includes('pdf'))) return 'pdf';
+      if (['doc', 'docx', 'rtf', 'odt'].includes(ext) || (mimeType && mimeType.includes('word'))) return 'doc';
+      if (['txt', 'md', 'markdown'].includes(ext) || (mimeType && mimeType.startsWith('text/'))) return 'txt';
+      if (['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg', 'bmp'].includes(ext) || (mimeType && mimeType.startsWith('image/'))) return 'image';
+      if (['xls', 'xlsx', 'csv'].includes(ext) || (mimeType && mimeType.includes('sheet'))) return 'table';
+      return 'other';
+    }
+
+    // Форматирование размера файлов (Б, КБ, МБ, ГБ)
+    function formatBytes(bytes) {
+      if (!bytes || bytes === 0) return "0 Б";
+      const k = 1024;
+      const sizes = ["Б", "КБ", "МБ", "ГБ"];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      const val = (bytes / Math.pow(k, i)).toFixed(i >= 2 ? 1 : 0);
+      return `${val} ${sizes[i]}`;
+    }
+
+    function pluralizeFiles(count) {
+      const rem10 = count % 10;
+      const rem100 = count % 100;
+      if (rem100 >= 11 && rem100 <= 19) return "файлов";
+      if (rem10 === 1) return "файл";
+      if (rem10 >= 2 && rem10 <= 4) return "файла";
+      return "файлов";
+    }
+
+    // ==========================================================================
+    // ИНТЕРФЕЙС DRAWER И ПРОСМОТРЩИКИ (PDF Reader, Lightbox)
+    // ==========================================================================
+    let cachedMaterialsList = [];
+    let materialsSearchQuery = "";
+    let activePdfBlobUrl = null;
+    let activeLightboxBlobUrl = null;
+
+    function openMaterialsDrawer() {
+      if (!materialsDrawerEl) return;
+      materialsDrawerEl.classList.add("open");
+      materialsDrawerEl.setAttribute("aria-hidden", "false");
+      if (materialsDrawerBackdropEl) {
+        materialsDrawerBackdropEl.classList.add("active");
+        materialsDrawerBackdropEl.setAttribute("aria-hidden", "false");
+      }
+      refreshMaterialsList();
+    }
+
+    function closeMaterialsDrawer() {
+      if (!materialsDrawerEl) return;
+      materialsDrawerEl.classList.remove("open");
+      materialsDrawerEl.setAttribute("aria-hidden", "true");
+      if (materialsDrawerBackdropEl) {
+        materialsDrawerBackdropEl.classList.remove("active");
+        materialsDrawerBackdropEl.setAttribute("aria-hidden", "true");
+      }
+    }
+
+    // Обновление и рендеринг списка материалов
+    async function refreshMaterialsList() {
+      try {
+        cachedMaterialsList = await getAllFilesFromDB();
+        renderMaterialsListUI();
+      } catch (err) {
+        console.error("Ошибка при получении списка материалов:", err);
+      }
+    }
+
+    function renderMaterialsListUI() {
+      if (!materialsListEl) return;
+
+      const totalCount = cachedMaterialsList.length;
+      let totalBytes = 0;
+      cachedMaterialsList.forEach(f => { totalBytes += (f.size || 0); });
+
+      // Обновление бейджей в шапке и навигации
+      if (materialsHeaderBadgeEl) materialsHeaderBadgeEl.textContent = totalCount;
+      if (materialsNavBadgeEl) materialsNavBadgeEl.textContent = totalCount;
+      if (materialsStatsEl) {
+        materialsStatsEl.textContent = `${totalCount} ${pluralizeFiles(totalCount)} • ${formatBytes(totalBytes)}`;
+      }
+
+      // Показ/скрытие поиска и кнопки "Очистить всё"
+      if (materialsSearchRowEl) {
+        materialsSearchRowEl.style.display = totalCount >= 4 ? "block" : "none";
+      }
+      if (clearAllMaterialsBtnEl) {
+        clearAllMaterialsBtnEl.style.display = totalCount >= 2 ? "block" : "none";
+      }
+
+      // Фильтрация
+      const query = materialsSearchQuery.trim().toLowerCase();
+      const displayed = query
+        ? cachedMaterialsList.filter(f => (f.name || "").toLowerCase().includes(query))
+        : cachedMaterialsList;
+
+      if (totalCount === 0) {
+        materialsListEl.innerHTML = `
+          <div class="materials-empty">
+            <div class="materials-empty-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="12" y1="18" x2="12" y2="12"></line>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+              </svg>
+            </div>
+            <div class="materials-empty-title">Нет загруженных материалов</div>
+            <div class="materials-empty-desc">Перетащите сюда учебники в PDF, конспекты или карты для мгновенного доступа в любой момент.</div>
+          </div>
+        `;
+        return;
+      }
+
+      if (displayed.length === 0) {
+        materialsListEl.innerHTML = `
+          <div class="materials-empty">
+            <div class="materials-empty-title">Файлы не найдены</div>
+            <div class="materials-empty-desc">По запросу «${escapeHtml(query)}» ничего не найдено.</div>
+          </div>
+        `;
+        return;
+      }
+
+      materialsListEl.innerHTML = displayed.map(file => {
+        const cat = getFileCategory(file.name, file.type);
+        let badgeClass = "badge-other";
+        let badgeLabel = "FILE";
+
+        if (cat === "pdf") {
+          badgeClass = "badge-pdf";
+          badgeLabel = "PDF";
+        } else if (cat === "doc") {
+          badgeClass = "badge-doc";
+          badgeLabel = "DOC";
+        } else if (cat === "txt") {
+          badgeClass = "badge-txt";
+          badgeLabel = "TXT";
+        } else if (cat === "image") {
+          badgeClass = "badge-img";
+          badgeLabel = "IMG";
+        } else if (cat === "table") {
+          badgeClass = "badge-table";
+          badgeLabel = "XLS";
+        }
+
+        const sizeFormatted = formatBytes(file.size);
+        const dateObj = file.uploadedAt ? new Date(file.uploadedAt) : new Date();
+        const dateFormatted = dateObj.toLocaleDateString("ru-RU", { day: "numeric", month: "short" });
+
+        return `
+          <div class="material-item" data-id="${file.id}">
+            <div class="material-item-left">
+              <span class="material-format-badge ${badgeClass}">${badgeLabel}</span>
+              <div class="material-info">
+                <span class="material-name" title="${escapeHtml(file.name)}">${escapeHtml(file.name)}</span>
+                <div class="material-meta">
+                  <span>${sizeFormatted}</span>
+                  <span>•</span>
+                  <span>${dateFormatted}</span>
+                </div>
+              </div>
+            </div>
+            <div class="material-actions">
+              <button type="button" class="btn-open-material" data-id="${file.id}" title="Открыть файл прямо на сайте">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span>Открыть</span>
+              </button>
+              <button type="button" class="btn-delete-material" data-id="${file.id}" title="Удалить файл из базы">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Обработка загрузки файлов через Dropzone или input
+    async function handleFilesUpload(filesList) {
+      if (!filesList || filesList.length === 0) return;
+
+      if (dropzoneProgressEl) {
+        dropzoneProgressEl.style.display = "flex";
+        if (dropzoneProgressTextEl) {
+          dropzoneProgressTextEl.textContent = `Сохранение в IndexedDB (${filesList.length} ${pluralizeFiles(filesList.length)})...`;
+        }
+      }
+
+      let loadedCount = 0;
+      let lastFileName = "";
+
+      for (let i = 0; i < filesList.length; i++) {
+        const file = filesList[i];
+        try {
+          await saveFileToDB(file);
+          loadedCount++;
+          lastFileName = file.name;
+        } catch (err) {
+          console.error("Ошибка при сохранении файла:", file.name, err);
+          showToast(`Ошибка сохранения: ${file.name}`);
+        }
+      }
+
+      if (dropzoneProgressEl) {
+        dropzoneProgressEl.style.display = "none";
+      }
+
+      if (loadedCount > 0) {
+        if (loadedCount === 1) {
+          showToast(`Файл «${lastFileName}» успешно сохранен!`);
+        } else {
+          showToast(`Загружено ${loadedCount} ${pluralizeFiles(loadedCount)} в библиотеку!`);
+        }
+        triggerConfetti();
+        await refreshMaterialsList();
+      }
+    }
+
+    // --- Встроенный просмотр (PDF Reader & Image Lightbox) ---
+
+    // Открытие встроенной читалки для PDF
+    async function openPdfReader(fileId) {
+      try {
+        const fileRecord = await getFileFromDB(fileId);
+        if (!fileRecord || !fileRecord.data) {
+          showToast("Не удалось прочитать файл из базы");
+          return;
+        }
+
+        // Очищаем предыдущий URL, если был открыт
+        if (activePdfBlobUrl) {
+          URL.revokeObjectURL(activePdfBlobUrl);
+          activePdfBlobUrl = null;
+        }
+
+        // Создаем Blob URL
+        activePdfBlobUrl = URL.createObjectURL(fileRecord.data);
+
+        if (pdfReaderTitleEl) pdfReaderTitleEl.textContent = fileRecord.name;
+        if (pdfReaderSizeEl) pdfReaderSizeEl.textContent = formatBytes(fileRecord.size);
+        if (pdfOpenNewTabBtnEl) pdfOpenNewTabBtnEl.href = activePdfBlobUrl;
+        if (pdfDownloadBtnEl) {
+          pdfDownloadBtnEl.href = activePdfBlobUrl;
+          pdfDownloadBtnEl.download = fileRecord.name;
+        }
+        if (pdfReaderIframeEl) {
+          pdfReaderIframeEl.src = activePdfBlobUrl;
+        }
+
+        if (pdfReaderModalEl) {
+          pdfReaderModalEl.classList.add("active");
+          pdfReaderModalEl.setAttribute("aria-hidden", "false");
+        }
+      } catch (err) {
+        console.error("Ошибка открытия PDF:", err);
+        showToast("Ошибка при открытии файла");
+      }
+    }
+
+    function closePdfReader() {
+      if (!pdfReaderModalEl) return;
+      pdfReaderModalEl.classList.remove("active");
+      pdfReaderModalEl.setAttribute("aria-hidden", "true");
+      if (pdfReaderIframeEl) {
+        pdfReaderIframeEl.src = "";
+      }
+      if (activePdfBlobUrl) {
+        URL.revokeObjectURL(activePdfBlobUrl);
+        activePdfBlobUrl = null;
+      }
+    }
+
+    // Открытие лайтбокса для изображений
+    async function openImageLightbox(fileId) {
+      try {
+        const fileRecord = await getFileFromDB(fileId);
+        if (!fileRecord || !fileRecord.data) {
+          showToast("Не удалось прочитать файл");
+          return;
+        }
+
+        if (activeLightboxBlobUrl) {
+          URL.revokeObjectURL(activeLightboxBlobUrl);
+          activeLightboxBlobUrl = null;
+        }
+
+        activeLightboxBlobUrl = URL.createObjectURL(fileRecord.data);
+
+        if (lightboxTitleEl) lightboxTitleEl.textContent = fileRecord.name;
+        if (lightboxSizeEl) lightboxSizeEl.textContent = formatBytes(fileRecord.size);
+        if (lightboxDownloadBtnEl) {
+          lightboxDownloadBtnEl.href = activeLightboxBlobUrl;
+          lightboxDownloadBtnEl.download = fileRecord.name;
+        }
+        if (lightboxImgEl) {
+          lightboxImgEl.src = activeLightboxBlobUrl;
+        }
+
+        if (imageLightboxModalEl) {
+          imageLightboxModalEl.classList.add("active");
+          imageLightboxModalEl.setAttribute("aria-hidden", "false");
+        }
+      } catch (err) {
+        console.error("Ошибка открытия изображения:", err);
+        showToast("Ошибка при открытии картинки");
+      }
+    }
+
+    function closeImageLightbox() {
+      if (!imageLightboxModalEl) return;
+      imageLightboxModalEl.classList.remove("active");
+      imageLightboxModalEl.setAttribute("aria-hidden", "true");
+      if (lightboxImgEl) {
+        lightboxImgEl.src = "";
+      }
+      if (activeLightboxBlobUrl) {
+        URL.revokeObjectURL(activeLightboxBlobUrl);
+        activeLightboxBlobUrl = null;
+      }
+    }
+
+    // Открытие файла любого формата
+    async function handleOpenFile(fileId) {
+      const fileRecord = await getFileFromDB(fileId);
+      if (!fileRecord) return;
+
+      const cat = getFileCategory(fileRecord.name, fileRecord.type);
+
+      if (cat === "pdf") {
+        openPdfReader(fileId);
+      } else if (cat === "image") {
+        openImageLightbox(fileId);
+      } else if (cat === "txt") {
+        // Текстовые файлы браузер великолепно рендерит в iframe
+        openPdfReader(fileId);
+      } else {
+        // Для DOC/DOCX или других бинарников — прямое скачивание / открытие
+        const blobUrl = URL.createObjectURL(fileRecord.data);
+        const a = document.createElement("a");
+        a.href = blobUrl;
+        a.download = fileRecord.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+        showToast(`Файл «${fileRecord.name}» скачивается для открытия`);
+      }
+    }
+
+    // Удаление файла с подтверждением
+    async function handleDeleteFile(fileId) {
+      const fileRecord = await getFileFromDB(fileId);
+      if (!fileRecord) return;
+
+      if (confirm(`Удалить файл «${fileRecord.name}» из библиотеки материалов?\nДействие нельзя будет отменить.`)) {
+        try {
+          await deleteFileFromDB(fileId);
+          showToast(`Файл «${fileRecord.name}» удален`);
+          await refreshMaterialsList();
+        } catch (err) {
+          console.error("Ошибка удаления файла:", err);
+          showToast("Не удалось удалить файл");
+        }
+      }
+    }
+
+    // Слушатели открытия/закрытия Drawer
+    if (headerMaterialsBtnEl) {
+      headerMaterialsBtnEl.addEventListener("click", openMaterialsDrawer);
+    }
+    if (openMaterialsDrawerBtnEl) {
+      openMaterialsDrawerBtnEl.addEventListener("click", openMaterialsDrawer);
+    }
+    if (materialsDrawerCloseBtnEl) {
+      materialsDrawerCloseBtnEl.addEventListener("click", closeMaterialsDrawer);
+    }
+    if (materialsDrawerBackdropEl) {
+      materialsDrawerBackdropEl.addEventListener("click", closeMaterialsDrawer);
+    }
+
+    // Drag and Drop события для dropzone
+    if (materialsDropzoneEl) {
+      materialsDropzoneEl.addEventListener("click", () => {
+        if (materialsFileInputEl) materialsFileInputEl.click();
+      });
+
+      materialsDropzoneEl.addEventListener("dragenter", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        materialsDropzoneEl.classList.add("dragover");
+      });
+
+      materialsDropzoneEl.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        materialsDropzoneEl.classList.add("dragover");
+      });
+
+      materialsDropzoneEl.addEventListener("dragleave", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        materialsDropzoneEl.classList.remove("dragover");
+      });
+
+      materialsDropzoneEl.addEventListener("drop", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        materialsDropzoneEl.classList.remove("dragover");
+        if (e.dataTransfer && e.dataTransfer.files) {
+          handleFilesUpload(e.dataTransfer.files);
+        }
+      });
+    }
+
+    if (materialsFileInputEl) {
+      materialsFileInputEl.addEventListener("change", (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+          handleFilesUpload(e.target.files);
+          materialsFileInputEl.value = "";
+        }
+      });
+    }
+
+    // Поиск по файлам
+    if (materialsSearchInputEl) {
+      materialsSearchInputEl.addEventListener("input", (e) => {
+        materialsSearchQuery = e.target.value;
+        renderMaterialsListUI();
+      });
+    }
+
+    // Очистить всё
+    if (clearAllMaterialsBtnEl) {
+      clearAllMaterialsBtnEl.addEventListener("click", async () => {
+        if (confirm("Вы уверены, что хотите удалить ВСЕ файлы из библиотеки материалов?")) {
+          await clearAllFilesFromDB();
+          showToast("Все материалы удалены");
+          await refreshMaterialsList();
+        }
+      });
+    }
+
+    // Делегирование кликов по списку файлов (Открыть / Удалить)
+    if (materialsListEl) {
+      materialsListEl.addEventListener("click", (e) => {
+        const openBtn = e.target.closest(".btn-open-material");
+        if (openBtn) {
+          const id = openBtn.getAttribute("data-id");
+          if (id) handleOpenFile(id);
+          return;
+        }
+
+        const deleteBtn = e.target.closest(".btn-delete-material");
+        if (deleteBtn) {
+          const id = deleteBtn.getAttribute("data-id");
+          if (id) handleDeleteFile(id);
+          return;
+        }
+      });
+    }
+
+    // Читалка PDF: закрытие
+    if (pdfReaderCloseBtnEl) {
+      pdfReaderCloseBtnEl.addEventListener("click", closePdfReader);
+    }
+
+    // Лайтбокс: закрытие
+    if (imageLightboxCloseBtnEl) {
+      imageLightboxCloseBtnEl.addEventListener("click", closeImageLightbox);
+    }
+    if (imageLightboxModalEl) {
+      imageLightboxModalEl.addEventListener("click", (e) => {
+        if (e.target === imageLightboxModalEl || e.target.classList.contains("image-lightbox-body")) {
+          closeImageLightbox();
+        }
+      });
+    }
+
     // Закрытие модалок по Escape
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
+        if (pdfReaderModalEl && pdfReaderModalEl.classList.contains("active")) {
+          closePdfReader();
+          return;
+        }
+        if (imageLightboxModalEl && imageLightboxModalEl.classList.contains("active")) {
+          closeImageLightbox();
+          return;
+        }
+        if (materialsDrawerEl && materialsDrawerEl.classList.contains("open")) {
+          closeMaterialsDrawer();
+          return;
+        }
         if (cinemaBackdropEl.classList.contains("active")) {
           closeCinemaModal();
           return;
@@ -5513,6 +7159,7 @@
     render();
     renderRoadmap();
     switchMainTab(currentMainTab);
+    refreshMaterialsList();
   </script>
 </body>
 </html>
